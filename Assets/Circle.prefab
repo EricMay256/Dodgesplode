@@ -100,5 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0b97b676919f604eb10fbdb697cc206, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Scale: 1
   MoveAngle: 76
   MoveSpeed: 4
+  _aimType: 1

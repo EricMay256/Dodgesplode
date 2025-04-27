@@ -52,54 +52,7 @@ public class EnemyManager : MonoBehaviour
     void SpawnEnemy()
     {
         Enemy enemy = Instantiate(_enemies[0], transform.position, Quaternion.identity);
-        enemy.MoveAngle = Random.Range(0f, 360f);
-        enemy.transform.rotation = Quaternion.Euler(0f, 0f, enemy.MoveAngle);
-        //Place enemy along appropriate spawning edge
-        if(enemy.MoveAngle >= 0f && enemy.MoveAngle < 90f)
-        {
-            if(Random.Range(0f, 1f) < 0.5f)
-            {
-                enemy.transform.position = new Vector3(_spawnBounds.min.x, Random.Range(_spawnBounds.min.y, _spawnBounds.max.y), 0f);
-            }
-            else
-            {
-                enemy.transform.position = new Vector3(Random.Range(_spawnBounds.min.x, _spawnBounds.max.x), _spawnBounds.min.y, 0f);
-            }
-        }
-        else if(enemy.MoveAngle >= 90f && enemy.MoveAngle < 180f)
-        {
-            if(Random.Range(0f, 1f) < 0.5f)
-            {
-                enemy.transform.position = new Vector3(_spawnBounds.max.x, Random.Range(_spawnBounds.min.y, _spawnBounds.max.y), 0f);
-            }
-            else
-            {
-                enemy.transform.position = new Vector3(Random.Range(_spawnBounds.min.x, _spawnBounds.max.x), _spawnBounds.min.y, 0f);
-            }
-        }
-        else if(enemy.MoveAngle >= 180f && enemy.MoveAngle < 270f)
-        {
-            if(Random.Range(0f, 1f) < 0.5f)
-            {
-                enemy.transform.position = new Vector3(_spawnBounds.max.x, Random.Range(_spawnBounds.min.y, _spawnBounds.max.y), 0f);
-            }
-            else
-            {
-                enemy.transform.position = new Vector3(Random.Range(_spawnBounds.min.x, _spawnBounds.max.x), _spawnBounds.min.y, 0f);
-            }        
-        }
-        else
-        {
-
-            if(Random.Range(0f, 1f) < 0.5f)
-            {
-                enemy.transform.position = new Vector3(_spawnBounds.min.x, Random.Range(_spawnBounds.min.y, _spawnBounds.max.y), 0f);
-            }
-            else
-            {
-                enemy.transform.position = new Vector3(Random.Range(_spawnBounds.min.x, _spawnBounds.max.x), _spawnBounds.max.y, 0f);
-            }        
-        }
+        enemy.SetUpEnemy();
         enemy.transform.SetParent(transform);
     }
 }

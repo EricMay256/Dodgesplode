@@ -1,58 +1,46 @@
 using UnityEngine;
 
+public enum SpawnedEdge
+{
+    Right = 0,
+    Top = 1,
+    Left = 2,
+    Bottom = 3
+}
 public class Enemy : MonoBehaviour
 {
-    [Range(0f, 360f)]
-    public float MoveAngle = 0f;
-    public float MoveSpeed = 4f;
-    SpriteRenderer _sr;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
-    {
-        _sr = GetComponent<SpriteRenderer>();
-        if(_sr == null)
-        {
-            Debug.LogError("No SpriteRenderer found on this GameObject.");
-        }
+    protected SpriteRenderer _sr;
+    protected SpawnedEdge _spawnedEdge;
+    public float Scale = 1f;
+    public virtual void SetUpEnemy() {
+        transform.localScale = new Vector3(Scale, Scale, 1f);
     }
-
-    void Start()
-    {
+    public virtual void DestroyEnemy() {
+        Destroy(gameObject);
     }
-
-    // Update is called once per frame
-    void Update()
+    protected virtual void PlaceOnSpawningBounds()
     {
-        transform.Translate(Vector3.right * MoveSpeed * Time.deltaTime,Space.Self);
-        if(Vector3.Angle(Vector3.right, transform.right) > 90f)
+        Bounds spawnBounds = EnemyManager.Instance.SpawnBounds;
+        switch (Random.Range(0, 4))//Select a random edge to spawn from
         {
-            //Entity is moving to the left
-            if(_sr.bounds.max.x < EnemyManager.Instance.Bounds.min.x)
-            {
-                Destroy(gameObject);
-            }
-        }
-        else{
-            //Entity is moving to the right
-            if(_sr.bounds.min.x > EnemyManager.Instance.Bounds.max.x)
-            {
-                Destroy(gameObject);
-            }
-        }
-        if(Vector3.Angle(Vector3.up, transform.right) > 90f)
-        {
-            //Entity is moving down
-            if(_sr.bounds.max.y < EnemyManager.Instance.Bounds.min.y)
-            {
-                Destroy(gameObject);
-            }
-        }
-        else{
-            //Entity is moving up
-            if(_sr.bounds.min.y > EnemyManager.Instance.Bounds.max.y)
-            {
-                Destroy(gameObject);
-            }
+            //Place transform on a random point on the selected edge
+            case 0:
+                _spawnedEdge = SpawnedEdge.Right;
+                transform.position = new Vector3(spawnBounds.max.x, Random.Range(spawnBounds.min.y, spawnBounds.max.y), 0f);
+                break;
+            case 1:
+                _spawnedEdge = SpawnedEdge.Top;
+                transform.position = new Vector3(Random.Range(spawnBounds.min.x, spawnBounds.max.x), spawnBounds.max.y, 0f);
+                break;
+            case 2:
+                _spawnedEdge = SpawnedEdge.Left;
+                transform.position = new Vector3(spawnBounds.min.x, Random.Range(spawnBounds.min.y, spawnBounds.max.y), 0f);
+                break;
+            case 3:
+                _spawnedEdge = SpawnedEdge.Bottom;
+                transform.position = new Vector3(Random.Range(spawnBounds.min.x, spawnBounds.max.x), spawnBounds.min.y, 0f);
+                break;
         }
     }
 }
+
