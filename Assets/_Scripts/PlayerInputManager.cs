@@ -24,6 +24,8 @@ public class PlayerInputManager : MonoBehaviour
     private InputAction _attackAction, _jumpAction, _interactAction, _crouchAction, _sprintAction;
     private InputAction _movementAction, _lookAction;
     private PlayerInput _playerInput;
+    private InputProcessor _moveProcessor, _lookProcessor;
+    float _gamepadScalar = 10f;//Specific movement scaling for gamepad input
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -53,30 +55,38 @@ public class PlayerInputManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        AttackPressed = _jumpAction.WasPressedThisFrame();
-        AttackHeld = _jumpAction.IsPressed();
-        AttackReleased = _jumpAction.WasReleasedThisFrame();
+        AttackPressed = _attackAction.WasPressedThisFrame();
+        AttackHeld = _attackAction.IsPressed();
+        AttackReleased = _attackAction.WasReleasedThisFrame();
 
         JumpPressed = _jumpAction.WasPressedThisFrame();
         JumpHeld = _jumpAction.IsPressed();
         JumpReleased = _jumpAction.WasReleasedThisFrame();
         
-        InteractPressed = _jumpAction.WasPressedThisFrame();
-        InteractHeld = _jumpAction.IsPressed();
-        InteractReleased = _jumpAction.WasReleasedThisFrame();
+        InteractPressed = _interactAction.WasPressedThisFrame();
+        InteractHeld = _interactAction.IsPressed();
+        InteractReleased = _interactAction.WasReleasedThisFrame();
         
-        CrouchPressed = _jumpAction.WasPressedThisFrame();
-        CrouchHeld = _jumpAction.IsPressed();
-        CrouchReleased = _jumpAction.WasReleasedThisFrame();
+        CrouchPressed = _crouchAction.WasPressedThisFrame();
+        CrouchHeld = _crouchAction.IsPressed();
+        CrouchReleased = _crouchAction.WasReleasedThisFrame();
         
-        SprintPressed = _jumpAction.WasPressedThisFrame();
-        SprintHeld = _jumpAction.IsPressed();
-        SprintReleased = _jumpAction.WasReleasedThisFrame();
+        SprintPressed = _sprintAction.WasPressedThisFrame();
+        SprintHeld = _sprintAction.IsPressed();
+        SprintReleased = _sprintAction.WasReleasedThisFrame();
 
         Movement = _movementAction.ReadValue<Vector2>();
         LookDelta = _lookAction.ReadValue<Vector2>();
+    }
 
-        //Keep the mouse position in the center of the screen
-        
+    public void SetLookScale(float scale)
+    {
+        _lookAction.ApplyParameterOverride("ScaleVector2:x", scale * _gamepadScalar, 0);
+        _lookAction.ApplyParameterOverride("ScaleVector2:y", scale * _gamepadScalar, 0);
+        for(int i = 1; i < _lookAction.bindings.Count; i++)
+        {
+            _lookAction.ApplyParameterOverride("ScaleVector2:x", scale, i);
+            _lookAction.ApplyParameterOverride("ScaleVector2:y", scale, i);
+        }
     }
 }

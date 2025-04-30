@@ -4,8 +4,8 @@ public class Player : MonoBehaviour
 {
     public static Player Instance;
     public Vector3 Position => transform.position;
-    [field:SerializeField] public float moveSpeed = 10f;
-    Camera _camera;
+    [field:SerializeField] public float moveSpeed = 10f;//Universal and constant speed multiplier for all forms of input
+    private float _moveScale = 1f;//Universal and variable speed multiplier for all forms of input
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -17,7 +17,6 @@ public class Player : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        _camera = Camera.main;
     }
     void Start()
     {
@@ -27,21 +26,37 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        //Apply mouse movement to player position
-         //Movement via mouse delta applied to player position 
+        //Apply scaling to input motion based on crouch/sprint
+        if(PlayerInputManager.Instance.CrouchPressed)
+        {
+            //Apply processor scaling movement down
+            _moveScale = 0.25f;
+            PlayerInputManager.Instance.SetLookScale(_moveScale);
+        }
+        else if(PlayerInputManager.Instance.CrouchReleased)
+        {
+            _moveScale = 1f;
+            PlayerInputManager.Instance.SetLookScale(_moveScale);
+        }
+        else if(PlayerInputManager.Instance.SprintPressed)
+        {
+            _moveScale = 2f;
+            PlayerInputManager.Instance.SetLookScale(_moveScale);
+        }
+        else if(PlayerInputManager.Instance.SprintReleased)
+        {
+            _moveScale = 1f;
+            PlayerInputManager.Instance.SetLookScale(_moveScale);
+        }
+        //Movement via mouse delta or left joystick applied to player position 
         Vector2 delta = PlayerInputManager.Instance.LookDelta;
-        Vector2 screensize = new Vector2(Screen.width, Screen.height);
-        transform.position += new Vector3(delta.x / screensize.x, delta.y / screensize.y, 0) * Time.deltaTime * moveSpeed; // */
+        transform.position += new Vector3(delta.x, delta.y, 0) * Time.deltaTime * moveSpeed; // */
         
-        /* //Movement directly tracking mouse position
-        Vector3 pos = _camera.ScreenToWorldPoint(Input.mousePosition); 
-        pos.z = 0;
-        transform.position = pos;// */
+
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Player collided with " + collision.gameObject.name);
+        //Debug.Log("Player collided with " + collision.gameObject.name);
     }
 }
