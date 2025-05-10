@@ -12,8 +12,11 @@ public class Enemy : MonoBehaviour
     protected SpriteRenderer _sr;
     protected SpawnedEdge _spawnedEdge;
     public float Scale = 1f;
-    public virtual void SetUpEnemy() {
+    float _speedModifier = 1f;
+    public float SpeedModifier => _speedModifier;
+    public virtual void SetUpEnemy(float speedModifier = 1f) {
         transform.localScale = new Vector3(Scale, Scale, 1f);
+        _speedModifier = speedModifier;
     }
     public virtual void DestroyEnemy() {
         Destroy(gameObject);

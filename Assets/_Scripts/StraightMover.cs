@@ -18,9 +18,10 @@ public class StraightMover : Enemy
     public float MoveAngle = 0f;
     public float MoveSpeed = 4f;
     [SerializeField] AimType _aimType = AimType.Random;
-    public override void SetUpEnemy()
+    public override void SetUpEnemy(float speedModifier = 1f)
     {
-        base.SetUpEnemy();
+        base.SetUpEnemy(speedModifier);//sets base _speedModifier, available through base SpeedModifier property
+        MoveSpeed *= SpeedModifier;
 
         PlaceOnSpawningBounds();
         if(_aimType == AimType.Aimed)//Aimed logic doesn't depend on the spawned edge

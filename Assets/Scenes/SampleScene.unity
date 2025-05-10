@@ -369,10 +369,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5d22f91a10111c499bd155096baf55a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnTime: 0.1
-  _spawnsPerWave: 3
   _enemies:
-  - {fileID: 610873806193701007, guid: 9e2f2158400a70643ac0a2033ee1ae00, type: 3}
+  - {fileID: 11400000, guid: 504f3f2ba548cf44a92a816677eeb8d1, type: 2}
+  - {fileID: 11400000, guid: 1e65523fe5547664fbc85d2676d1ea02, type: 2}
+  - {fileID: 11400000, guid: a7794ff05d96a7749a414980f2c5544c, type: 2}
 --- !u!4 &880633900
 Transform:
   m_ObjectHideFlags: 0
