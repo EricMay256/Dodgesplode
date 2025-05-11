@@ -11,4 +11,6 @@ public class EnemySpawning : ScriptableObject
     public Enemy EnemyPrefab;
     [SerializeField]
     public float SpeedModifier = 1f;
+    [SerializeField]
+    public float SpawnTimeDecreaseStep = 0.05f;
 }

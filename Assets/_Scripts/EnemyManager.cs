@@ -36,7 +36,7 @@ public class EnemyManager : MonoBehaviour
         //UpdateSpawnList(_enemies);
         foreach(EnemySpawning enemy in _enemies)
         {
-            _spawnTimers.Add(enemy.SpawnTime);
+            _spawnTimers.Add(0f);
         }
     }
 

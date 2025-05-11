@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcd99aecbb1254b4d8d7a2f7f004555f, type: 3}
   m_Name: Aimed
   m_EditorClassIdentifier: 
-  SpawnTime: 0.33
-  SpawnsPerWave: 1
+  SpawnTime: 1.33
+  SpawnsPerWave: 4
   EnemyPrefab: {fileID: 610873806193701007, guid: a8cc1486a8c5f9145bcfbc71f4a5a310, type: 3}
   SpeedModifier: 1
+  SpawnTimeDecreaseStep: 0.05
