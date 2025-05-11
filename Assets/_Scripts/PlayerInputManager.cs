@@ -21,7 +21,11 @@ public class PlayerInputManager : MonoBehaviour
     public bool SprintPressed {get; private set;}  
     public bool SprintHeld {get; private set;}  
     public bool SprintReleased{get; private set;} 
+    public bool PausePressed {get; private set;}
+    public bool PauseHeld {get; private set;}
+    public bool PauseReleased{get; private set;}
     private InputAction _attackAction, _jumpAction, _interactAction, _crouchAction, _sprintAction;
+    private InputAction _pauseActionPlayer, _pauseActionUI;
     private InputAction _movementAction, _lookAction;
     private PlayerInput _playerInput;
     private InputProcessor _moveProcessor, _lookProcessor;
@@ -38,7 +42,8 @@ public class PlayerInputManager : MonoBehaviour
             Destroy(gameObject);
         }
         _playerInput = GetComponent<PlayerInput>();
-        Cursor.lockState = CursorLockMode.Locked;
+        //Warning: Locking the cursor breaks all UI interactions!
+        //Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Start()
@@ -50,6 +55,8 @@ public class PlayerInputManager : MonoBehaviour
         _interactAction = _playerInput.actions["Interact"];
         _crouchAction = _playerInput.actions["Crouch"];
         _sprintAction = _playerInput.actions["Sprint"];
+        _pauseActionPlayer = _playerInput.actions["Player/Pause"];
+        _pauseActionUI = _playerInput.actions["UI/Pause"];
     }
 
     // Update is called once per frame
@@ -75,6 +82,11 @@ public class PlayerInputManager : MonoBehaviour
         SprintHeld = _sprintAction.IsPressed();
         SprintReleased = _sprintAction.WasReleasedThisFrame();
 
+        
+        PausePressed = _pauseActionPlayer.WasPressedThisFrame() || _pauseActionUI.WasPressedThisFrame();
+        PauseHeld = _pauseActionPlayer.IsPressed() || _pauseActionUI.IsPressed();
+        PauseReleased = _pauseActionPlayer.WasReleasedThisFrame() || _pauseActionUI.WasReleasedThisFrame();
+
         Movement = _movementAction.ReadValue<Vector2>();
         LookDelta = _lookAction.ReadValue<Vector2>();
     }
@@ -87,6 +99,20 @@ public class PlayerInputManager : MonoBehaviour
         {
             _lookAction.ApplyParameterOverride("ScaleVector2:x", scale, i);
             _lookAction.ApplyParameterOverride("ScaleVector2:y", scale, i);
+        }
+    }
+
+    public void SetGameplayControlsActive(bool active)
+    {
+        if(active)
+        {
+            _playerInput.SwitchCurrentActionMap("Player");
+            Cursor.visible = false;//Note: Future gameplay may require cursor to be visible 
+        }
+        else
+        {
+            _playerInput.SwitchCurrentActionMap("UI");
+            Cursor.visible = true;
         }
     }
 }

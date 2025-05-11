@@ -17,6 +17,8 @@ public class Timer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(GameManager.Instance.CurrentGameState != GameState.Active)
+            return;
         _timeElapsed += Time.deltaTime;
         _timerText.text = _timeElapsed.ToString("0");
     }

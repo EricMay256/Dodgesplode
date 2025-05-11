@@ -107,7 +107,7 @@ public class StraightMover : Enemy
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.right * MoveSpeed * Time.deltaTime,Space.Self);
+        transform.Translate(Vector3.right * MoveSpeed * Time.deltaTime * Time.timeScale,Space.Self);
         if(Vector3.Angle(Vector3.right, transform.right) > 90f)
         {
             //Entity is moving to the left

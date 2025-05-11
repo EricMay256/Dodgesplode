@@ -10,7 +10,6 @@ public class Player : MonoBehaviour, IHealthbarSource
     public float HealthPercent => _health / _maxHealth;
     public float HealthPercentNormalized => Mathf.Clamp01(_health / _maxHealth);
     
-    [SerializeField] Timer _timer;
     [field:SerializeField] public float moveSpeed = 10f;//Universal and constant speed multiplier for all forms of input
     private float _moveScale = 1f;//Universal and variable speed multiplier for all forms of input
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -59,7 +58,8 @@ public class Player : MonoBehaviour, IHealthbarSource
         }
         //Movement via mouse delta or left joystick applied to player position 
         Vector2 delta = PlayerInputManager.Instance.LookDelta;
-        transform.position += new Vector3(delta.x, delta.y, 0) * Time.deltaTime * moveSpeed; // */
+        //Todo: Consider modifying how timescale is applied to player movement
+        transform.position += new Vector3(delta.x, delta.y, 0) * Time.deltaTime * moveSpeed * Time.timeScale; // */
     }
 
     //Apply health regen over time
@@ -80,18 +80,11 @@ public class Player : MonoBehaviour, IHealthbarSource
         _health -= damage;
         if(_health <= 0f)
         {
-            if(_timer != null)
-            {
-                Debug.Log($"Player is dead after {_timer.TimeElapsed.ToString("0")} seconds!");
-            }
-            else
-            {
-            Debug.Log("Player is dead! (No timer found)");
-            }
-            //Player is dead
-            //PlayerInputManager.Instance.SetGameOver(true);
+            GameManager.Instance.GameOver();
         }
     }
+
+    
 
     void OnTriggerEnter2D(Collider2D collision)
     {

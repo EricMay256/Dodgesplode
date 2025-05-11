@@ -8,6 +8,9 @@ public class EnemyManager : MonoBehaviour
     public Bounds SpawnBounds => _spawnBounds;
     private Camera _cam;
     private Bounds _bounds, _spawnBounds;
+    
+    [SerializeField]
+    GameObject _enemyParent, _emptyPrefab;
 
     [SerializeField]
     private float _speedMultiplier = 1f;
@@ -31,12 +34,14 @@ public class EnemyManager : MonoBehaviour
         }
         _cam = Camera.main;
         _bounds = new Bounds(transform.position,
-        _cam.GetComponent<Camera>().orthographicSize * 2f * _cam.aspect * Vector3.one);
+        _cam.GetComponent<Camera>().orthographicSize * 2f * new Vector3(_cam.aspect, 1));
         _spawnBounds = new Bounds(transform.position, _bounds.size * 1.25f);
         //UpdateSpawnList(_enemies);
         foreach(EnemySpawning enemy in _enemies)
         {
             _spawnTimers.Add(0f);
+            var v = Instantiate(_emptyPrefab, _enemyParent.transform);
+            v.transform.name = enemy.EnemyPrefab.name + " Group";
         }
     }
 
@@ -63,17 +68,23 @@ public class EnemyManager : MonoBehaviour
     {
         Enemy enemy = Instantiate(_enemies[index].EnemyPrefab, transform.position, Quaternion.identity);
         enemy.SetUpEnemy(_enemies[index].SpeedModifier * _speedMultiplier);
-        enemy.transform.SetParent(transform);
+        enemy.transform.SetParent(_enemyParent.transform.GetChild(index));
     }
 
     public void UpdateSpawnList(List<EnemySpawning> enemies)
     {
         _enemies.Clear();
         _spawnTimers.Clear();
+        while(_enemyParent.transform.childCount > 0)
+        {
+            ///Todo: When pooling implemented, return all enemies to pool
+            DestroyImmediate(_enemyParent.transform.GetChild(0).gameObject);
+        }
         foreach(EnemySpawning enemy in enemies)
         {
             _enemies.Add(enemy);
             _spawnTimers.Add(enemy.SpawnTime);
+            Instantiate(_emptyPrefab, _enemyParent.transform);
         }
     }
 }
