@@ -111,14 +111,14 @@ public class StraightMover : Enemy
         if(Vector3.Angle(Vector3.right, transform.right) > 90f)
         {
             //Entity is moving to the left
-            if(_sr.bounds.max.x < EnemyManager.Instance.Bounds.min.x)
+            if(_sr.bounds.max.x < GameManager.Instance.SpawnBounds.min.x)
             {
                 DestroyEnemy();
             }
         }
         else{
             //Entity is moving to the right
-            if(_sr.bounds.min.x > EnemyManager.Instance.Bounds.max.x)
+            if(_sr.bounds.min.x > GameManager.Instance.SpawnBounds.max.x)
             {
                 DestroyEnemy();
             }
@@ -126,14 +126,14 @@ public class StraightMover : Enemy
         if(Vector3.Angle(Vector3.up, transform.right) > 90f)
         {
             //Entity is moving down
-            if(_sr.bounds.max.y < EnemyManager.Instance.Bounds.min.y)
+            if(_sr.bounds.max.y < GameManager.Instance.SpawnBounds.min.y)
             {
                 DestroyEnemy();
             }
         }
         else{
             //Entity is moving up
-            if(_sr.bounds.min.y > EnemyManager.Instance.Bounds.max.y)
+            if(_sr.bounds.min.y > GameManager.Instance.SpawnBounds.max.y)
             {
                 DestroyEnemy();
             }

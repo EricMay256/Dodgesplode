@@ -4,10 +4,6 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     public static EnemyManager Instance;
-    public Bounds Bounds => _bounds;
-    public Bounds SpawnBounds => _spawnBounds;
-    private Camera _cam;
-    private Bounds _bounds, _spawnBounds;
     
     [SerializeField]
     GameObject _enemyParent, _emptyPrefab;
@@ -32,10 +28,8 @@ public class EnemyManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        _cam = Camera.main;
-        _bounds = new Bounds(transform.position,
-        _cam.GetComponent<Camera>().orthographicSize * 2f * new Vector3(_cam.aspect, 1));
-        _spawnBounds = new Bounds(transform.position, _bounds.size * 1.25f);
+        
+
         //UpdateSpawnList(_enemies);
         foreach(EnemySpawning enemy in _enemies)
         {
@@ -48,7 +42,6 @@ public class EnemyManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _bounds.center = transform.position;
         //If camera gets resized, update the bounds
         for(int i = 0; i < _spawnTimers.Count; i++)
         {
@@ -78,13 +71,24 @@ public class EnemyManager : MonoBehaviour
         while(_enemyParent.transform.childCount > 0)
         {
             ///Todo: When pooling implemented, return all enemies to pool
-            DestroyImmediate(_enemyParent.transform.GetChild(0).gameObject);
+            _enemyParent.transform.GetChild(0).GetComponent<Enemy>().DestroyEnemy();
         }
         foreach(EnemySpawning enemy in enemies)
         {
             _enemies.Add(enemy);
             _spawnTimers.Add(enemy.SpawnTime);
             Instantiate(_emptyPrefab, _enemyParent.transform);
+        }
+    }
+
+    public void ResetEnemies()
+    {
+        foreach(Transform child in _enemyParent.transform)
+        {
+            foreach(Enemy enemy in child.GetComponentsInChildren<Enemy>())
+            {
+                enemy.DestroyEnemy();
+            }
         }
     }
 }

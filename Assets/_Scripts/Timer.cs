@@ -11,7 +11,7 @@ public class Timer : MonoBehaviour
     void Awake()
     {
         _timerText = GetComponent<TextMeshProUGUI>();
-        _timerText.text = "00";
+        _timerText.text = "0";
     }
 
     // Update is called once per frame
@@ -26,6 +26,6 @@ public class Timer : MonoBehaviour
     public void ResetTimer()
     {
         _timeElapsed = 0f;
-        _timerText.text = "00";
+        _timerText.text = "0";
     }
 }

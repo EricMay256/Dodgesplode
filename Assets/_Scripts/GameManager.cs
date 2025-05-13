@@ -20,6 +20,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] Timer _timer;
     [SerializeField] Canvas _gameOverCanvas, _pauseCanvas;
 
+    Camera _mainCam;
+    Bounds _camBounds, _spawnBounds;
+    public Bounds CamBounds => _camBounds;
+    public Bounds SpawnBounds => _spawnBounds;
+    float _previousCamSize;
+    Vector3 _previousCamPos;
+
     public void GameOver()
     {
         if(_timer != null)
@@ -67,11 +74,16 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }   
+        
+        _camBounds = new Bounds(_mainCam.transform.position,
+        _mainCam.GetComponent<Camera>().orthographicSize * 2f * new Vector3(_mainCam.aspect, 1));
+        _spawnBounds = new Bounds(_camBounds.center, CamBounds.size * 1.25f);
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        _previousCamSize = _mainCam.orthographicSize;
+        _previousCamPos = _mainCam.transform.position;
     }
 
     // Update is called once per frame
@@ -82,6 +94,28 @@ public class GameManager : MonoBehaviour
             Debug.Log("Pause pressed");
             PauseGame();
         }
+        if(_previousCamPos != _mainCam.transform.position)
+        {
+            _spawnBounds.center = _camBounds.center = _previousCamPos = _mainCam.transform.position;
+        }
+        if(_previousCamSize != _mainCam.orthographicSize)
+        {
+            _camBounds.size = _mainCam.orthographicSize * 2f * new Vector3(_mainCam.aspect, 1);
+            _spawnBounds.size = _camBounds.size * 1.25f;
+            _previousCamSize = _mainCam.orthographicSize;
+        }
     }
 
+    public void ResetGame()
+    {
+        CurrentGameState = GameState.GameSetup;
+        _gameOverCanvas.gameObject.SetActive(false);
+        _pauseCanvas.gameObject.SetActive(false);
+        Time.timeScale = 1f;
+        _timer.ResetTimer();
+        PlayerInputManager.Instance.SetGameplayControlsActive(true);
+        EnemyManager.Instance.ResetEnemies();
+        Player.Instance.ResetPlayer();
+        CurrentGameState = GameState.Active;
+    }
 }
