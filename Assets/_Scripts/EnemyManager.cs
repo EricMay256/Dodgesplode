@@ -1,8 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum SpawnedEdge
+{
+    Right = 0,
+    Top = 1,
+    Left = 2,
+    Bottom = 3
+}
 public class EnemyManager : MonoBehaviour
 {
+    public static IEnumerable<SpawnedEdge> SpawnableEdges { get { return new SpawnedEdge [] 
+    {SpawnedEdge.Right, SpawnedEdge.Top, SpawnedEdge.Left, SpawnedEdge.Bottom} ; } }
+
     public static EnemyManager Instance;
     
     [SerializeField]
@@ -12,7 +22,7 @@ public class EnemyManager : MonoBehaviour
     private float _speedMultiplier = 1f;
 
     [SerializeField]
-    List<EnemySpawning> _enemies = new List<EnemySpawning>();
+    EnemySpawnList _enemySpawnList;
     [SerializeField]
     private List<float> _spawnTimers = new List<float>();
 
@@ -28,10 +38,9 @@ public class EnemyManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
 
         //UpdateSpawnList(_enemies);
-        foreach(EnemySpawning enemy in _enemies)
+        foreach(EnemySpawnData enemy in _enemySpawnList.EnemySpawns)
         {
             _spawnTimers.Add(0f);
             var v = Instantiate(_emptyPrefab, _enemyParent.transform);
@@ -48,8 +57,8 @@ public class EnemyManager : MonoBehaviour
             _spawnTimers[i] -= Time.deltaTime;
             if(_spawnTimers[i] <= 0f)
             {
-                _spawnTimers[i] += _enemies[i].SpawnTime;
-                for(int j = 0; j < _enemies[i].SpawnsPerWave; j++)
+                _spawnTimers[i] += _enemySpawnList.EnemySpawns[i].SpawnTime;
+                for(int j = 0; j < _enemySpawnList.EnemySpawns[i].SpawnsPerWave; j++)
                 {
                     SpawnEnemy(i);
                 }
@@ -57,25 +66,47 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    void SpawnEnemy(int index)
+    public void ClearAllEnemies()
     {
-        Enemy enemy = Instantiate(_enemies[index].EnemyPrefab, transform.position, Quaternion.identity);
-        enemy.SetUpEnemy(_enemies[index].SpeedModifier * _speedMultiplier);
-        enemy.transform.SetParent(_enemyParent.transform.GetChild(index));
-    }
-
-    public void UpdateSpawnList(List<EnemySpawning> enemies)
-    {
-        _enemies.Clear();
-        _spawnTimers.Clear();
         while(_enemyParent.transform.childCount > 0)
         {
             ///Todo: When pooling implemented, return all enemies to pool
             _enemyParent.transform.GetChild(0).GetComponent<Enemy>().DestroyEnemy();
         }
-        foreach(EnemySpawning enemy in enemies)
+    }
+
+    void SpawnEnemy(int index)
+    {
+        Enemy enemy = Instantiate(_enemySpawnList.EnemySpawns[index].EnemyPrefab, transform.position, Quaternion.identity);
+        enemy.ChangeSpawnableEdges(_enemySpawnList.EnemySpawns[index].SpawnableEdges);
+        enemy.SetUpEnemy(_enemySpawnList.EnemySpawns[index].SpeedModifier * _speedMultiplier);
+        enemy.transform.SetParent(_enemyParent.transform.GetChild(index));
+    }
+
+    // public void UpdateSpawnList(List<EnemySpawning> enemies)
+    // {
+    //     _enemySpawnList.EnemySpawns.Clear();
+    //     _spawnTimers.Clear();
+    //     ClearAllEnemies();
+    //     foreach(EnemySpawning enemy in enemies)
+    //     {
+    //         _enemySpawnList.EnemySpawns.Add(new EnemySpawnData(enemy));
+    //         _spawnTimers.Add(enemy.SpawnTime);
+    //         Instantiate(_emptyPrefab, _enemyParent.transform);
+    //     }
+    // }
+    public void UpdateSpawnList(EnemySpawnList enemies)
+    {
+        UpdateSpawnList(enemies.EnemySpawns);
+    }
+    public void UpdateSpawnList(IEnumerable<EnemySpawnData> enemies)
+    {
+        _enemySpawnList.EnemySpawns.Clear();
+        _spawnTimers.Clear();
+        ClearAllEnemies();
+        foreach(EnemySpawnData enemy in enemies)
         {
-            _enemies.Add(enemy);
+            _enemySpawnList.EnemySpawns.Add(enemy);
             _spawnTimers.Add(enemy.SpawnTime);
             Instantiate(_emptyPrefab, _enemyParent.transform);
         }

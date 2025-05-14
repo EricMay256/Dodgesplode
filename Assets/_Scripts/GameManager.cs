@@ -74,14 +74,14 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }   
-        
-        _camBounds = new Bounds(_mainCam.transform.position,
-        _mainCam.GetComponent<Camera>().orthographicSize * 2f * new Vector3(_mainCam.aspect, 1));
-        _spawnBounds = new Bounds(_camBounds.center, CamBounds.size * 1.25f);
+        _mainCam = Camera.main;
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        _camBounds = new Bounds(_mainCam.transform.position,
+        _mainCam.GetComponent<Camera>().orthographicSize * 2f * new Vector3(_mainCam.aspect, 1));
+        _spawnBounds = new Bounds(_camBounds.center, CamBounds.size * 1.25f);
         _previousCamSize = _mainCam.orthographicSize;
         _previousCamPos = _mainCam.transform.position;
     }

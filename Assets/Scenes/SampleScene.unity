@@ -1016,6 +1016,10 @@ PrefabInstance:
       propertyPath: _enemyParent
       value: 
       objectReference: {fileID: 615826793}
+    - target: {fileID: 5093247351049891720, guid: 9eef70cbd8706eb49b9513a41f733051, type: 3}
+      propertyPath: _enemySpawnList
+      value: 
+      objectReference: {fileID: 11400000, guid: a8cefcfed9902364c8240dc2e03b12e1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

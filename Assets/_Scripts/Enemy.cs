@@ -4,19 +4,9 @@ using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public enum SpawnedEdge
-{
-    Right = 0,
-    Top = 1,
-    Left = 2,
-    Bottom = 3
 
-}
 public class Enemy : MonoBehaviour
 {
-    public static IEnumerable<SpawnedEdge> SpawnableEdges => _allSpawnableEdges;
-    static IEnumerable<SpawnedEdge> _allSpawnableEdges = new SpawnedEdge [] {SpawnedEdge.Right, SpawnedEdge.Top, SpawnedEdge.Left, SpawnedEdge.Bottom};
-
     protected SpriteRenderer _sr;
     protected SpawnedEdge _spawnedEdge;
     public float Scale = 1f;
@@ -25,17 +15,24 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     bool _usePooling = false;
     public bool UsePooling => _usePooling;
-    [SerializeField]
-    protected List<SpawnedEdge> _spawnableEdges = new List<SpawnedEdge>(_allSpawnableEdges);
-
+    protected List<SpawnedEdge> _spawnableEdges = new List<SpawnedEdge>();
 
     public virtual void SetUpEnemy(float speedModifier = 1f) {
         transform.localScale = new Vector3(Scale, Scale, 1f);
         _speedModifier = speedModifier;
     }
 
+    public virtual void ChangeSpawnableEdges(IEnumerable<SpawnedEdge> edges)
+    {
+        _spawnableEdges.Clear();
+        foreach (SpawnedEdge edge in edges)
+        {
+            _spawnableEdges.Add(edge);
+        }
+    }
+
     public virtual void DestroyEnemy() {
-        DestroyImmediate(gameObject);
+        Destroy(gameObject);
     }
 
     protected virtual void PlaceOnSpawningBounds()
