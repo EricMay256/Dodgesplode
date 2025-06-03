@@ -18,7 +18,6 @@ public class GameManager : MonoBehaviour
     public GameState CurrentGameState { get; private set; } = GameState.Active;
     
     [SerializeField] Timer _timer;
-    [SerializeField] Canvas _gameOverCanvas, _pauseCanvas;
 
     Camera _mainCam;
     Bounds _camBounds, _spawnBounds;
@@ -39,7 +38,7 @@ public class GameManager : MonoBehaviour
         }
 
         CurrentGameState = GameState.GameOver;
-        _gameOverCanvas.gameObject.SetActive(true);
+        //_gameOverCanvas.gameObject.SetActive(true);
         Time.timeScale = 0f;
         PlayerInputManager.Instance.SetGameplayControlsActive(false);
     }
@@ -50,14 +49,14 @@ public class GameManager : MonoBehaviour
         {
             CurrentGameState = GameState.Paused;
             Time.timeScale = 0f;
-            _pauseCanvas.gameObject.SetActive(true);
+            //_pauseCanvas.gameObject.SetActive(true);
             PlayerInputManager.Instance.SetGameplayControlsActive(false);
         }
         else if(CurrentGameState == GameState.Paused)
         {
             CurrentGameState = GameState.Active;
             Time.timeScale = 1f;
-            _pauseCanvas.gameObject.SetActive(false);
+            //_pauseCanvas.gameObject.SetActive(false);
             PlayerInputManager.Instance.SetGameplayControlsActive(true);
         }
     }
@@ -109,8 +108,8 @@ public class GameManager : MonoBehaviour
     public void ResetGame()
     {
         CurrentGameState = GameState.GameSetup;
-        _gameOverCanvas.gameObject.SetActive(false);
-        _pauseCanvas.gameObject.SetActive(false);
+        //_gameOverCanvas.gameObject.SetActive(false);
+        //_pauseCanvas.gameObject.SetActive(false);
         Time.timeScale = 1f;
         _timer.ResetTimer();
         PlayerInputManager.Instance.SetGameplayControlsActive(true);

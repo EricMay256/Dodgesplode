@@ -5,15 +5,12 @@ enum MovementInputType
   Look = 0,
   Move = 1
 }
-public class Player : MonoBehaviour, IHealthbarSource
+public class Player : MonoBehaviour
 {
   public static Player Instance;
+  [SerializeField]
+  private PlayerData _pd;
   public Vector3 Position => transform.position;
-  private float _maxHealth = 100f, _health, _healthRegenPer5Sec = 5f;
-  public float Health => _health;
-  public float MaxHealth => _maxHealth;
-  public float HealthPercent => _health / _maxHealth;
-  public float HealthPercentNormalized => Mathf.Clamp01(_health / _maxHealth);
 
   [SerializeField]
   MovementInputType _movementInputType = MovementInputType.Look;
@@ -44,11 +41,11 @@ public class Player : MonoBehaviour, IHealthbarSource
       _camBounds = new Bounds(_mainCam.transform.position, _mainCam.GetComponent<Camera>().orthographicSize * 2f * new Vector3(_mainCam.aspect, 1));
     }
 
-    _health = _maxHealth;
+    _pd.curHealth = _pd.maxHealth;
   }
   void Start()
   {
-    transform.position = new Vector3(0, 0, 0);
+    ResetPlayer();
   }
 
   // Update is called once per frame
@@ -86,20 +83,20 @@ public class Player : MonoBehaviour, IHealthbarSource
   //Apply health regen over time
   void ApplyHealthRegen(float time)
   {
-    if (_health < _maxHealth)
+    if (_pd.curHealth < _pd.maxHealth)
     {
-      _health += _healthRegenPer5Sec * Time.deltaTime / 5f;
-      if (_health > _maxHealth)
-      {
-        _health = _maxHealth;
-      }
+      _pd.curHealth += _pd.healthRegenPer5Sec * Time.deltaTime / 5f;
+      _pd.curHealth = Mathf.Min(_pd.curHealth, _pd.maxHealth);
+      _pd.healthPct = _pd.curHealth / _pd.maxHealth;
     }
   }
 
   public void TakeDamage(float damage = 10f)
   {
-    _health -= damage;
-    if (_health <= 0f)
+    _pd.curHealth -= damage;
+    _pd.healthPct = Mathf.Max(_pd.curHealth
+      / _pd.maxHealth, 0f);
+    if (_pd.curHealth <= 0f)
     {
       GameManager.Instance.GameOver();
     }
@@ -107,7 +104,7 @@ public class Player : MonoBehaviour, IHealthbarSource
 
   public void ResetPlayer()
   {
-    _health = _maxHealth;
+    _pd.ResetData();
     transform.position = Vector3.zero;
   }
 
