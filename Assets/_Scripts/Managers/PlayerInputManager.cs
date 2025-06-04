@@ -31,6 +31,8 @@ public class PlayerInputManager : MonoBehaviour
   private InputProcessor _moveProcessor, _lookProcessor;
   float _movementScalar = 5f;//Scalar for normalized movement input
                              // Start is called once before the first execution of Update after the MonoBehaviour is created
+  [SerializeField]
+  private bool _logMovement = false;
   void Awake()
   {
     if (Instance == null)
@@ -90,7 +92,10 @@ public class PlayerInputManager : MonoBehaviour
     Movement = _movementAction.ReadValue<Vector2>();
     LookDelta = _lookAction.ReadValue<Vector2>();
     SetLookScale(1);
-    Debug.Log($"Movement: {Movement}, LookDelta: {LookDelta}");
+    if (_logMovement)
+    {
+      Debug.Log($"Movement: {Movement}, LookDelta: {LookDelta}");
+    }
   }
 
   public void SetLookScale(float scale)
@@ -102,8 +107,8 @@ public class PlayerInputManager : MonoBehaviour
       _lookAction.ApplyParameterOverride("ScaleVector2:x", scale, i);
       _lookAction.ApplyParameterOverride("ScaleVector2:y", scale, i);
     }
-      _movementAction.ApplyParameterOverride("ScaleVector2:x", scale * _movementScalar);
-      _movementAction.ApplyParameterOverride("ScaleVector2:y", scale * _movementScalar);
+    _movementAction.ApplyParameterOverride("ScaleVector2:x", scale * _movementScalar);
+    _movementAction.ApplyParameterOverride("ScaleVector2:y", scale * _movementScalar);
   }
 
   public void SetGameplayControlsActive(bool active)
@@ -111,7 +116,7 @@ public class PlayerInputManager : MonoBehaviour
     if (active)
     {
       _playerInput.SwitchCurrentActionMap("Player");
-      Cursor.visible = false;//Note: Future gameplay may require cursor to be visible 
+      //Cursor.visible = false;//Note: Future gameplay may require cursor to be visible 
     }
     else
     {
