@@ -10,7 +10,9 @@ public class Player : MonoBehaviour
   public static Player Instance;
   [SerializeField]
   private PlayerData _pd;
-  public Vector3 Position => transform.position;
+  Rigidbody2D _rb;
+  public Vector3 Position => _rb.position;
+  Vector3 _moveDelta;
 
   [SerializeField]
   MovementInputType _movementInputType = MovementInputType.Look;
@@ -40,7 +42,7 @@ public class Player : MonoBehaviour
     {
       _camBounds = new Bounds(_mainCam.transform.position, _mainCam.GetComponent<Camera>().orthographicSize * 2f * new Vector3(_mainCam.aspect, 1));
     }
-
+    _rb = GetComponent<Rigidbody2D>();
     _pd.curHealth = _pd.maxHealth;
   }
   void Start()
@@ -75,9 +77,18 @@ public class Player : MonoBehaviour
       //PlayerInputManager.Instance.SetLookScale(_moveScale);
     }
     //Movement via mouse delta or left joystick applied to player position 
-    Vector2 moveDelta = _movementInputType == MovementInputType.Move ? PlayerInputManager.Instance.Movement : PlayerInputManager.Instance.LookDelta;
+    _moveDelta = _movementInputType == MovementInputType.Move ?
+    PlayerInputManager.Instance.Movement :
+    PlayerInputManager.Instance.LookDelta;
     //Todo: Consider modifying how timescale is applied to player movement
-    transform.position += new Vector3(moveDelta.x, moveDelta.y, 0) * Time.deltaTime * _moveScale * moveSpeed * Time.timeScale; // */
+  }
+
+  void FixedUpdate()
+  {
+    _rb.MovePosition(new Vector3(_rb.position.x, _rb.position.y, transform.position.z)
+     + new Vector3(_moveDelta.x, _moveDelta.y, 0)
+     * Time.fixedDeltaTime * _moveScale * moveSpeed) ;
+
   }
 
   //Apply health regen over time

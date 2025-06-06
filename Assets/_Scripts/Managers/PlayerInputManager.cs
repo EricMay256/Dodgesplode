@@ -59,6 +59,7 @@ public class PlayerInputManager : MonoBehaviour
     _sprintAction = _playerInput.actions["Sprint"];
     _pauseActionPlayer = _playerInput.actions["Player/Pause"];
     _pauseActionUI = _playerInput.actions["UI/Pause"];
+    //SetLookScale(1);
   }
 
   // Update is called once per frame
@@ -91,13 +92,15 @@ public class PlayerInputManager : MonoBehaviour
 
     Movement = _movementAction.ReadValue<Vector2>();
     LookDelta = _lookAction.ReadValue<Vector2>();
-    SetLookScale(1);
+    LookDelta.x = Mathf.Clamp(LookDelta.x, -50f, 50f);
+    LookDelta.y = Mathf.Clamp(LookDelta.y, -50f, 50f);
     if (_logMovement)
     {
       Debug.Log($"Movement: {Movement}, LookDelta: {LookDelta}");
     }
   }
 
+  //Not Currently Used
   public void SetLookScale(float scale)
   {
     _lookAction.ApplyParameterOverride("ScaleVector2:x", scale * _movementScalar, 0);

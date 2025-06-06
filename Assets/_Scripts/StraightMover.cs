@@ -26,7 +26,8 @@ public class StraightMover : Enemy
         PlaceOnSpawningBounds();
         if(_aimType == AimType.Aimed)//Aimed logic doesn't depend on the spawned edge
         {
-            MoveAngle = Vector3.SignedAngle(Vector3.right, Player.Instance.Position - transform.position, Vector3.forward);
+            MoveAngle = Vector3.SignedAngle(Vector3.right,
+            Player.Instance.Position - transform.position, Vector3.forward);
         }
         // Set the rotation based on the spawned edge
         switch(_spawnedEdge)
