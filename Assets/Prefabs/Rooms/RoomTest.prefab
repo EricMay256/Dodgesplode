@@ -122,7 +122,7 @@ Transform:
   m_GameObject: {fileID: 1880329898379398856}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.4434, y: 7.0028, z: 0}
+  m_LocalPosition: {x: -1, y: 29.5, z: 0}
   m_LocalScale: {x: 18.8933, y: 3.9878757, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -359,9 +359,9 @@ CompositeCollider2D:
   - m_Collider: {fileID: 2327139414092735470}
     m_ColliderPaths:
     - - X: 90000000
-        Y: 50000000
+        Y: 274772544
       - X: -88900792
-        Y: 50000000
+        Y: 274772544
       - X: -88900792
         Y: -50000000
       - X: 90000000
@@ -369,8 +369,8 @@ CompositeCollider2D:
   m_CompositePaths:
     m_Paths:
     - - {x: 8.99997, y: -5}
-      - {x: 8.99997, y: 5}
-      - {x: -8.8900795, y: 4.999971}
+      - {x: 8.99997, y: 27.477255}
+      - {x: -8.8900795, y: 27.477226}
       - {x: -8.89005, y: -5}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
@@ -694,8 +694,8 @@ Transform:
   m_GameObject: {fileID: 4831002708273250709}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -11.25, y: 0.0047, z: 0}
-  m_LocalScale: {x: 4.72, y: 11.974909, z: 1}
+  m_LocalPosition: {x: -8.8487, y: 11.8846, z: 0}
+  m_LocalScale: {x: 9.522989, y: 35.734325, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4254682377294190131}
@@ -894,7 +894,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 1
   m_CompositeOrder: 0
-  m_Offset: {x: 0.054960728, y: 0}
+  m_Offset: {x: 0.05496025, y: 11.2386265}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -904,7 +904,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 17.89008, y: 10}
+  m_Size: {x: 17.89008, y: 32.477253}
   m_EdgeRadius: 0
 --- !u!1 &7488023345768748700
 GameObject:
@@ -1038,7 +1038,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3843331831100145632}
   m_Layer: 0
-  m_Name: Room
+  m_Name: RoomTest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1093,8 +1093,8 @@ Transform:
   m_GameObject: {fileID: 8636714337002544187}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.1069, y: 0.0047, z: 0}
-  m_LocalScale: {x: 4.4339, y: 11.974909, z: 1}
+  m_LocalPosition: {x: 8.7188, y: 11.0509, z: 0}
+  m_LocalScale: {x: 9.210061, y: 34.067417, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4254682377294190131}
