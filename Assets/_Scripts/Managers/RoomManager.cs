@@ -4,8 +4,11 @@ public class RoomManager : MonoBehaviour
 {
   public static RoomManager Instance;
   public RoomData RoomData => _roomData;
+  public Bounds CameraBounds => _roomData._cameraBounds;
+
   RoomData _roomData;
   private GameObject _currentRoomPrefab;
+
 
   void LoadRoom(RoomData roomData)
   {
@@ -14,10 +17,13 @@ public class RoomManager : MonoBehaviour
       Debug.LogError("Room data is null!");
       return;
     }
-    Destroy(_currentRoomPrefab);
+    if (_currentRoomPrefab != null)
+    {
+      Destroy(_currentRoomPrefab);
+    }
     _roomData = roomData;
     // Load the room prefab and set up the camera bounds, music, etc.
-    Instantiate(_roomData._roomPrefab);
+    _currentRoomPrefab = Instantiate(_roomData._roomPrefab);
 
     //Camera.main.GetComponent<Camera>().bounds = _roomData._cameraBounds;
 
