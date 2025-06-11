@@ -1,5 +1,11 @@
 using UnityEngine;
 
+public enum Song
+{
+  None = 0,
+  MainMenu = 1,
+  Escape = 2,
+}
 public class AudioManager : MonoBehaviour
 {
   public static AudioManager Instance;
@@ -43,7 +49,7 @@ public class AudioManager : MonoBehaviour
       }
     }
   }
-  
+
   public void PlaySFX(AudioClip clip)
   {
     if (clip == null) return;

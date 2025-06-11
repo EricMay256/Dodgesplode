@@ -5,7 +5,7 @@ public enum GameState
     GameplayLobby = 0,
     GameSetup = 1,
     Active = 2,
-    BetweenRounds = 3,
+    Transition = 3,
     Paused = 4,
     GameOver = 5,
     GameWon = 6,
@@ -29,6 +29,15 @@ public class GameManager : MonoBehaviour
   public delegate void GameStateChange(GameState newState);
   public static event GameStateChange OnGameStateChanged;
 
+  public void StartTransition()
+  {
+    SetGameState(GameState.Transition);
+  }
+  public void EndTransition()
+  {
+    SetGameState(GameState.Active);
+  }
+  
   public void GameOver()
   {
     if (_timer != null)
@@ -126,7 +135,9 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         PlayerInputManager.Instance.SetGameplayControlsActive(true);
         break;
-      case GameState.BetweenRounds:
+      case GameState.Transition:
+        Time.timeScale = 0f;
+        PlayerInputManager.Instance.SetGameplayControlsActive(false);
         break;
       case GameState.Paused:
         Time.timeScale = 0f;

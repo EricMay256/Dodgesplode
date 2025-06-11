@@ -7,5 +7,4 @@ public class RoomData : ScriptableObject
   public GameObject _roomPrefab;
   public AudioClip _roomMusic;
   public EnemySpawnList _enemySpawnList;
-  public Bounds _cameraBounds;
 }

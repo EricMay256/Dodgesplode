@@ -44,9 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5d22f91a10111c499bd155096baf55a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemyParent: {fileID: 0}
+  _emptyPrefab: {fileID: 7605186170478450455, guid: 7b2ca40d07e6fbe4bb9945e51cd11408, type: 3}
   _speedMultiplier: 1
-  _enemies:
-  - {fileID: 11400000, guid: 504f3f2ba548cf44a92a816677eeb8d1, type: 2}
-  - {fileID: 11400000, guid: 1e65523fe5547664fbc85d2676d1ea02, type: 2}
-  - {fileID: 11400000, guid: a7794ff05d96a7749a414980f2c5544c, type: 2}
+  _enemySpawnList: {fileID: 11400000, guid: c979ca5c7523377499d98be8d4349066, type: 2}
   _spawnTimers: []
