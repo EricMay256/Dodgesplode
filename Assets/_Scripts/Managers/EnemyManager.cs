@@ -54,8 +54,8 @@ public class EnemyManager : MonoBehaviour
           _spawnTimers[i] -= Time.deltaTime;
           if(_spawnTimers[i] <= 0f)
           {
-              _spawnTimers[i] += _enemySpawnList.EnemySpawns[i].SpawnTime;
-              for(int j = 0; j < _enemySpawnList.EnemySpawns[i].SpawnsPerWave; j++)
+              _spawnTimers[i] += _enemySpawnList.EnemySpawns[i].CurrentLevelStats.SpawnTime;
+              for(int j = 0; j < _enemySpawnList.EnemySpawns[i].CurrentLevelStats.SpawnsPerWave; j++)
               {
                   SpawnEnemy(i);
               }
@@ -76,9 +76,9 @@ public class EnemyManager : MonoBehaviour
 
   void SpawnEnemy(int index)
   {
-      Enemy enemy = Instantiate(_enemySpawnList.EnemySpawns[index].EnemyPrefab, transform.position, Quaternion.identity);
+      Enemy enemy = Instantiate(_enemySpawnList.EnemySpawns[index].EnemyData.EnemyPrefab, transform.position, Quaternion.identity);
       enemy.ChangeSpawnableEdges(_enemySpawnList.EnemySpawns[index].SpawnableEdges);
-      enemy.SetUpEnemy(_enemySpawnList.EnemySpawns[index].SpeedModifier * _speedMultiplier);
+      enemy.SetUpEnemy(_enemySpawnList.EnemySpawns[index].CurrentLevelStats.SpeedModifier1 * _speedMultiplier);
       enemy.transform.SetParent(_enemyParent.transform.GetChild(index));
   }
 
@@ -99,7 +99,7 @@ public class EnemyManager : MonoBehaviour
       UpdateSpawnList(enemies.EnemySpawns);
   }
   
-  public void UpdateSpawnList(IEnumerable<EnemySpawnData> enemies)
+  public void UpdateSpawnList(IEnumerable<EnemySpawnEntry> enemies)
   {
     ClearAllEnemies();
     _enemySpawnList.EnemySpawns.Clear();
@@ -108,10 +108,10 @@ public class EnemyManager : MonoBehaviour
     {
       Destroy(child.gameObject);
     }
-    foreach (EnemySpawnData enemy in enemies)
+    foreach (EnemySpawnEntry enemy in enemies)
     {
       _enemySpawnList.EnemySpawns.Add(enemy);
-      _spawnTimers.Add(enemy.SpawnTime);
+      _spawnTimers.Add(enemy.CurrentLevelStats.SpawnTime);
       Instantiate(_emptyPrefab, _enemyParent.transform);
     }
   }

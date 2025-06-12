@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcd99aecbb1254b4d8d7a2f7f004555f, type: 3}
   m_Name: Angled
   m_EditorClassIdentifier: 
-  SpawnTime: 1
-  SpawnsPerWave: 4
+  EnemyLevels:
+  - SpawnTime: 0
+    SpawnsPerWave: 0
+    SpeedModifier1: 0
+    SpeedModifier2: 0
+    RemovedEdges: 0
   EnemyPrefab: {fileID: 610873806193701007, guid: 9e2f2158400a70643ac0a2033ee1ae00, type: 3}
-  SpeedModifier: 1
-  SpawnTimeDecreaseStep: 0.05

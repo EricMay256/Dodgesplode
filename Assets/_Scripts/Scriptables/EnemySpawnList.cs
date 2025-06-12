@@ -4,10 +4,10 @@ using System.Collections.Generic;
 [CreateAssetMenu(fileName = "EnemySpawnList", menuName = "Scriptable Objects/EnemySpawnList")]
 public class EnemySpawnList : ScriptableObject
 {
-  public List<EnemySpawnData> EnemySpawns;
+  public List<EnemySpawnEntry> EnemySpawns;
   public EnemySpawnList()
   {
-    EnemySpawns = new List<EnemySpawnData>();
+    EnemySpawns = new List<EnemySpawnEntry>();
   }
   public void Clear()
   {
