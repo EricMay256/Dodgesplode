@@ -37,24 +37,9 @@ public class Enemy : MonoBehaviour
 
     protected virtual void PlaceOnSpawningBounds()
     {
-        Bounds spawnBounds = GameManager.Instance.SpawnBounds;
-        _spawnedEdge = _spawnableEdges[Random.Range(0, _spawnableEdges.Count)];
-        switch (_spawnedEdge)//Select a random edge to spawn from
-        {
-            //Place transform on a random point on the selected edge
-            case SpawnedEdge.Right:
-                transform.position = new Vector3(spawnBounds.max.x, Random.Range(spawnBounds.min.y, spawnBounds.max.y), 0f);
-                break;
-            case SpawnedEdge.Top:
-                transform.position = new Vector3(Random.Range(spawnBounds.min.x, spawnBounds.max.x), spawnBounds.max.y, 0f);
-                break;
-            case SpawnedEdge.Left:
-                transform.position = new Vector3(spawnBounds.min.x, Random.Range(spawnBounds.min.y, spawnBounds.max.y), 0f);
-                break;
-            case SpawnedEdge.Bottom:
-                transform.position = new Vector3(Random.Range(spawnBounds.min.x, spawnBounds.max.x), spawnBounds.min.y, 0f);
-                break;
-        }
+      Bounds spawnBounds = GameManager.Instance.SpawnBounds;
+      _spawnedEdge = _spawnableEdges[Random.Range(0, _spawnableEdges.Count)];
+      transform.position = RoomManager.Instance.GetSpawnLocation(_spawnedEdge);
     }
 }
 

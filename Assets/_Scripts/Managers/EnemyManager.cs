@@ -110,6 +110,7 @@ public class EnemyManager : MonoBehaviour
     }
     foreach (EnemySpawnEntry enemy in enemies)
     {
+      enemy.GetCurLevelStats();
       _enemySpawnList.EnemySpawns.Add(enemy);
       _spawnTimers.Add(enemy.CurrentLevelStats.SpawnTime);
       Instantiate(_emptyPrefab, _enemyParent.transform);

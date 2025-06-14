@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcd99aecbb1254b4d8d7a2f7f004555f, type: 3}
   m_Name: Ortho
   m_EditorClassIdentifier: 
-  SpawnTime: 0.2
-  SpawnsPerWave: 2
+  EnemyLevels:
+  - SpawnTime: 1
+    SpawnsPerWave: 1
+    SpeedModifier1: 1
+    SpeedModifier2: 0
+    RemovedEdges: 0
   EnemyPrefab: {fileID: 610873806193701007, guid: a1bd2c2d29d99ec4a9fb8cce81b93b36, type: 3}
-  SpeedModifier: 1
-  SpawnTimeDecreaseStep: 0.01

@@ -1408,10 +1408,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 29cf64d5026c2074daa8dfe545b59fd8, type: 2}
     - target: {fileID: 6417596038308370094, guid: d2f88fa630beb58459c8d15f9220c018, type: 3}
-      propertyPath: _startingRoom
-      value: 
-      objectReference: {fileID: 11400000, guid: ddadd9577b473a945bb737829f3ea338, type: 2}
-    - target: {fileID: 6417596038308370094, guid: d2f88fa630beb58459c8d15f9220c018, type: 3}
       propertyPath: _startingRoomData
       value: 
       objectReference: {fileID: 11400000, guid: ddadd9577b473a945bb737829f3ea338, type: 2}
