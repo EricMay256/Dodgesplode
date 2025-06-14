@@ -8,7 +8,7 @@ public class RoomManager : MonoBehaviour
   public RoomData RoomData => _roomData;
 
   RoomData _roomData;
-  private GameObject _currentRoomPrefab;
+  private GameObject _currentRoomObject;
   CinemachineCamera _virtCam;
 
   [SerializeField]
@@ -19,6 +19,7 @@ public class RoomManager : MonoBehaviour
   private List<Bounds> _topBounds = new List<Bounds>();
   private List<Bounds> _bottomBounds = new List<Bounds>();
 
+[SerializeField]
   private Bounds _roomBounds;
   public Bounds RoomBounds => _roomBounds;
 
@@ -80,15 +81,15 @@ public class RoomManager : MonoBehaviour
     GameManager.Instance.StartTransition();
 
     //Destroy current room prefab on delay and load new room
-    if (_currentRoomPrefab != null)
+    if (_currentRoomObject != null)
     {
-      Destroy(_currentRoomPrefab, 2);
+      Destroy(_currentRoomObject, 2);
     }
     _roomData = roomData;
-    _currentRoomPrefab = Instantiate(_roomData._roomPrefab);
+    _currentRoomObject = Instantiate(_roomData._roomPrefab);
 
     //Set the new room's virtual camera target to the player
-    _virtCam = _currentRoomPrefab.GetComponentInChildren<CinemachineCamera>();
+    _virtCam = _currentRoomObject.GetComponentInChildren<CinemachineCamera>();
     if (_virtCam == null)
     {
       Debug.LogError("CinemachineCamera component not found in children!");
@@ -100,7 +101,7 @@ public class RoomManager : MonoBehaviour
     _rightBounds.Clear();
     _topBounds.Clear();
     _bottomBounds.Clear();
-    foreach (var col in _currentRoomPrefab.transform.GetChild(0).GetComponentsInChildren<BoxCollider2D>())
+    foreach (var col in _currentRoomObject.transform.GetChild(0).GetComponentsInChildren<BoxCollider2D>())
     {
       Bounds bounds = col.bounds;
       switch (col.tag)
@@ -122,7 +123,7 @@ public class RoomManager : MonoBehaviour
           break;
       }
     }
-    _roomBounds = _currentRoomPrefab.transform.GetChild(4).GetComponent<CompositeCollider2D>().bounds;
+    _roomBounds = _currentRoomObject.transform.GetChild(4).GetComponent<CompositeCollider2D>().bounds;
 
 
     //Play room music if available
@@ -133,11 +134,14 @@ public class RoomManager : MonoBehaviour
     GameManager.Instance.EndTransition();
   }
 
+
   void Start()
   {
     if (_startingRoom != null)
     {
       LoadRoom(_startingRoom);
+      Player.Instance.transform.position = _roomBounds.center;
+      _virtCam.transform.position = _roomBounds.center;
     }
     else
     {

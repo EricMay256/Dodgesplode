@@ -16,8 +16,6 @@ public class Player : MonoBehaviour
 
   [SerializeField]
   MovementInputType _movementInputType = MovementInputType.Look;
-  Camera _mainCam;
-  Bounds _camBounds;
 
   [field: SerializeField] public float moveSpeed = 10f;//Universal and constant speed multiplier for all forms of input
   private float _moveScale = 1f;//Universal and variable speed multiplier for all forms of input
@@ -33,15 +31,6 @@ public class Player : MonoBehaviour
       Destroy(gameObject);
     }
 
-    _mainCam = Camera.main;
-    if (_mainCam == null)
-    {
-      Debug.LogError("No main camera found!");
-    }
-    else
-    {
-      _camBounds = new Bounds(_mainCam.transform.position, _mainCam.GetComponent<Camera>().orthographicSize * 2f * new Vector3(_mainCam.aspect, 1));
-    }
     _rb = GetComponent<Rigidbody2D>();
     _pd.curHealth = _pd.maxHealth;
   }
@@ -116,7 +105,8 @@ public class Player : MonoBehaviour
   public void ResetPlayer()
   {
     _pd.ResetData();
-    transform.position = Vector3.zero;
+    //Todo? : Reload starting room?
+    transform.position = RoomManager.Instance.RoomBounds.center;
   }
 
   void OnTriggerEnter2D(Collider2D collision)
