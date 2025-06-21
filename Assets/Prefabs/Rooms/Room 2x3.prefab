@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 1377823305546207871}
   - component: {fileID: 5560805367147429350}
   m_Layer: 0
-  m_Name: Static Sprite (2)
+  m_Name: TopWall
   m_TagString: TopEdge
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,8 +122,8 @@ Transform:
   m_GameObject: {fileID: 1880329898379398856}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0384, y: 29.5, z: 0}
-  m_LocalScale: {x: 8.4430275, y: 3.9878757, z: 1}
+  m_LocalPosition: {x: 8.8951, y: 25.4009, z: 0}
+  m_LocalScale: {x: 35.59149, y: 0.7995691, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4254682377294190131}
@@ -358,20 +358,20 @@ CompositeCollider2D:
   m_ColliderPaths:
   - m_Collider: {fileID: 2327139414092735470}
     m_ColliderPaths:
-    - - X: 90000000
-        Y: 274772544
-      - X: -88900792
-        Y: 274772544
-      - X: -88900792
+    - - X: 266250000
+        Y: 250000000
+      - X: -88750000
+        Y: 250000000
+      - X: -88750000
         Y: -50000000
-      - X: 90000000
+      - X: 266250000
         Y: -50000000
   m_CompositePaths:
     m_Paths:
-    - - {x: 8.99997, y: -5}
-      - {x: 8.99997, y: 27.477255}
-      - {x: -8.8900795, y: 27.477226}
-      - {x: -8.89005, y: -5}
+    - - {x: 26.624971, y: -5}
+      - {x: 26.624971, y: 25}
+      - {x: -8.875, y: 24.999971}
+      - {x: -8.87497, y: -5}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
@@ -389,7 +389,7 @@ GameObject:
   - component: {fileID: 7763595274558939412}
   - component: {fileID: 2268476323673292670}
   m_Layer: 0
-  m_Name: Static Sprite (3)
+  m_Name: BottomWall
   m_TagString: BottomEdge
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -404,8 +404,8 @@ Transform:
   m_GameObject: {fileID: 3894369436729916682}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0015, y: -6.6094, z: 0}
-  m_LocalScale: {x: 8.36958, y: 3.2009594, z: 1}
+  m_LocalPosition: {x: 8.9545, y: -5.4976, z: 0}
+  m_LocalScale: {x: 35.915108, y: 0.99538887, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4254682377294190131}
@@ -679,7 +679,7 @@ GameObject:
   - component: {fileID: 3261832008891453225}
   - component: {fileID: 7774969971998155554}
   m_Layer: 0
-  m_Name: Static Sprite
+  m_Name: LeftWall
   m_TagString: LeftEdge
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -694,8 +694,8 @@ Transform:
   m_GameObject: {fileID: 4831002708273250709}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.8487, y: 11.219, z: 0}
-  m_LocalScale: {x: 9.522989, y: 32.703606, z: 1}
+  m_LocalPosition: {x: -9.3957, y: 10.0075, z: 0}
+  m_LocalScale: {x: 1.0412319, y: 30.100248, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4254682377294190131}
@@ -894,7 +894,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 1
   m_CompositeOrder: 0
-  m_Offset: {x: 0.05496025, y: 11.2386265}
+  m_Offset: {x: 8.875, y: 10}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -904,7 +904,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 17.89008, y: 32.477253}
+  m_Size: {x: 35.5, y: 30}
   m_EdgeRadius: 0
 --- !u!1 &7488023345768748700
 GameObject:
@@ -1037,8 +1037,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3843331831100145632}
+  - component: {fileID: 3853983275313293623}
   m_Layer: 0
-  m_Name: RoomTest
+  m_Name: Room 2x3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1053,7 +1054,7 @@ Transform:
   m_GameObject: {fileID: 8610530174440307901}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22.54, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1065,6 +1066,21 @@ Transform:
   - {fileID: 8049178933796719729}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3853983275313293623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8610530174440307901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2285d00f1f5f4341bfaaaa70dbc0805, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RoomMusic: {fileID: 8300000, guid: 984034cde717d9e43ae2ac459f8161d8, type: 3}
+  EnemySpawnList: {fileID: 11400000, guid: a8cefcfed9902364c8240dc2e03b12e1, type: 2}
+  _roomSize: {x: 2, y: 3}
 --- !u!1 &8636714337002544187
 GameObject:
   m_ObjectHideFlags: 0
@@ -1078,7 +1094,7 @@ GameObject:
   - component: {fileID: 6271652485082906464}
   - component: {fileID: 1488395185382004897}
   m_Layer: 0
-  m_Name: Static Sprite (1)
+  m_Name: RightWall
   m_TagString: RightEdge
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1093,8 +1109,8 @@ Transform:
   m_GameObject: {fileID: 8636714337002544187}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.7188, y: 11.4887, z: 0}
-  m_LocalScale: {x: 9.210061, y: 33.191887, z: 1}
+  m_LocalPosition: {x: 27.157997, y: 10.0037, z: 0}
+  m_LocalScale: {x: 1.0660499, y: 30.057066, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4254682377294190131}

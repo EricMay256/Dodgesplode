@@ -7,12 +7,12 @@ public class RoomManager : MonoBehaviour
   public static RoomManager Instance;
   public RoomData RoomData => _roomData;
 
-  RoomData _roomData;
   private GameObject _currentRoomObject;
+  RoomData _roomData;
   CinemachineCamera _virtCam;
 
   [SerializeField]
-  RoomData _startingRoom, _debugRoom;
+  GameObject _startingRoom, _debugRoom;
 
   private List<Bounds> _leftBounds = new List<Bounds>();
   private List<Bounds> _rightBounds = new List<Bounds>();
@@ -49,16 +49,16 @@ public class RoomManager : MonoBehaviour
       //Place transform on a random point on the selected edge
       case SpawnedEdge.Right:
         chosenEdge = _rightBounds[Random.Range(0, _rightBounds.Count)];
-        return new Vector3(chosenEdge.min.x, Random.Range(chosenEdge.min.y, chosenEdge.max.y), 0f);
+        return new Vector3(chosenEdge.min.x + 1, Random.Range(chosenEdge.min.y, chosenEdge.max.y), 0f);
       case SpawnedEdge.Top:
         chosenEdge = _topBounds[Random.Range(0, _topBounds.Count)];
-        return new Vector3(Random.Range(chosenEdge.min.x, chosenEdge.max.x), chosenEdge.min.y, 0f);
+        return new Vector3(Random.Range(chosenEdge.min.x, chosenEdge.max.x), chosenEdge.min.y + 1, 0f);
       case SpawnedEdge.Left:
         chosenEdge = _leftBounds[Random.Range(0, _leftBounds.Count)];
-        return new Vector3(chosenEdge.max.x, Random.Range(chosenEdge.min.y, chosenEdge.max.y), 0f);
+        return new Vector3(chosenEdge.max.x - 1, Random.Range(chosenEdge.min.y, chosenEdge.max.y), 0f);
       case SpawnedEdge.Bottom:
         chosenEdge = _bottomBounds[Random.Range(0, _bottomBounds.Count)];
-        return new Vector3(Random.Range(chosenEdge.min.x, chosenEdge.max.x), chosenEdge.max.y, 0f);
+        return new Vector3(Random.Range(chosenEdge.min.x, chosenEdge.max.x), chosenEdge.max.y - 1, 0f);
       default:
         Debug.LogError("Invalid edge specified for spawn location!");
         return Vector3.zero;
@@ -69,12 +69,12 @@ public class RoomManager : MonoBehaviour
   /// Loads a new room based on the provided RoomData.
   /// </summary>
   /// <param name="roomData">Object containing information on room to be loaded</param>
-  void LoadRoom(RoomData roomData)
+  void LoadRoom(GameObject roomPrefab)
   {
     //Avoid null reference exceptions
-    if (roomData == null)
+    if (roomPrefab == null)
     {
-      Debug.LogError("Room data is null!");
+      Debug.LogError("Room prefab is null!");
       return;
     }
     //Update game state
@@ -85,8 +85,8 @@ public class RoomManager : MonoBehaviour
     {
       Destroy(_currentRoomObject, 2);
     }
-    _roomData = roomData;
-    _currentRoomObject = Instantiate(_roomData._roomPrefab);
+    _currentRoomObject = Instantiate(roomPrefab);
+    _roomData = _currentRoomObject.GetComponent<RoomData>();
 
     //Set the new room's virtual camera target to the player
     _virtCam = _currentRoomObject.GetComponentInChildren<CinemachineCamera>();
@@ -127,9 +127,9 @@ public class RoomManager : MonoBehaviour
 
 
     //Play room music if available
-    AudioManager.Instance.PlayMusic(_roomData._roomMusic);
+    AudioManager.Instance.PlayMusic(_roomData.RoomMusic);
     //Inform the enemy manager about the new room's enemy spawn list
-    EnemyManager.Instance.UpdateSpawnList(_roomData._enemySpawnList.EnemySpawns);
+    EnemyManager.Instance.UpdateSpawnList(_roomData.EnemySpawnList.EnemySpawns);
     //Update game state
     GameManager.Instance.EndTransition();
   }
