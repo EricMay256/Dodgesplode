@@ -27,6 +27,11 @@ public class RoomData : MonoBehaviour
   List<DoorAvailability> _leftRightDoorAvailability = new List<DoorAvailability>();
   public List<DoorAvailability> LeftRightDoorAvailability => _leftRightDoorAvailability;
   
+  public void SetRoomPos(Vector2Int gridPosition)
+  {
+    _roomOffset = gridPosition;
+    transform.position = new Vector3(_roomOffset.x * GridToWorldScale.x, _roomOffset.y * GridToWorldScale.y, 0f);
+  }
   public bool ContainsLocation(Vector2Int location)
   {
     return location.x >= _roomOffset.x && location.x < _roomOffset.x + _roomSize.x &&

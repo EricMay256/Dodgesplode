@@ -8,8 +8,11 @@ public class LevelManager : MonoBehaviour
   List<GameObject> _roomPrefabs;
   [SerializeField]
   GameObject _startingRoomPrefab;
+  [SerializeField]
+  Transform _roomParentTransform;
   List<RoomData> _roomDataList = new List<RoomData>();
-  Dictionary<Vector2Int, List<GameObject>> _roomDictionary = new Dictionary<Vector2Int, List<GameObject>>();
+  List<DoorInfo> _expandableDoorList = new List<DoorInfo>();
+  Dictionary<Vector2Int, List<GameObject>> _roomPrefabDictionary = new Dictionary<Vector2Int, List<GameObject>>();
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   [SerializeField]
   int _maxRoomDimension = 3;
@@ -52,9 +55,9 @@ public class LevelManager : MonoBehaviour
       for (int j = 1; j <= _maxRoomDimension; j++)
       {
         Vector2Int key = new Vector2Int(i, j);
-        if (!_roomDictionary.ContainsKey(key))
+        if (!_roomPrefabDictionary.ContainsKey(key))
         {
-          _roomDictionary.Add(key, new List<GameObject>());
+          _roomPrefabDictionary.Add(key, new List<GameObject>());
         }
       }
     }
@@ -64,19 +67,39 @@ public class LevelManager : MonoBehaviour
       if (roomPrefab == null) continue;
       RoomData roomData = roomPrefab.GetComponent<RoomData>();
       if (roomData == null) continue;
-      _roomDictionary[roomData.RoomSize].Add(roomPrefab);
+      _roomPrefabDictionary[roomData.RoomSize].Add(roomPrefab);
     }
+    _roomPrefabs.Clear();
+
+  }
+
+  void Start()
+  {
   }
 
   public void GenerateLevel()
   {
     // Clear Existing rooms
+    foreach (var room in _roomDataList)
+    {
+      Destroy(room.gameObject);
+    }
+    _roomDataList.Clear();
+    _expandableDoorList.Clear();
+
+    RoomData roomData;
 
     // Generate starting room
+    GameObject startingRoomObject = Instantiate(_startingRoomPrefab, _roomParentTransform);
+    roomData = startingRoomObject.GetComponent<RoomData>();
+    _roomDataList.Add(roomData);
+
+    //Initialize player and set room as active
+    RoomManager.Instance.SetActiveRoom(startingRoomObject);
+    RoomManager.Instance.CenterPlayerInActiveRoom();
 
     // Add each possible door to potential addition list
-
-    // Designate starting room as occupied in grid
+    _expandableDoorList.AddRange(roomData.GetPossibleDoors());
 
     // While room count is not yet reached,
 
@@ -85,7 +108,6 @@ public class LevelManager : MonoBehaviour
     /// Attempt to expand based on random chance and existing layout
     /// Select random room that has space for a door connected to the expanding door
     /// Generate new room
-    /// Add new room's possible doors to potential addition list
     //// If a door has a matching partner, connect them based on percentage chance
     /// Designate new room as occupied in grid
 

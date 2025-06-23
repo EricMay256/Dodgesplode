@@ -84,13 +84,16 @@ public class GameManager : MonoBehaviour
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Start()
   {
+    //Initial GameState
+    SetGameState(GameState.GameSetup);
+
     _camBounds = new Bounds(_mainCam.transform.position,
       _mainCam.GetComponent<Camera>().orthographicSize * 2f *
       new Vector3(_mainCam.aspect, 1));
     _spawnBounds = new Bounds(_camBounds.center, CamBounds.size * 1.25f);
     _previousCamSize = _mainCam.orthographicSize;
     _previousCamPos = _mainCam.transform.position;
-    ResetGame();
+    SetGameState(GameState.Active);
   }
 
   // Update is called once per frame

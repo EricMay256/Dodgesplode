@@ -27,7 +27,7 @@ public class RoomManager : MonoBehaviour
   public void SetDebugRoom()
   {
     if (_debugRoom == null) return;
-    LoadRoom(_debugRoom);
+    SetActiveRoom(_debugRoom);
   }
 
   /// <summary>
@@ -69,23 +69,24 @@ public class RoomManager : MonoBehaviour
   /// Loads a new room based on the provided RoomData.
   /// </summary>
   /// <param name="roomData">Object containing information on room to be loaded</param>
-  void LoadRoom(GameObject roomPrefab)
+  public void SetActiveRoom(GameObject roomObj)
   {
     //Avoid null reference exceptions
-    if (roomPrefab == null)
+    if (roomObj == null)
     {
       Debug.LogError("Room prefab is null!");
       return;
     }
     //Update game state
-    GameManager.Instance.StartTransition();
+    if(GameManager.Instance.CurrentGameState == GameState.Active)
+      GameManager.Instance.StartTransition();
 
     //Destroy current room prefab on delay and load new room
     if (_currentRoomObject != null)
     {
-      Destroy(_currentRoomObject, 2);
+      //Deactivate current room
     }
-    _currentRoomObject = Instantiate(roomPrefab);
+    _currentRoomObject = roomObj;
     _roomData = _currentRoomObject.GetComponent<RoomData>();
 
     //Set the new room's virtual camera target to the player
@@ -131,22 +132,23 @@ public class RoomManager : MonoBehaviour
     //Inform the enemy manager about the new room's enemy spawn list
     EnemyManager.Instance.UpdateSpawnList(_roomData.EnemySpawnList.EnemySpawns);
     //Update game state
-    GameManager.Instance.EndTransition();
+    if(GameManager.Instance.CurrentGameState == GameState.Transition)
+      GameManager.Instance.EndTransition();
   }
 
+  public void CenterPlayerInActiveRoom()
+  {
+    if (_currentRoomObject == null)
+    {
+      Debug.LogError("No active room set!");
+      return;
+    }
+    Player.Instance.transform.position = _roomBounds.center;
+    _virtCam.transform.position = _roomBounds.center;
+  }
 
   void Start()
   {
-    if (_startingRoom != null)
-    {
-      LoadRoom(_startingRoom);
-      Player.Instance.transform.position = _roomBounds.center;
-      _virtCam.transform.position = _roomBounds.center;
-    }
-    else
-    {
-      Debug.LogError("Starting room data is not set!");
-    }
   }
 
   void Awake()
