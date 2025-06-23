@@ -10,6 +10,9 @@ public class RoomManager : MonoBehaviour
   private GameObject _currentRoomObject;
   RoomData _roomData;
   CinemachineCamera _virtCam;
+  [SerializeField]
+  private Bounds _roomBounds;
+  public Bounds RoomBounds => _roomBounds;
 
   [SerializeField]
   GameObject _startingRoom, _debugRoom;
@@ -19,9 +22,6 @@ public class RoomManager : MonoBehaviour
   private List<Bounds> _topBounds = new List<Bounds>();
   private List<Bounds> _bottomBounds = new List<Bounds>();
 
-[SerializeField]
-  private Bounds _roomBounds;
-  public Bounds RoomBounds => _roomBounds;
 
   [ContextMenu("Set Debug Room")]
   public void SetDebugRoom()
@@ -35,7 +35,7 @@ public class RoomManager : MonoBehaviour
   /// </summary>
   /// <param name="edge">Which collider direction is being used for spawn</param>
   /// <returns>World space position chosen from specified collider along the closest edge to the room</returns>
-  public Vector3 GetSpawnLocation(SpawnedEdge edge)
+  public Vector3 GetSpawnLocation(Direction edge)
   {
     if (_roomData == null)
     {
@@ -47,16 +47,16 @@ public class RoomManager : MonoBehaviour
     switch (edge)//Select a random edge to spawn from
     {
       //Place transform on a random point on the selected edge
-      case SpawnedEdge.Right:
+      case Direction.Right:
         chosenEdge = _rightBounds[Random.Range(0, _rightBounds.Count)];
         return new Vector3(chosenEdge.min.x + 1, Random.Range(chosenEdge.min.y, chosenEdge.max.y), 0f);
-      case SpawnedEdge.Top:
+      case Direction.Top:
         chosenEdge = _topBounds[Random.Range(0, _topBounds.Count)];
         return new Vector3(Random.Range(chosenEdge.min.x, chosenEdge.max.x), chosenEdge.min.y + 1, 0f);
-      case SpawnedEdge.Left:
+      case Direction.Left:
         chosenEdge = _leftBounds[Random.Range(0, _leftBounds.Count)];
         return new Vector3(chosenEdge.max.x - 1, Random.Range(chosenEdge.min.y, chosenEdge.max.y), 0f);
-      case SpawnedEdge.Bottom:
+      case Direction.Bottom:
         chosenEdge = _bottomBounds[Random.Range(0, _bottomBounds.Count)];
         return new Vector3(Random.Range(chosenEdge.min.x, chosenEdge.max.x), chosenEdge.max.y - 1, 0f);
       default:

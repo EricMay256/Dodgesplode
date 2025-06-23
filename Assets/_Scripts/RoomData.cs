@@ -27,10 +27,58 @@ public class RoomData : MonoBehaviour
   List<DoorAvailability> _leftRightDoorAvailability = new List<DoorAvailability>();
   public List<DoorAvailability> LeftRightDoorAvailability => _leftRightDoorAvailability;
   
+  public bool ContainsLocation(Vector2Int location)
+  {
+    return location.x >= _roomOffset.x && location.x < _roomOffset.x + _roomSize.x &&
+           location.y >= _roomOffset.y && location.y < _roomOffset.y + _roomSize.y;
+  }
   public void SetRoomOffset(Vector2Int offset)
   {
     _roomOffset = offset;
     transform.position = new Vector3(_roomOffset.x * GridToWorldScale.x, _roomOffset.y * GridToWorldScale.y, 0f);
+  }
+  public List<DoorInfo> GetPossibleDoors()
+  {
+    List<DoorInfo> doors = new List<DoorInfo>();
+    DoorAvailability doorAvailable;
+    for (int i = 0; i < _topBottomDoorAvailability.Count; i++)
+    {
+      doorAvailable = _topBottomDoorAvailability[i];
+      if (doorAvailable == DoorAvailability.Right_or_Top || doorAvailable == DoorAvailability.Both)
+      {
+        DoorInfo doorInfo = new DoorInfo(
+          new Vector2Int(_roomOffset.x + i, _roomOffset.y + _roomSize.y - 1),
+          Direction.Top);
+        doors.Add(doorInfo);
+      }
+      if (doorAvailable == DoorAvailability.Left_or_Bottom || doorAvailable == DoorAvailability.Both)
+      {
+        DoorInfo doorInfo = new DoorInfo(
+          new Vector2Int(_roomOffset.x + i, _roomOffset.y),
+          Direction.Bottom);
+        doors.Add(doorInfo);
+      }
+    }
+    for (int i = 0; i < _leftRightDoorAvailability.Count; i++)
+    {
+      doorAvailable = _leftRightDoorAvailability[i];
+      if (doorAvailable == DoorAvailability.Left_or_Bottom || doorAvailable == DoorAvailability.Both)
+      {
+        DoorInfo doorInfo = new DoorInfo(
+          new Vector2Int(_roomOffset.x, _roomOffset.y + i),
+          Direction.Left);
+        doors.Add(doorInfo);
+      }
+      if (doorAvailable == DoorAvailability.Right_or_Top || doorAvailable == DoorAvailability.Both)
+      {
+        DoorInfo doorInfo = new DoorInfo(
+          new Vector2Int(_roomOffset.x + _roomSize.x - 1, _roomOffset.y + i),
+          Direction.Right);
+        doors.Add(doorInfo);
+      }
+    }
+
+    return doors;
   }
   [ContextMenu("Fix Door List Length")]
   public void FixDoorListLength()

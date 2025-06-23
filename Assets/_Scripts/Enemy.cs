@@ -8,24 +8,24 @@ using Random = UnityEngine.Random;
 public class Enemy : MonoBehaviour
 {
     protected SpriteRenderer _sr;
-    protected SpawnedEdge _spawnedEdge;
+    protected Direction _spawnedEdge;
     public float Scale = 1f;
     float _speedModifier = 1f;
     public float SpeedModifier => _speedModifier;
     [SerializeField]
     bool _usePooling = false;
     public bool UsePooling => _usePooling;
-    protected List<SpawnedEdge> _spawnableEdges = new List<SpawnedEdge>();
+    protected List<Direction> _spawnableEdges = new List<Direction>();
 
     public virtual void SetUpEnemy(float speedModifier = 1f) {
         transform.localScale = new Vector3(Scale, Scale, 1f);
         _speedModifier = speedModifier;
     }
 
-    public virtual void ChangeSpawnableEdges(IEnumerable<SpawnedEdge> edges)
+    public virtual void ChangeSpawnableEdges(IEnumerable<Direction> edges)
     {
         _spawnableEdges.Clear();
-        foreach (SpawnedEdge edge in edges)
+        foreach (Direction edge in edges)
         {
             _spawnableEdges.Add(edge);
         }

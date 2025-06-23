@@ -9,7 +9,7 @@ public class EnemySpawnData : ScriptableObject
   [SerializeField]
   public Enemy EnemyPrefab;
   [SerializeField]
-  public IEnumerable<SpawnedEdge> SpawnableEdges = EnemyManager.SpawnableEdges;
+  public IEnumerable<Direction> SpawnableEdges = EnemyManager.SpawnableEdges;
 }
 [System.Serializable]
 public class EnemyLevelStats
@@ -28,14 +28,14 @@ public class EnemySpawnEntry
   [System.NonSerialized]
   public EnemyLevelStats CurrentLevelStats;
   [System.NonSerialized]
-  public List<SpawnedEdge> SpawnableEdges = new List<SpawnedEdge>(EnemyManager.SpawnableEdges);
+  public List<Direction> SpawnableEdges = new List<Direction>(EnemyManager.SpawnableEdges);
 
   public EnemySpawnEntry(EnemySpawnData enemyData, int curLevel)
   {
     EnemyData = enemyData;
     level = curLevel;
     CurrentLevelStats = enemyData.EnemyLevels[curLevel];
-    SpawnableEdges = new List<SpawnedEdge>(EnemyManager.SpawnableEdges);
+    SpawnableEdges = new List<Direction>(EnemyManager.SpawnableEdges);
     for (int i = 0; i < CurrentLevelStats.RemovedEdges; i++)
     {
       if (SpawnableEdges.Count > 0)
@@ -50,7 +50,7 @@ public class EnemySpawnEntry
     if (level < EnemyData.EnemyLevels.Count)
     {
       CurrentLevelStats = EnemyData.EnemyLevels[level];
-      SpawnableEdges = new List<SpawnedEdge>(EnemyManager.SpawnableEdges);
+      SpawnableEdges = new List<Direction>(EnemyManager.SpawnableEdges);
       for (int i = 0; i < CurrentLevelStats.RemovedEdges; i++)
       {
         if (SpawnableEdges.Count > 0)

@@ -130,6 +130,7 @@ public class GameManager : MonoBehaviour
         _timer.ResetTimer();
         EnemyManager.Instance.ResetEnemies();
         Player.Instance.ResetPlayer();
+        LevelManager.Instance.GenerateLevel();
         break;
       case GameState.Active:
         Time.timeScale = 1f;

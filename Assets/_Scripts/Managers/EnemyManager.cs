@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum SpawnedEdge
+public enum Direction
 {
     Right = 0,
     Top = 1,
@@ -10,8 +10,8 @@ public enum SpawnedEdge
 }
 public class EnemyManager : MonoBehaviour
 {
-  public static IEnumerable<SpawnedEdge> SpawnableEdges { get { return new SpawnedEdge [] 
-  {SpawnedEdge.Right, SpawnedEdge.Top, SpawnedEdge.Left, SpawnedEdge.Bottom} ; } }
+  public static IEnumerable<Direction> SpawnableEdges { get { return new Direction [] 
+  {Direction.Right, Direction.Top, Direction.Left, Direction.Bottom} ; } }
 
   public static EnemyManager Instance;
   

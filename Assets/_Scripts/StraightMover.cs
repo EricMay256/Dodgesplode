@@ -36,7 +36,7 @@ public class StraightMover : Enemy
     // Set the rotation based on the spawned edge
     switch (_spawnedEdge)
     {
-      case SpawnedEdge.Right:
+      case Direction.Right:
         _sr.color = Color.red;
         switch (_aimType)
         {
@@ -50,7 +50,7 @@ public class StraightMover : Enemy
             break;
         }
         break;
-      case SpawnedEdge.Top:
+      case Direction.Top:
         _sr.color = Color.green;
         switch (_aimType)
         {
@@ -64,7 +64,7 @@ public class StraightMover : Enemy
             break;
         }
         break;
-      case SpawnedEdge.Left:
+      case Direction.Left:
         _sr.color = Color.blue;
         switch (_aimType)
         {
@@ -78,7 +78,7 @@ public class StraightMover : Enemy
             break;
         }
         break;
-      case SpawnedEdge.Bottom:
+      case Direction.Bottom:
         _sr.color = Color.yellow;
         switch (_aimType)
         {
