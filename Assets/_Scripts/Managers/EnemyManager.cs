@@ -1,13 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Direction
-{
-    Right = 0,
-    Top = 1,
-    Left = 2,
-    Bottom = 3
-}
+
 public class EnemyManager : MonoBehaviour
 {
   public static IEnumerable<Direction> SpawnableEdges { get { return new Direction [] 

@@ -1,23 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum DoorAvailability
-{
-  None = 0,
-  Left_or_Bottom = 1,
-  Right_or_Top = 2,
-  Both = 3
-}
 public class RoomData : MonoBehaviour
 {
   public AudioClip RoomMusic;
   public EnemySpawnList EnemySpawnList;
-
+  
   [SerializeField]
-  Vector2Int _roomSize = new Vector2Int(1, 1);
-  public Vector2Int RoomSize => _roomSize;
-  Vector2Int _roomOffset = new Vector2Int(0, 0);
-  public Vector2Int RoomOffset => _roomOffset;
+  BoundsInt _roomBounds;
+  public BoundsInt RoomBounds => _roomBounds;
   static Vector2 GridToWorldScale = new Vector2(17.75f, 10f);
 
   [SerializeField]
@@ -26,21 +17,32 @@ public class RoomData : MonoBehaviour
   [SerializeField]
   List<DoorAvailability> _leftRightDoorAvailability = new List<DoorAvailability>();
   public List<DoorAvailability> LeftRightDoorAvailability => _leftRightDoorAvailability;
-  
+
   public void SetRoomPos(Vector2Int gridPosition)
   {
-    _roomOffset = gridPosition;
-    transform.position = new Vector3(_roomOffset.x * GridToWorldScale.x, _roomOffset.y * GridToWorldScale.y, 0f);
+    SetRoomPos(new Vector3Int(gridPosition.x, gridPosition.y, 0));
+  }
+  public void SetRoomPos(Vector3Int gridPosition)
+  {
+    _roomBounds.position = gridPosition;
+    transform.position = new Vector3(_roomBounds.min.x * GridToWorldScale.x, _roomBounds.min.y * GridToWorldScale.y, 0f);
   }
   public bool ContainsLocation(Vector2Int location)
   {
-    return location.x >= _roomOffset.x && location.x < _roomOffset.x + _roomSize.x &&
-           location.y >= _roomOffset.y && location.y < _roomOffset.y + _roomSize.y;
+    return ContainsLocation(new Vector3Int(location.x, location.y, 0));
+  }
+  public bool ContainsLocation(Vector3Int location)
+  {
+    return _roomBounds.Contains(location);
   }
   public void SetRoomOffset(Vector2Int offset)
   {
-    _roomOffset = offset;
-    transform.position = new Vector3(_roomOffset.x * GridToWorldScale.x, _roomOffset.y * GridToWorldScale.y, 0f);
+   SetRoomOffset(new Vector3Int(offset.x, offset.y, 0));
+  }
+  public void SetRoomOffset(Vector3Int offset)
+  {
+    _roomBounds.position = offset;
+    transform.position = new Vector3(_roomBounds.min.x * GridToWorldScale.x, _roomBounds.min.y * GridToWorldScale.y, 0f);
   }
   public List<DoorInfo> GetPossibleDoors()
   {
@@ -52,14 +54,14 @@ public class RoomData : MonoBehaviour
       if (doorAvailable == DoorAvailability.Right_or_Top || doorAvailable == DoorAvailability.Both)
       {
         DoorInfo doorInfo = new DoorInfo(
-          new Vector2Int(_roomOffset.x + i, _roomOffset.y + _roomSize.y - 1),
+          new Vector2Int(_roomBounds.min.x + i, _roomBounds.min.y + _roomBounds.size.y - 1),
           Direction.Top);
         doors.Add(doorInfo);
       }
       if (doorAvailable == DoorAvailability.Left_or_Bottom || doorAvailable == DoorAvailability.Both)
       {
         DoorInfo doorInfo = new DoorInfo(
-          new Vector2Int(_roomOffset.x + i, _roomOffset.y),
+          new Vector2Int(_roomBounds.min.x + i, _roomBounds.min.y),
           Direction.Bottom);
         doors.Add(doorInfo);
       }
@@ -70,14 +72,14 @@ public class RoomData : MonoBehaviour
       if (doorAvailable == DoorAvailability.Left_or_Bottom || doorAvailable == DoorAvailability.Both)
       {
         DoorInfo doorInfo = new DoorInfo(
-          new Vector2Int(_roomOffset.x, _roomOffset.y + i),
+          new Vector2Int(_roomBounds.min.x, _roomBounds.min.y + i),
           Direction.Left);
         doors.Add(doorInfo);
       }
       if (doorAvailable == DoorAvailability.Right_or_Top || doorAvailable == DoorAvailability.Both)
       {
         DoorInfo doorInfo = new DoorInfo(
-          new Vector2Int(_roomOffset.x + _roomSize.x - 1, _roomOffset.y + i),
+          new Vector2Int(_roomBounds.min.x + _roomBounds.size.x - 1, _roomBounds.min.y + i),
           Direction.Right);
         doors.Add(doorInfo);
       }
@@ -88,19 +90,19 @@ public class RoomData : MonoBehaviour
   [ContextMenu("Fix Door List Length")]
   public void FixDoorListLength()
   {
-    while (_topBottomDoorAvailability.Count < _roomSize.x)
+    while (_topBottomDoorAvailability.Count < _roomBounds.size.x)
     {
       _topBottomDoorAvailability.Add(DoorAvailability.None);
     }
-    while (_leftRightDoorAvailability.Count < _roomSize.y)
+    while (_leftRightDoorAvailability.Count < _roomBounds.size.y)
     {
       _leftRightDoorAvailability.Add(DoorAvailability.None);
     }
-    while (_topBottomDoorAvailability.Count > _roomSize.x)
+    while (_topBottomDoorAvailability.Count > _roomBounds.size.x)
     {
       _topBottomDoorAvailability.RemoveAt(_topBottomDoorAvailability.Count - 1);
     }
-    while (_leftRightDoorAvailability.Count > _roomSize.y)
+    while (_leftRightDoorAvailability.Count > _roomBounds.size.y)
     {
       _leftRightDoorAvailability.RemoveAt(_leftRightDoorAvailability.Count - 1);
     }

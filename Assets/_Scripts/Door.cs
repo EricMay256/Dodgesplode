@@ -1,15 +1,5 @@
 using UnityEngine;
 
-public struct DoorInfo
-{
-  public Vector2Int GridLocation;
-  public Direction Orientation;
-  public DoorInfo(Vector2Int gridLocation, Direction orientation)
-  {
-    GridLocation = gridLocation;
-    Orientation = orientation;
-  }
-}
 public class Door : MonoBehaviour
 {
   DoorInfo _doorInfo;

@@ -12,7 +12,7 @@ public class LevelManager : MonoBehaviour
   Transform _roomParentTransform;
   List<RoomData> _roomDataList = new List<RoomData>();
   List<DoorInfo> _expandableDoorList = new List<DoorInfo>();
-  Dictionary<Vector2Int, List<GameObject>> _roomPrefabDictionary = new Dictionary<Vector2Int, List<GameObject>>();
+  Dictionary<Vector3Int, List<GameObject>> _roomPrefabDictionary = new Dictionary<Vector3Int, List<GameObject>>();
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   [SerializeField]
   int _maxRoomDimension = 3;
@@ -54,7 +54,7 @@ public class LevelManager : MonoBehaviour
     {
       for (int j = 1; j <= _maxRoomDimension; j++)
       {
-        Vector2Int key = new Vector2Int(i, j);
+        Vector3Int key = new Vector3Int(i, j, 1);
         if (!_roomPrefabDictionary.ContainsKey(key))
         {
           _roomPrefabDictionary.Add(key, new List<GameObject>());
@@ -67,7 +67,7 @@ public class LevelManager : MonoBehaviour
       if (roomPrefab == null) continue;
       RoomData roomData = roomPrefab.GetComponent<RoomData>();
       if (roomData == null) continue;
-      _roomPrefabDictionary[roomData.RoomSize].Add(roomPrefab);
+      _roomPrefabDictionary[roomData.RoomBounds.size].Add(roomPrefab);
     }
     _roomPrefabs.Clear();
 
@@ -79,6 +79,7 @@ public class LevelManager : MonoBehaviour
 
   public void GenerateLevel()
   {
+    int roomCount = 2;
     // Clear Existing rooms
     foreach (var room in _roomDataList)
     {
@@ -88,31 +89,67 @@ public class LevelManager : MonoBehaviour
     _expandableDoorList.Clear();
 
     RoomData roomData;
+    GameObject roomPrefab, roomObject;
+    List<GameObject> sizedRooms;
+    DoorInfo selectedDoor, newDoor;
+    Vector2Int newRoomPosition2;
+    Vector3Int newRoomPosition3;
 
     // Generate starting room
-    GameObject startingRoomObject = Instantiate(_startingRoomPrefab, _roomParentTransform);
-    roomData = startingRoomObject.GetComponent<RoomData>();
+    roomObject = Instantiate(_startingRoomPrefab, _roomParentTransform);
+    roomData = roomObject.GetComponent<RoomData>();
     _roomDataList.Add(roomData);
 
     //Initialize player and set room as active
-    RoomManager.Instance.SetActiveRoom(startingRoomObject);
+    RoomManager.Instance.SetActiveRoom(roomObject);
     RoomManager.Instance.CenterPlayerInActiveRoom();
 
     // Add each possible door to potential addition list
     _expandableDoorList.AddRange(roomData.GetPossibleDoors());
 
     // While room count is not yet reached,
+    while (_roomDataList.Count < roomCount)
+    {
+      /// Pick a random door from the potential addition list
+      selectedDoor = _expandableDoorList[Random.Range(0, _expandableDoorList.Count)];
+      _expandableDoorList.Remove(selectedDoor);
+      newDoor = selectedDoor.GetMatchingDoor();
+      ///Create the new room
+      newRoomPosition2 = selectedDoor.GetPointedPosition();
+      newRoomPosition3 = new Vector3Int(newRoomPosition2.x, newRoomPosition2.y, 0);
+      BoundsInt newRoomBounds = new BoundsInt(newRoomPosition3, Vector3Int.one);
 
-    /// Pick a random door from the potential addition list
-    //// If the door is blocked by a room, remove it and pick again
-    /// Attempt to expand based on random chance and existing layout
-    /// Select random room that has space for a door connected to the expanding door
-    /// Generate new room
-    //// If a door has a matching partner, connect them based on percentage chance
-    /// Designate new room as occupied in grid
+      /// Attempt to expand based on random chance and existing layout
 
-    /// Last X rooms will be pickup rooms, which will not add their doors to the potential addition list
-    //// Pickup rooms should have a pickup and a portal back to the origin
+      /// Select random room that has space for a door connected to the expanding door
+      sizedRooms = _roomPrefabDictionary[newRoomBounds.size];
+      foreach (GameObject room in sizedRooms)
+      {
+        //roomObject = room;
+        //roomData = roomObject.GetComponent<RoomData>();
+        //roomData.SetRoomPos(newRoomPosition3);
+        // If the room has a door that matches the selected door, instantiate it
+        if (roomData.GetPossibleDoors().Contains(newDoor))
+        {
+          roomPrefab = room;
+          break;
+        }
+      }
+      roomPrefab = sizedRooms[Random.Range(0, sizedRooms.Count)];
+
+      /// Generate new room      
+      roomObject = Instantiate(roomPrefab, _roomParentTransform);
+      roomData = roomObject.GetComponent<RoomData>();
+      roomData.SetRoomPos(selectedDoor.GetPointedPosition());
+      _roomDataList.Add(roomData);
+      //// If a door has a matching partner, connect them based on percentage chance
+      //// Remove all doors pointing to the new room from the potential addition list
+      /// Designate new room as occupied in grid
+    }
+
+
+      /// Last X rooms will be pickup rooms, which will not add their doors to the potential addition list
+      //// Pickup rooms should have a pickup and a portal back to the origin
   }
 
   // Update is called once per frame

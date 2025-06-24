@@ -1,16 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public enum GameState
-{
-    GameplayLobby = 0,
-    GameSetup = 1,
-    Active = 2,
-    Transition = 3,
-    Paused = 4,
-    GameOver = 5,
-    GameWon = 6,
-    Options = 7
-}
 public class GameManager : MonoBehaviour
 {
   public static GameManager Instance;
@@ -37,7 +27,7 @@ public class GameManager : MonoBehaviour
   {
     SetGameState(GameState.Active);
   }
-  
+
   public void GameOver()
   {
     if (_timer != null)
@@ -69,6 +59,12 @@ public class GameManager : MonoBehaviour
 
   void Awake()
   {
+    // Ensure only one instance of GameManager exists
+    if (Instance != null && Instance != this)
+    {
+      Destroy(gameObject);
+      return;
+    }
     // Singleton pattern to ensure only one instance of GameManager exists
     if (Instance == null)
     {
@@ -121,11 +117,11 @@ public class GameManager : MonoBehaviour
     SetGameState(GameState.GameSetup);
     SetGameState(GameState.Active);
   }
-    
+
   private void SetGameState(GameState newState)
   {
     CurrentGameState = newState;
-    switch(newState)
+    switch (newState)
     {
       case GameState.GameplayLobby:
         break;
@@ -138,7 +134,7 @@ public class GameManager : MonoBehaviour
       case GameState.Active:
         Time.timeScale = 1f;
         PlayerInputManager.Instance.SetGameplayControlsActive(true);
-        if(RoomManager.Instance.RoomBounds.Contains(Player.Instance.Position) == false)
+        if (RoomManager.Instance.RoomBounds.Contains(Player.Instance.Position) == false)
         {
           Player.Instance.transform.position = RoomManager.Instance.RoomBounds.center;
         }

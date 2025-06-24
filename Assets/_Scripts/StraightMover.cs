@@ -1,17 +1,5 @@
 using UnityEngine;
 
-public enum AimType
-{
-    Orthogonal = 0,
-    Random = 1,
-    Aimed = 2
-}
-public enum EnemyType
-{
-    Straight = 0,
-    Curved = 1,
-    Homing = 2
-}
 public class StraightMover : Enemy
 {
   [Range(0f, 360f)]

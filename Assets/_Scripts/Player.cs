@@ -1,10 +1,5 @@
 using UnityEngine;
 
-enum MovementInputType
-{
-  Look = 0,
-  Move = 1
-}
 public class Player : MonoBehaviour
 {
   public static Player Instance;
