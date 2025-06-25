@@ -51,8 +51,13 @@ MonoBehaviour:
   - {fileID: 8610530174440307901, guid: f65afd5e49326074aad4032b14d2b1c9, type: 3}
   - {fileID: 8610530174440307901, guid: 89b6a1aedd8aa7544b7b458d2d9355f7, type: 3}
   - {fileID: 8610530174440307901, guid: e7d5e901d6201504c8718e31022c1bfa, type: 3}
+  - {fileID: 8610530174440307901, guid: dc785b5f42b07fb4789218c3cc78d4d3, type: 3}
+  - {fileID: 8610530174440307901, guid: ecf32422ef8e0c74190524a7709e550a, type: 3}
   - {fileID: 8610530174440307901, guid: c5513250f7979cb4e8ac23669f4b0031, type: 3}
   - {fileID: 8610530174440307901, guid: 68d6b9a2c87fad2449db47076ecd195a, type: 3}
+  - {fileID: 8610530174440307901, guid: 1047d57575b9b1e45bc682dbc027b94b, type: 3}
+  - {fileID: 8610530174440307901, guid: e7cdb5e6cc6a4b647a22df7175838b87, type: 3}
   - {fileID: 8610530174440307901, guid: 35484a1133ba34f468797871007987dd, type: 3}
   _startingRoomPrefab: {fileID: 8610530174440307901, guid: de6f01a1f25be0243bdd57d1ad6d0c21, type: 3}
+  _roomParentTransform: {fileID: 0}
   _maxRoomDimension: 3

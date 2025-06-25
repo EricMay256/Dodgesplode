@@ -25,7 +25,7 @@ public class RoomData : MonoBehaviour
   public void SetRoomPos(Vector3Int gridPosition)
   {
     _roomBounds.position = gridPosition;
-    transform.position = new Vector3(_roomBounds.min.x * GridToWorldScale.x, _roomBounds.min.y * GridToWorldScale.y, 0f);
+    transform.position = new Vector3(_roomBounds.position.x * GridToWorldScale.x, _roomBounds.position.y * GridToWorldScale.y, 0f);
   }
   public bool ContainsLocation(Vector2Int location)
   {
@@ -46,6 +46,15 @@ public class RoomData : MonoBehaviour
   }
   public List<DoorInfo> GetPossibleDoors()
   {
+    return GetPossibleDoors(new Vector2Int(0, 0));
+  }
+  public List<DoorInfo> GetPossibleDoors(Vector3Int offset)
+  {
+    return GetPossibleDoors(new Vector2Int(offset.x, offset.y));
+  }
+
+  public List<DoorInfo> GetPossibleDoors(Vector2Int offset)
+  {
     List<DoorInfo> doors = new List<DoorInfo>();
     DoorAvailability doorAvailable;
     for (int i = 0; i < _topBottomDoorAvailability.Count; i++)
@@ -54,14 +63,14 @@ public class RoomData : MonoBehaviour
       if (doorAvailable == DoorAvailability.Right_or_Top || doorAvailable == DoorAvailability.Both)
       {
         DoorInfo doorInfo = new DoorInfo(
-          new Vector2Int(_roomBounds.min.x + i, _roomBounds.min.y + _roomBounds.size.y - 1),
+          new Vector2Int(_roomBounds.min.x + i, _roomBounds.min.y + _roomBounds.size.y - 1) + offset,
           Direction.Top);
         doors.Add(doorInfo);
       }
       if (doorAvailable == DoorAvailability.Left_or_Bottom || doorAvailable == DoorAvailability.Both)
       {
         DoorInfo doorInfo = new DoorInfo(
-          new Vector2Int(_roomBounds.min.x + i, _roomBounds.min.y),
+          new Vector2Int(_roomBounds.min.x + i, _roomBounds.min.y) + offset,
           Direction.Bottom);
         doors.Add(doorInfo);
       }
@@ -72,14 +81,14 @@ public class RoomData : MonoBehaviour
       if (doorAvailable == DoorAvailability.Left_or_Bottom || doorAvailable == DoorAvailability.Both)
       {
         DoorInfo doorInfo = new DoorInfo(
-          new Vector2Int(_roomBounds.min.x, _roomBounds.min.y + i),
+          new Vector2Int(_roomBounds.min.x, _roomBounds.min.y + i) + offset,
           Direction.Left);
         doors.Add(doorInfo);
       }
       if (doorAvailable == DoorAvailability.Right_or_Top || doorAvailable == DoorAvailability.Both)
       {
         DoorInfo doorInfo = new DoorInfo(
-          new Vector2Int(_roomBounds.min.x + _roomBounds.size.x - 1, _roomBounds.min.y + i),
+          new Vector2Int(_roomBounds.min.x + _roomBounds.size.x - 1, _roomBounds.min.y + i) + offset,
           Direction.Right);
         doors.Add(doorInfo);
       }
