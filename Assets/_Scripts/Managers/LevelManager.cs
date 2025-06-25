@@ -64,13 +64,18 @@ public class LevelManager : MonoBehaviour
     //Populate the room dictionary with prefabs
     foreach (GameObject roomPrefab in _roomPrefabs)
     {
-      if (roomPrefab == null) continue;
       RoomData roomData = roomPrefab.GetComponent<RoomData>();
       if (roomData == null) continue;
       _roomPrefabDictionary[roomData.RoomBounds.size].Add(roomPrefab);
     }
     _roomPrefabs.Clear();
-
+    for(int i = 1; i <= _maxRoomDimension; i++)
+    {
+      for (int j = 1; j <= _maxRoomDimension; j++)
+      {
+        Debug.Log($"Room size {i}x{j} has {_roomPrefabDictionary[new Vector3Int(i, j, 1)].Count} prefabs.");
+      }
+    }
   }
 
   void Start()
@@ -139,9 +144,8 @@ public class LevelManager : MonoBehaviour
     return roomBounds;
   }
 
-  public void GenerateLevel()
+  public void GenerateLevel(int roomCount = 10, float roomConnectionChance = 0.5f)
   {
-    int roomCount = 10;
     // Clear Existing rooms
     foreach (var room in _roomDataList)
     {
@@ -199,9 +203,10 @@ public class LevelManager : MonoBehaviour
         }// Otherwise, remove it from consideration
         else
         {
-          sizedRooms.RemoveAt(i);
+          //sizedRooms.RemoveAt(i);
         }
       }
+      Debug.Log(newRoomBounds);
       roomPrefab = sizedRooms[Random.Range(0, sizedRooms.Count)];
 
       /// Generate new room      
@@ -210,14 +215,49 @@ public class LevelManager : MonoBehaviour
       roomData.SetRoomPos(newRoomBounds.position);
       _roomDataList.Add(roomData);
       
-      //// If a door has a matching partner, connect them based on percentage chance
+      List<DoorInfo> newDoors = roomData.GetPossibleDoors();
+      for(int i = newDoors.Count - 1; i >= 0; i--)
+      {
+        //// If a door has a matching partner, connect them based on percentage chance
+        if (_expandableDoorList.Contains(newDoors[i].GetMatchingDoor()))
+        {
+          if (Random.Range(0f, 1f) < roomConnectionChance)
+          {
+            //door.ConnectTo(door.GetMatchingDoor());
+            //Debug.Log($"Connected {door} to {door.GetMatchingDoor()}");
+
+          }
+          else
+          {
+            //Debug.Log($"Did not connect {door} to {door.GetMatchingDoor()}");
+          }
+          _expandableDoorList.Remove(newDoors[i].GetMatchingDoor());
+          newDoors.Remove(newDoors[i]);
+        }
+        else
+        {
+          //Debug.Log($"No matching door for {door}");
+          if (IsLocationOccupied(newDoors[i].GetPointedPosition()))
+          {
+            //Debug.Log($"Door {newDoors[i]} points to an occupied location, removing it");
+            newDoors.RemoveAt(i);
+          }
+        }
+      }
       //// Remove all doors pointing to the new room from the potential addition list
-      _expandableDoorList.AddRange(roomData.GetPossibleDoors());//TODO: filter out doors
+      for(int i = _expandableDoorList.Count - 1; i >= 0; i--)
+      {
+        if (roomData.ContainsLocation(_expandableDoorList[i].GetPointedPosition()))
+        {
+          _expandableDoorList.RemoveAt(i);
+        }
+      }
+      //Add doors that have not been filtered out
+      _expandableDoorList.AddRange(newDoors);
 
       Debug.Log($"Room {_roomDataList.Count} generated at position {roomData.RoomBounds.position} with size {roomData.RoomBounds.size}");
 
     }
-
 
     /// Last X rooms will be pickup rooms, which will not add their doors to the potential addition list
     //// Pickup rooms should have a pickup and a portal back to the origin
