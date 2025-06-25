@@ -187,6 +187,7 @@ public class LevelManager : MonoBehaviour
       BoundsInt newRoomBounds = new BoundsInt(newRoomPosition3, Vector3Int.one);
 
       /// Attempt to expand based on random chance and existing layout
+      /// //TODO: Make this more intelligent
       newRoomBounds = TryExpandRoom(newRoomBounds, new List<Direction> { Direction.Top });
       newRoomBounds = TryExpandRoom(newRoomBounds, new List<Direction> { Direction.Bottom });
       newRoomBounds = TryExpandRoom(newRoomBounds, new List<Direction> { Direction.Left });
@@ -203,7 +204,7 @@ public class LevelManager : MonoBehaviour
         }// Otherwise, remove it from consideration
         else
         {
-          //sizedRooms.RemoveAt(i);
+          sizedRooms.RemoveAt(i);
         }
       }
       Debug.Log(newRoomBounds);
