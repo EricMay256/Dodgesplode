@@ -96,6 +96,8 @@ public class RoomManager : MonoBehaviour
       Debug.LogError("CinemachineCamera component not found in children!");
     }
     _virtCam.Target.TrackingTarget = Player.Instance.transform;
+    _virtCam.Prioritize();
+    
 
     //Update bounds used for spawning enemies based on room edges
     _leftBounds.Clear();

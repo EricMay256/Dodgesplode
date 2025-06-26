@@ -155,19 +155,19 @@ public class LevelManager : MonoBehaviour
     _expandableDoorList.Clear();
 
     RoomData roomData;
-    GameObject roomPrefab, roomObject;
+    GameObject startRoomObject, roomPrefab, roomObject;
     List<GameObject> sizedRooms;
     DoorInfo selectedDoor, newDoor;
     Vector2Int newRoomPosition2;
     Vector3Int newRoomPosition3;
 
     // Generate starting room
-    roomObject = Instantiate(_startingRoomPrefab, _roomParentTransform);
-    roomData = roomObject.GetComponent<RoomData>();
+    startRoomObject = Instantiate(_startingRoomPrefab, _roomParentTransform);
+    roomData = startRoomObject.GetComponent<RoomData>();
     _roomDataList.Add(roomData);
 
     //Initialize player and set room as active
-    RoomManager.Instance.SetActiveRoom(roomObject);
+    RoomManager.Instance.SetActiveRoom(startRoomObject);
     RoomManager.Instance.CenterPlayerInActiveRoom();
 
     // Add each possible door to potential addition list
@@ -258,6 +258,9 @@ public class LevelManager : MonoBehaviour
 
       Debug.Log($"Room {_roomDataList.Count} generated at position {roomData.RoomBounds.position} with size {roomData.RoomBounds.size}");
 
+      //Initialize player and set room as active
+      RoomManager.Instance.SetActiveRoom(startRoomObject);
+      RoomManager.Instance.CenterPlayerInActiveRoom();
     }
 
     /// Last X rooms will be pickup rooms, which will not add their doors to the potential addition list

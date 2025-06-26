@@ -116,6 +116,11 @@ public class RoomData : MonoBehaviour
       _leftRightDoorAvailability.RemoveAt(_leftRightDoorAvailability.Count - 1);
     }
   }
+  [ContextMenu("Activate Room")]
+  public void ActivateRoom()
+  {
+    RoomManager.Instance.SetActiveRoom(gameObject);
+  }
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Start()
   {
