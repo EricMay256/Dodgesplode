@@ -44,5 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e786440e5b216d24fbbe5f3bced25d84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _doorHorizontalPrefab: {fileID: 950320813154856704, guid: bab441dba9280d940bbf418ebb316abe, type: 3}
+  _doorVerticalPrefab: {fileID: 3752041398135326585, guid: f2e757e680b190f4f84e89c22c53ecd4, type: 3}
+  _roomBounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
   _startingRoom: {fileID: 11400000, guid: 29cf64d5026c2074daa8dfe545b59fd8, type: 2}
   _debugRoom: {fileID: 0}

@@ -59,5 +59,7 @@ MonoBehaviour:
   - {fileID: 8610530174440307901, guid: e7cdb5e6cc6a4b647a22df7175838b87, type: 3}
   - {fileID: 8610530174440307901, guid: 35484a1133ba34f468797871007987dd, type: 3}
   _startingRoomPrefab: {fileID: 8610530174440307901, guid: de6f01a1f25be0243bdd57d1ad6d0c21, type: 3}
+  _doorHorizontalPrefab: {fileID: 950320813154856704, guid: bab441dba9280d940bbf418ebb316abe, type: 3}
+  _doorVerticalPrefab: {fileID: 3752041398135326585, guid: f2e757e680b190f4f84e89c22c53ecd4, type: 3}
   _roomParentTransform: {fileID: 0}
   _maxRoomDimension: 3

@@ -9,6 +9,8 @@ public class LevelManager : MonoBehaviour
   [SerializeField]
   GameObject _startingRoomPrefab;
   [SerializeField]
+  GameObject _doorHorizontalPrefab, _doorVerticalPrefab;
+  [SerializeField]
   Transform _roomParentTransform;
   List<RoomData> _roomDataList = new List<RoomData>();
   List<DoorInfo> _expandableDoorList = new List<DoorInfo>();
@@ -73,7 +75,7 @@ public class LevelManager : MonoBehaviour
     {
       for (int j = 1; j <= _maxRoomDimension; j++)
       {
-        Debug.Log($"Room size {i}x{j} has {_roomPrefabDictionary[new Vector3Int(i, j, 1)].Count} prefabs.");
+        //Debug.Log($"Room size {i}x{j} has {_roomPrefabDictionary[new Vector3Int(i, j, 1)].Count} prefabs.");
       }
     }
   }
@@ -93,7 +95,7 @@ public class LevelManager : MonoBehaviour
         {
           if (IsLocationOccupied(new Vector2Int(i, roomBounds.max.y)))
           {
-            Debug.Log("top occupied");
+            //Debug.Log("top occupied");
             directions.Remove(Direction.Top);
 
             return TryExpandRoom(roomBounds, directions);
@@ -106,7 +108,7 @@ public class LevelManager : MonoBehaviour
         {
           if (IsLocationOccupied(new Vector2Int(i, roomBounds.min.y - 1)))
           {
-            Debug.Log("bottom occupied");
+            //Debug.Log("bottom occupied");
             directions.Remove(Direction.Bottom);
 
             return TryExpandRoom(roomBounds, directions);
@@ -120,7 +122,7 @@ public class LevelManager : MonoBehaviour
         {
           if (IsLocationOccupied(new Vector2Int(roomBounds.min.x - 1, i)))
           {
-            Debug.Log("left occupied");
+            //Debug.Log("left occupied");
             directions.Remove(Direction.Left);
             return TryExpandRoom(roomBounds, directions);
           }
@@ -133,7 +135,7 @@ public class LevelManager : MonoBehaviour
         {
           if (IsLocationOccupied(new Vector2Int(roomBounds.max.x, i)))
           {
-            Debug.Log("right occupied");
+            //Debug.Log("right occupied");
             directions.Remove(Direction.Right);
             return TryExpandRoom(roomBounds, directions);
           }
@@ -160,6 +162,7 @@ public class LevelManager : MonoBehaviour
     DoorInfo selectedDoor, newDoor;
     Vector2Int newRoomPosition2;
     Vector3Int newRoomPosition3;
+    Door outboundDoor, inboundDoor;
 
     // Generate starting room
     startRoomObject = Instantiate(_startingRoomPrefab, _roomParentTransform);
@@ -174,6 +177,9 @@ public class LevelManager : MonoBehaviour
     //Starting room has position of (0,0)
     _expandableDoorList.AddRange(roomData.GetPossibleDoors());
 
+    RoomData curRoom, newRoom;
+    Transform curRoomTransform, newRoomTransform;
+    GameObject curRoomObject, newRoomObject;
     // While room count is not yet reached,
     while (_roomDataList.Count < roomCount)
     {
@@ -181,6 +187,18 @@ public class LevelManager : MonoBehaviour
       selectedDoor = _expandableDoorList[Random.Range(0, _expandableDoorList.Count)];
       _expandableDoorList.Remove(selectedDoor);
       newDoor = selectedDoor.GetMatchingDoor();
+
+      ///Create outbound door
+      curRoom = GetRoomFromGridLocation(selectedDoor.GridLocation);
+      curRoomTransform = curRoom.transform;
+      curRoomObject = curRoom.gameObject;
+      if (selectedDoor.Orientation == Direction.Top || selectedDoor.Orientation == Direction.Bottom)
+        outboundDoor = Instantiate(_doorVerticalPrefab, curRoomTransform.GetChild(1)).GetComponent<Door>();
+      else
+        outboundDoor = Instantiate(_doorHorizontalPrefab, curRoomTransform.GetChild(1)).GetComponent<Door>();
+      outboundDoor.SetDoorInfo(selectedDoor);
+
+
       ///Create the new room
       newRoomPosition2 = selectedDoor.GetPointedPosition();
       newRoomPosition3 = new Vector3Int(newRoomPosition2.x, newRoomPosition2.y, 0);
@@ -207,19 +225,31 @@ public class LevelManager : MonoBehaviour
           sizedRooms.RemoveAt(i);
         }
       }
-      Debug.Log(newRoomBounds);
       roomPrefab = sizedRooms[Random.Range(0, sizedRooms.Count)];
 
       /// Generate new room      
-      roomObject = Instantiate(roomPrefab, _roomParentTransform);
-      roomData = roomObject.GetComponent<RoomData>();
-      roomData.SetRoomPos(newRoomBounds.position);
-      _roomDataList.Add(roomData);
-      
-      List<DoorInfo> newDoors = roomData.GetPossibleDoors();
-      for(int i = newDoors.Count - 1; i >= 0; i--)
+      newRoomObject = Instantiate(roomPrefab, _roomParentTransform);
+      newRoom = newRoomObject.GetComponent<RoomData>();
+      newRoomTransform = newRoom.transform;
+      newRoom.SetRoomPos(newRoomBounds.position);
+      _roomDataList.Add(newRoom);
+
+      /// update outbound door
+      outboundDoor.ConnectDoor(newRoomObject);
+      ///Create inbound door
+      if (selectedDoor.Orientation == Direction.Top || selectedDoor.Orientation == Direction.Bottom)
+        inboundDoor = Instantiate(_doorVerticalPrefab, newRoomTransform.GetChild(1)).GetComponent<Door>();
+      else
+        inboundDoor = Instantiate(_doorHorizontalPrefab, newRoomTransform.GetChild(1)).GetComponent<Door>();
+      inboundDoor.SetDoorInfo(newDoor);
+      inboundDoor.ConnectDoor(curRoomObject);
+
+
+      List<DoorInfo> newDoors = roomData.GetPossibleDoors(newRoomBounds.position);
+      for (int i = newDoors.Count - 1; i >= 0; i--)
       {
         //// If a door has a matching partner, connect them based on percentage chance
+        //// If not connected, remove both doors from list
         if (_expandableDoorList.Contains(newDoors[i].GetMatchingDoor()))
         {
           if (Random.Range(0f, 1f) < roomConnectionChance)
@@ -243,10 +273,13 @@ public class LevelManager : MonoBehaviour
             //Debug.Log($"Door {newDoors[i]} points to an occupied location, removing it");
             newDoors.RemoveAt(i);
           }
+          //else
+          
+          //Debug.Log($"Adding door {newDoors[i].GridLocation}, {newDoors[i].Orientation} to expandable door list");
         }
       }
       //// Remove all doors pointing to the new room from the potential addition list
-      for(int i = _expandableDoorList.Count - 1; i >= 0; i--)
+      for (int i = _expandableDoorList.Count - 1; i >= 0; i--)
       {
         if (roomData.ContainsLocation(_expandableDoorList[i].GetPointedPosition()))
         {
@@ -256,7 +289,7 @@ public class LevelManager : MonoBehaviour
       //Add doors that have not been filtered out
       _expandableDoorList.AddRange(newDoors);
 
-      Debug.Log($"Room {_roomDataList.Count} generated at position {roomData.RoomBounds.position} with size {roomData.RoomBounds.size}");
+      //Debug.Log($"Room {_roomDataList.Count} generated at position {newRoom.RoomBounds.position} with size {newRoom.RoomBounds.size}");
 
       //Initialize player and set room as active
       RoomManager.Instance.SetActiveRoom(startRoomObject);

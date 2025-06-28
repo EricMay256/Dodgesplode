@@ -14,21 +14,10 @@ public class RoomManager : MonoBehaviour
   private Bounds _roomBounds;
   public Bounds RoomBounds => _roomBounds;
 
-  [SerializeField]
-  GameObject _startingRoom, _debugRoom;
-
   private List<Bounds> _leftBounds = new List<Bounds>();
   private List<Bounds> _rightBounds = new List<Bounds>();
   private List<Bounds> _topBounds = new List<Bounds>();
   private List<Bounds> _bottomBounds = new List<Bounds>();
-
-
-  [ContextMenu("Set Debug Room")]
-  public void SetDebugRoom()
-  {
-    if (_debugRoom == null) return;
-    SetActiveRoom(_debugRoom);
-  }
 
   /// <summary>
   /// Returns a random spawn location on the specified edge of the room.

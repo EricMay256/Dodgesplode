@@ -9,7 +9,7 @@ public class RoomData : MonoBehaviour
   [SerializeField]
   BoundsInt _roomBounds;
   public BoundsInt RoomBounds => _roomBounds;
-  static Vector2 GridToWorldScale = new Vector2(17.75f, 10f);
+  public static readonly Vector2 GridToWorldScale = new Vector2(17.75f, 10f);
 
   [SerializeField]
   List<DoorAvailability> _topBottomDoorAvailability = new List<DoorAvailability>() ;

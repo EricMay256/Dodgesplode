@@ -68,10 +68,11 @@ public enum AimType
 }
 public enum EnemyType
 {
-    Straight = 0,
-    Curved = 1,
-    Homing = 2
+  Straight = 0,
+  Curved = 1,
+  Homing = 2
 }
+[System.Serializable]
 public struct DoorInfo
 {
   public Vector2Int GridLocation;
