@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoomData : MonoBehaviour
+public class Room : MonoBehaviour
 {
   public AudioClip RoomMusic;
   public EnemySpawnList EnemySpawnList;

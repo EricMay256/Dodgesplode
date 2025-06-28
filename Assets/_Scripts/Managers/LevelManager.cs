@@ -12,7 +12,7 @@ public class LevelManager : MonoBehaviour
   GameObject _doorHorizontalPrefab, _doorVerticalPrefab;
   [SerializeField]
   Transform _roomParentTransform;
-  List<RoomData> _roomDataList = new List<RoomData>();
+  List<Room> _roomDataList = new List<Room>();
   List<DoorInfo> _expandableDoorList = new List<DoorInfo>();
   Dictionary<Vector3Int, List<GameObject>> _roomPrefabDictionary = new Dictionary<Vector3Int, List<GameObject>>();
   // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -29,7 +29,7 @@ public class LevelManager : MonoBehaviour
     }
     return false;
   }
-  public RoomData GetRoomFromGridLocation(Vector2Int gridLocation)
+  public Room GetRoomFromGridLocation(Vector2Int gridLocation)
   {
     foreach (var room in _roomDataList)
     {
@@ -66,7 +66,7 @@ public class LevelManager : MonoBehaviour
     //Populate the room dictionary with prefabs
     foreach (GameObject roomPrefab in _roomPrefabs)
     {
-      RoomData roomData = roomPrefab.GetComponent<RoomData>();
+      Room roomData = roomPrefab.GetComponent<Room>();
       if (roomData == null) continue;
       _roomPrefabDictionary[roomData.RoomBounds.size].Add(roomPrefab);
     }
@@ -156,7 +156,7 @@ public class LevelManager : MonoBehaviour
     _roomDataList.Clear();
     _expandableDoorList.Clear();
 
-    RoomData roomData;
+    Room roomData;
     GameObject startRoomObject, roomPrefab, roomObject;
     List<GameObject> sizedRooms;
     DoorInfo selectedDoor, newDoor;
@@ -166,7 +166,7 @@ public class LevelManager : MonoBehaviour
 
     // Generate starting room
     startRoomObject = Instantiate(_startingRoomPrefab, _roomParentTransform);
-    roomData = startRoomObject.GetComponent<RoomData>();
+    roomData = startRoomObject.GetComponent<Room>();
     _roomDataList.Add(roomData);
 
     //Initialize player and set room as active
@@ -177,7 +177,7 @@ public class LevelManager : MonoBehaviour
     //Starting room has position of (0,0)
     _expandableDoorList.AddRange(roomData.GetPossibleDoors());
 
-    RoomData curRoom, newRoom;
+    Room curRoom, newRoom;
     Transform curRoomTransform, newRoomTransform;
     GameObject curRoomObject, newRoomObject;
     // While room count is not yet reached,
@@ -215,7 +215,7 @@ public class LevelManager : MonoBehaviour
       sizedRooms = new List<GameObject>(_roomPrefabDictionary[newRoomBounds.size]);
       for (int i = sizedRooms.Count - 1; i >= 0; i--)
       {
-        roomData = sizedRooms[i].GetComponent<RoomData>();
+        roomData = sizedRooms[i].GetComponent<Room>();
         // If the room has a door that matches the selected door, consider for use
         if (roomData.GetPossibleDoors(newRoomBounds.position).Contains(newDoor))
         {
@@ -229,7 +229,7 @@ public class LevelManager : MonoBehaviour
 
       /// Generate new room      
       newRoomObject = Instantiate(roomPrefab, _roomParentTransform);
-      newRoom = newRoomObject.GetComponent<RoomData>();
+      newRoom = newRoomObject.GetComponent<Room>();
       newRoomTransform = newRoom.transform;
       newRoom.SetRoomPos(newRoomBounds.position);
       _roomDataList.Add(newRoom);

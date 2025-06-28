@@ -5,10 +5,10 @@ using UnityEngine;
 public class RoomManager : MonoBehaviour
 {
   public static RoomManager Instance;
-  public RoomData RoomData => _roomData;
+  public Room Room => _roomData;
 
   private GameObject _currentRoomObject;
-  RoomData _roomData;
+  Room _roomData;
   CinemachineCamera _virtCam;
   [SerializeField]
   private Bounds _roomBounds;
@@ -55,7 +55,7 @@ public class RoomManager : MonoBehaviour
   }
 
   /// <summary>
-  /// Loads a new room based on the provided RoomData.
+  /// Loads a new room based on the provided Room.
   /// </summary>
   /// <param name="roomData">Object containing information on room to be loaded</param>
   public void SetActiveRoom(GameObject roomObj)
@@ -76,7 +76,7 @@ public class RoomManager : MonoBehaviour
       //Deactivate current room
     }
     _currentRoomObject = roomObj;
-    _roomData = _currentRoomObject.GetComponent<RoomData>();
+    _roomData = _currentRoomObject.GetComponent<Room>();
 
     //Set the new room's virtual camera target to the player
     _virtCam = _currentRoomObject.GetComponentInChildren<CinemachineCamera>();

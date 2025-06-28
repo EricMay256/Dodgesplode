@@ -5,10 +5,10 @@ public class Door : MonoBehaviour
   [SerializeField]
   DoorInfo _doorInfo;
   public DoorInfo DoorInfo => _doorInfo;
-  GameObject _containingRoom, _connectedRoom;
-  public GameObject ContainingRoom => _containingRoom;
+  GameObject _containingRoomObj, _connectedRoom;
+  public GameObject ContainingRoom => _containingRoomObj;
   public GameObject ConnectedRoom => _connectedRoom;
-  RoomData _containingRoomData;
+  Room _containingRoom;
 
   public void SetDoorInfo(DoorInfo doorInfo)
   {
@@ -17,16 +17,16 @@ public class Door : MonoBehaviour
     //Calculate local grid position
     //calculate world position and set transform position
     _doorInfo = doorInfo;
-    _containingRoomData = GetComponentInParent<RoomData>();
-    _containingRoom = _containingRoomData.gameObject;
+    _containingRoom = GetComponentInParent<Room>();
+    _containingRoomObj = _containingRoom.gameObject;
 
     // Set the door's position based on the containing room's position
-    if (_containingRoom != null)
+    if (_containingRoomObj != null)
     {
-      Vector3 containingRoomPosition = _containingRoom.transform.position;
+      Vector3 containingRoomPosition = _containingRoomObj.transform.position;
       transform.position = new Vector3(
-        _doorInfo.GridLocation.x * RoomData.GridToWorldScale.x,
-        _doorInfo.GridLocation.y * RoomData.GridToWorldScale.y,
+        _doorInfo.GridLocation.x * Room.GridToWorldScale.x,
+        _doorInfo.GridLocation.y * Room.GridToWorldScale.y,
         0);
       switch(_doorInfo.Orientation)
       {
