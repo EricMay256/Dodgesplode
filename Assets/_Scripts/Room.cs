@@ -116,10 +116,26 @@ public class Room : MonoBehaviour
       _leftRightDoorAvailability.RemoveAt(_leftRightDoorAvailability.Count - 1);
     }
   }
+  [ContextMenu("Set Active Room")]
+  public void DebugSetRoomActive()
+  {
+    RoomManager.Instance.SetActiveRoom(gameObject);
+  }
   [ContextMenu("Activate Room")]
   public void ActivateRoom()
   {
-    RoomManager.Instance.SetActiveRoom(gameObject);
+    foreach (Transform child in transform)
+    {
+      child.gameObject.SetActive(true);
+    }
+  }
+  [ContextMenu("Deactivate Room")]
+  public void DeactivateRoom()
+  {
+    foreach (Transform child in transform)
+    {
+      child.gameObject.SetActive(false);
+    }
   }
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Start()

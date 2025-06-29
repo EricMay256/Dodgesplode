@@ -8,6 +8,7 @@ public class RoomManager : MonoBehaviour
   public Room Room => _roomData;
 
   private GameObject _currentRoomObject;
+  public Room RoomData => _roomData;
   Room _roomData;
   CinemachineCamera _virtCam;
   [SerializeField]
@@ -66,9 +67,14 @@ public class RoomManager : MonoBehaviour
       Debug.LogError("Room prefab is null!");
       return;
     }
+    if(_roomData != null)
+    {
+      //Deactivate current room
+      _roomData.DeactivateRoom();
+    }
     //Update game state
-    if(GameManager.Instance.CurrentGameState == GameState.Active)
-      GameManager.Instance.StartTransition();
+      if (GameManager.Instance.CurrentGameState == GameState.Active)
+        GameManager.Instance.StartTransition();
 
     //Destroy current room prefab on delay and load new room
     if (_currentRoomObject != null)
@@ -77,6 +83,7 @@ public class RoomManager : MonoBehaviour
     }
     _currentRoomObject = roomObj;
     _roomData = _currentRoomObject.GetComponent<Room>();
+    _roomData.ActivateRoom();
 
     //Set the new room's virtual camera target to the player
     _virtCam = _currentRoomObject.GetComponentInChildren<CinemachineCamera>();

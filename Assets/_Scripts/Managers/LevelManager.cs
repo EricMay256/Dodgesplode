@@ -274,7 +274,7 @@ public class LevelManager : MonoBehaviour
             newDoors.RemoveAt(i);
           }
           //else
-          
+
           //Debug.Log($"Adding door {newDoors[i].GridLocation}, {newDoors[i].Orientation} to expandable door list");
         }
       }
@@ -291,13 +291,36 @@ public class LevelManager : MonoBehaviour
 
       //Debug.Log($"Room {_roomDataList.Count} generated at position {newRoom.RoomBounds.position} with size {newRoom.RoomBounds.size}");
 
-      //Initialize player and set room as active
-      RoomManager.Instance.SetActiveRoom(startRoomObject);
-      RoomManager.Instance.CenterPlayerInActiveRoom();
     }
 
+    foreach(var room in _roomDataList)
+    {
+      room.DeactivateRoom();
+    }
+    //Initialize player and set room as active
+    RoomManager.Instance.SetActiveRoom(startRoomObject);
+    RoomManager.Instance.CenterPlayerInActiveRoom();
     /// Last X rooms will be pickup rooms, which will not add their doors to the potential addition list
     //// Pickup rooms should have a pickup and a portal back to the origin
+  }
+
+  [ContextMenu("Activate All Rooms")]
+  public void ActivateAllRooms()
+  {
+    foreach (var room in _roomDataList)
+    {
+      room.ActivateRoom();
+    }
+  }
+
+  [ContextMenu("Deactivate All Rooms")]
+  public void DeactivateAllRooms()
+  {
+    foreach (var room in _roomDataList)
+    {
+      room.DeactivateRoom();
+    }
+    RoomManager.Instance.RoomData.ActivateRoom();
   }
 
   // Update is called once per frame
