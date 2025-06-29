@@ -42,19 +42,21 @@ public class EnemyManager : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
+    if(GameManager.Instance.CurrentGameState != GameState.Active)
+      return;
       //If camera gets resized, update the bounds
-      for(int i = 0; i < _spawnTimers.Count; i++)
+    for (int i = 0; i < _spawnTimers.Count; i++)
+    {
+      _spawnTimers[i] -= Time.deltaTime;
+      if (_spawnTimers[i] <= 0f)
       {
-          _spawnTimers[i] -= Time.deltaTime;
-          if(_spawnTimers[i] <= 0f)
-          {
-              _spawnTimers[i] += _enemySpawnList.EnemySpawns[i].CurrentLevelStats.SpawnTime;
-              for(int j = 0; j < _enemySpawnList.EnemySpawns[i].CurrentLevelStats.SpawnsPerWave; j++)
-              {
-                  SpawnEnemy(i);
-              }
-          }
+        _spawnTimers[i] += _enemySpawnList.EnemySpawns[i].CurrentLevelStats.SpawnTime;
+        for (int j = 0; j < _enemySpawnList.EnemySpawns[i].CurrentLevelStats.SpawnsPerWave; j++)
+        {
+          SpawnEnemy(i);
+        }
       }
+    }
   }
 
   public void ClearAllEnemies()

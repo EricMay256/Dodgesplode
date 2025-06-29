@@ -136,11 +136,11 @@ public class GameManager : MonoBehaviour
         PlayerInputManager.Instance.SetGameplayControlsActive(true);
         if (RoomManager.Instance.RoomBounds.Contains(Player.Instance.Position) == false)
         {
-          Player.Instance.transform.position = RoomManager.Instance.RoomBounds.center;
+          //Player.Instance.transform.position = RoomManager.Instance.RoomBounds.center;
         }
         break;
       case GameState.Transition:
-        Time.timeScale = 0f;
+        Time.timeScale = 1f;
         PlayerInputManager.Instance.SetGameplayControlsActive(false);
         break;
       case GameState.Paused:

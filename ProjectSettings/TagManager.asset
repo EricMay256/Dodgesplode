@@ -8,6 +8,8 @@ TagManager:
   - TopEdge
   - RightEdge
   - BottomEdge
+  - Door
+  - Enemy
   layers:
   - Default
   - TransparentFX

@@ -69,8 +69,8 @@ public class RoomManager : MonoBehaviour
     }
     if(_roomData != null)
     {
-      //Deactivate current room
-      _roomData.DeactivateRoom();
+      //Deactivate current room's colliders
+      _roomData.transform.GetChild(0).gameObject.SetActive(false);
     }
     //Update game state
       if (GameManager.Instance.CurrentGameState == GameState.Active)
@@ -130,8 +130,8 @@ public class RoomManager : MonoBehaviour
     //Inform the enemy manager about the new room's enemy spawn list
     EnemyManager.Instance.UpdateSpawnList(_roomData.EnemySpawnList.EnemySpawns);
     //Update game state
-    if(GameManager.Instance.CurrentGameState == GameState.Transition)
-      GameManager.Instance.EndTransition();
+    //if(GameManager.Instance.CurrentGameState == GameState.Transition)
+    //  GameManager.Instance.EndTransition();
   }
 
   public void CenterPlayerInActiveRoom()

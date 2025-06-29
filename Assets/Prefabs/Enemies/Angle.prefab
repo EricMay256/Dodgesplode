@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -6614464788505277448}
   m_Layer: 0
   m_Name: Angle
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -102,9 +102,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Scale: 0.75
+  _usePooling: 0
   MoveAngle: 76
   MoveSpeed: 4
   _aimType: 1
+  _aimArc: 5
 --- !u!58 &-6614464788505277448
 CircleCollider2D:
   m_ObjectHideFlags: 0

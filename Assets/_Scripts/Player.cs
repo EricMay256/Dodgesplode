@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Player : MonoBehaviour
 {
@@ -78,12 +80,55 @@ public class Player : MonoBehaviour
   //Apply health regen over time
   void ApplyHealthRegen(float time)
   {
-    if (_pd.curHealth < _pd.maxHealth)
+    if (GameManager.Instance.CurrentGameState == GameState.Active && _pd.curHealth < _pd.maxHealth)
     {
       _pd.curHealth += _pd.healthRegenPer5Sec * Time.deltaTime / 5f;
       _pd.curHealth = Mathf.Min(_pd.curHealth, _pd.maxHealth);
       _pd.healthPct = _pd.curHealth / _pd.maxHealth;
     }
+  }
+
+  IEnumerator DoorMovementCoroutine(Vector2 targetPosition, Room previousRoom, float duration = 2f)
+  {
+    Vector2 startPosition = _rb.position;
+    Debug.Log("Starting door transition from " + startPosition + " to " + targetPosition);
+    float elapsedTime = 0f;
+    _rb.bodyType = RigidbodyType2D.Kinematic; // Re-enable physics after transition
+
+    while (elapsedTime < duration)
+    {
+      _rb.position = Vector2.Lerp(startPosition, targetPosition, elapsedTime / duration);
+      elapsedTime += Time.unscaledDeltaTime;
+      yield return null;
+    }
+    _rb.position = targetPosition;
+    previousRoom.DeactivateRoom();
+    _rb.bodyType = RigidbodyType2D.Dynamic; // Re-enable physics after transition
+    GameManager.Instance.EndTransition();
+  }
+
+  public void DoorMotion(Direction doorDirection, Room previousRoom)
+  {
+    Vector3 targetPosition = transform.position;
+    switch (doorDirection)
+    {
+      case Direction.Top:
+        targetPosition += Vector3.up * 2f;
+        break;
+      case Direction.Right:
+        targetPosition += Vector3.right * 2f;
+        break;
+      case Direction.Bottom:
+        targetPosition += Vector3.down * 2f;
+        break;
+      case Direction.Left:
+        targetPosition += Vector3.left * 2f;
+        break;
+      default:
+        Debug.LogError("Invalid door direction specified!");
+        break;
+    }
+    StartCoroutine(DoorMovementCoroutine(targetPosition, previousRoom));
   }
 
   public void TakeDamage(float damage = 10f)
@@ -106,7 +151,33 @@ public class Player : MonoBehaviour
 
   void OnTriggerEnter2D(Collider2D collision)
   {
-    TakeDamage();
+    if (collision.CompareTag("Door") && GameManager.Instance.CurrentGameState == GameState.Active)
+    {
+      Door door = collision.GetComponent<Door>();
+      if (door != null)
+      {
+        Debug.Log("Player collided with door: " + collision.gameObject.name);
+        door.TravelThroughDoor();
+      }
+      else
+      {
+        Debug.LogError("Door component not found on the collided object!");
+      }
+    }
+    if(collision.CompareTag("Enemy"))
+    {
+      TakeDamage();
+      // Enemy enemy = collision.GetComponent<Enemy>();
+      // if (enemy != null)
+      // {
+      //   TakeDamage(enemy.Damage);
+      //   Debug.Log("Player collided with enemy: " + collision.gameObject.name);
+      // }
+      // else
+      // {
+      //   Debug.LogError("Enemy component not found on the collided object!");
+      // }
+    }
     //Debug.Log("Player collided with " + collision.gameObject.name);
   }
 }

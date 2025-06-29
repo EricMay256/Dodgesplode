@@ -53,6 +53,24 @@ public class Door : MonoBehaviour
     }
   }
 
+  public void TravelThroughDoor()
+  {
+    if (_connectedRoom == null)
+    {
+      Debug.LogError("Connected room is not set for the door!");
+      return;
+    }
+    if (_containingRoom == null)
+    {
+      Debug.LogError("Containing room is not set for the door!");
+      return;
+    }
+    // Handle the logic for traveling through the door
+    GameManager.Instance.StartTransition();
+    Player.Instance.DoorMotion(_doorInfo.Orientation, _containingRoom);
+    RoomManager.Instance.SetActiveRoom(_connectedRoom);
+  }
+
   public void SetDoorInfo(Vector2Int gridLocation, Direction edge)
   {
     SetDoorInfo(new DoorInfo(gridLocation, edge));
