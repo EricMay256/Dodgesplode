@@ -205,11 +205,16 @@ public class LevelManager : MonoBehaviour
       BoundsInt newRoomBounds = new BoundsInt(newRoomPosition3, Vector3Int.one);
 
       /// Attempt to expand based on random chance and existing layout
-      /// //TODO: Make this more intelligent
-      newRoomBounds = TryExpandRoom(newRoomBounds, new List<Direction> { Direction.Top });
-      newRoomBounds = TryExpandRoom(newRoomBounds, new List<Direction> { Direction.Bottom });
-      newRoomBounds = TryExpandRoom(newRoomBounds, new List<Direction> { Direction.Left });
-      //newRoomBounds = TryExpandRoom(newRoomBounds, new List<Direction> { Direction.Right });
+      int numTries = Random.Range(0, 3);
+      for (int i = 0; i < numTries; i++)
+      {
+        newRoomBounds = TryExpandRoom(newRoomBounds, new List<Direction> { Direction.Top, Direction.Bottom });
+      }
+      numTries = Random.Range(0, 3);
+      for (int i = 0; i < numTries; i++)
+      {
+        newRoomBounds = TryExpandRoom(newRoomBounds, new List<Direction> { Direction.Left, Direction.Right });
+      }
 
       /// Select random room that has space for a door connected to the expanding door
       sizedRooms = new List<GameObject>(_roomPrefabDictionary[newRoomBounds.size]);

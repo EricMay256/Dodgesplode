@@ -9,7 +9,7 @@ public class Room : MonoBehaviour
   [SerializeField]
   BoundsInt _roomBounds;
   public BoundsInt RoomBounds => _roomBounds;
-  public static readonly Vector2 GridToWorldScale = new Vector2(17.75f, 10f);
+  public static readonly Vector2 GridToWorldScale = new Vector2(20f, 10f);
 
   [SerializeField]
   List<DoorAvailability> _topBottomDoorAvailability = new List<DoorAvailability>() ;
@@ -136,6 +136,7 @@ public class Room : MonoBehaviour
     {
       child.gameObject.SetActive(false);
     }
+    Debug.Log("Deactivated room: " + gameObject.name);
   }
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Start()

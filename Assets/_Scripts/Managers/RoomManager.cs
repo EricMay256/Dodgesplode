@@ -70,7 +70,7 @@ public class RoomManager : MonoBehaviour
     if(_roomData != null)
     {
       //Deactivate current room's colliders
-      _roomData.transform.GetChild(0).gameObject.SetActive(false);
+      //_roomData.transform.GetChild(0).gameObject.SetActive(false);
     }
     //Update game state
       if (GameManager.Instance.CurrentGameState == GameState.Active)

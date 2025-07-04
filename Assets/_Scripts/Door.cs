@@ -31,16 +31,16 @@ public class Door : MonoBehaviour
       switch(_doorInfo.Orientation)
       {
         case Direction.Top:
-          transform.position += Vector3.up * 4.75f;
+          transform.position += Vector3.up * (Room.GridToWorldScale.y/2 - 0.75f);
           break;
         case Direction.Right:
-          transform.position += Vector3.right * 8.675f;
+          transform.position += Vector3.right * (Room.GridToWorldScale.x/2 - 0.75f);
           break;
         case Direction.Bottom:
-          transform.position += Vector3.down * 4.75f;
+          transform.position += Vector3.down * (Room.GridToWorldScale.y/2 - 0.75f);
           break;
         case Direction.Left:
-          transform.position += Vector3.left * 8.675f;
+          transform.position += Vector3.left * (Room.GridToWorldScale.x/2 - 0.75f);
           break;
         default:
           Debug.LogError("Invalid door orientation specified!");

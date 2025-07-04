@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
   Rigidbody2D _rb;
   public Vector3 Position => _rb.position;
   Vector3 _moveDelta;
+  float _doorMoveAmount = 3f;
 
   [SerializeField]
   MovementInputType _movementInputType = MovementInputType.Look;
@@ -113,16 +114,16 @@ public class Player : MonoBehaviour
     switch (doorDirection)
     {
       case Direction.Top:
-        targetPosition += Vector3.up * 2f;
+        targetPosition += Vector3.up * _doorMoveAmount;
         break;
       case Direction.Right:
-        targetPosition += Vector3.right * 2f;
+        targetPosition += Vector3.right * _doorMoveAmount;
         break;
       case Direction.Bottom:
-        targetPosition += Vector3.down * 2f;
+        targetPosition += Vector3.down * _doorMoveAmount;
         break;
       case Direction.Left:
-        targetPosition += Vector3.left * 2f;
+        targetPosition += Vector3.left * _doorMoveAmount;
         break;
       default:
         Debug.LogError("Invalid door direction specified!");
