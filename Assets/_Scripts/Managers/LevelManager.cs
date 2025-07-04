@@ -157,7 +157,7 @@ public class LevelManager : MonoBehaviour
     _expandableDoorList.Clear();
 
     Room roomData;
-    GameObject startRoomObject, roomPrefab, roomObject;
+    GameObject startRoomObject, roomPrefab;
     List<GameObject> sizedRooms;
     DoorInfo selectedDoor, newDoor;
     Vector2Int newRoomPosition2;
