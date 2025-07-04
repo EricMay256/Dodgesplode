@@ -39,16 +39,16 @@ public class RoomManager : MonoBehaviour
       //Place transform on a random point on the selected edge
       case Direction.Right:
         chosenEdge = _rightBounds[Random.Range(0, _rightBounds.Count)];
-        return new Vector3(chosenEdge.min.x + 1, Random.Range(chosenEdge.min.y, chosenEdge.max.y), 0f);
+        return new Vector3(chosenEdge.min.x + 1, Random.Range(chosenEdge.min.y + 1, chosenEdge.max.y - 1), 0f);
       case Direction.Top:
         chosenEdge = _topBounds[Random.Range(0, _topBounds.Count)];
-        return new Vector3(Random.Range(chosenEdge.min.x, chosenEdge.max.x), chosenEdge.min.y + 1, 0f);
+        return new Vector3(Random.Range(chosenEdge.min.x + 1, chosenEdge.max.x - 1), chosenEdge.min.y + 1, 0f);
       case Direction.Left:
         chosenEdge = _leftBounds[Random.Range(0, _leftBounds.Count)];
-        return new Vector3(chosenEdge.max.x - 1, Random.Range(chosenEdge.min.y, chosenEdge.max.y), 0f);
+        return new Vector3(chosenEdge.max.x - 1, Random.Range(chosenEdge.min.y + 1, chosenEdge.max.y - 1), 0f);
       case Direction.Bottom:
         chosenEdge = _bottomBounds[Random.Range(0, _bottomBounds.Count)];
-        return new Vector3(Random.Range(chosenEdge.min.x, chosenEdge.max.x), chosenEdge.max.y - 1, 0f);
+        return new Vector3(Random.Range(chosenEdge.min.x + 1, chosenEdge.max.x - 1), chosenEdge.max.y - 1, 0f);
       default:
         Debug.LogError("Invalid edge specified for spawn location!");
         return Vector3.zero;

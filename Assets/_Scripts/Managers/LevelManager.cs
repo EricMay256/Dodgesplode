@@ -259,8 +259,35 @@ public class LevelManager : MonoBehaviour
         {
           if (Random.Range(0f, 1f) < roomConnectionChance)
           {
+            selectedDoor = newDoors[i];
+
+            
+            curRoom = GetRoomFromGridLocation(selectedDoor.GridLocation);
+            curRoomTransform = curRoom.transform;
+            curRoomObject = curRoom.gameObject;
+
+            if (selectedDoor.Orientation == Direction.Top || selectedDoor.Orientation == Direction.Bottom)
+              outboundDoor = Instantiate(_doorVerticalPrefab, curRoomTransform.GetChild(1)).GetComponent<Door>();
+            else
+              outboundDoor = Instantiate(_doorHorizontalPrefab, curRoomTransform.GetChild(1)).GetComponent<Door>();
+            outboundDoor.SetDoorInfo(selectedDoor);
+
+            
+            newRoom = GetRoomFromGridLocation(outboundDoor.DoorInfo.GetPointedPosition());
+            newRoomTransform = newRoom.transform;
+            newRoomObject = newRoom.gameObject;
+
+            /// update outbound door
+            outboundDoor.ConnectDoor(newRoomObject);
+            ///Create inbound door
+            if (selectedDoor.Orientation == Direction.Top || selectedDoor.Orientation == Direction.Bottom)
+              inboundDoor = Instantiate(_doorVerticalPrefab, newRoomTransform.GetChild(1)).GetComponent<Door>();
+            else
+              inboundDoor = Instantiate(_doorHorizontalPrefab, newRoomTransform.GetChild(1)).GetComponent<Door>();
+            inboundDoor.SetDoorInfo(newDoors[i].GetMatchingDoor());
+            inboundDoor.ConnectDoor(curRoomObject);
             //door.ConnectTo(door.GetMatchingDoor());
-            //Debug.Log($"Connected {door} to {door.GetMatchingDoor()}");
+            //Debug.Log($"Connected {outboundDoor.DoorInfo.GridLocation} to {inboundDoor.DoorInfo.GridLocation}");
 
           }
           else
