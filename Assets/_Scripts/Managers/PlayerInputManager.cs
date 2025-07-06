@@ -92,8 +92,8 @@ public class PlayerInputManager : MonoBehaviour
 
     Movement = _movementAction.ReadValue<Vector2>();
     LookDelta = _lookAction.ReadValue<Vector2>();
-    LookDelta.x = Mathf.Clamp(LookDelta.x, -50f, 50f);
-    LookDelta.y = Mathf.Clamp(LookDelta.y, -50f, 50f);
+    LookDelta.x = Mathf.Clamp(LookDelta.x, -10f, 10f);
+    LookDelta.y = Mathf.Clamp(LookDelta.y, -10f, 10f);
     if (_logMovement)
     {
       Debug.Log($"Movement: {Movement}, LookDelta: {LookDelta}");

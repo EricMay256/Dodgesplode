@@ -70,6 +70,22 @@ public class Player : MonoBehaviour
     //Todo: Consider modifying how timescale is applied to player movement
   }
 
+  public void DoubleCheckMovementMultiplier()
+  {
+    if(PlayerInputManager.Instance.CrouchHeld)
+    {
+      _moveScale = 0.25f;
+    }
+    else if (PlayerInputManager.Instance.SprintHeld)
+    {
+      _moveScale = 2f;
+    }
+    else
+    {
+      _moveScale = 1f;
+    }
+  }
+
   void FixedUpdate()
   {
     _rb.MovePosition(new Vector3(_rb.position.x, _rb.position.y, transform.position.z)

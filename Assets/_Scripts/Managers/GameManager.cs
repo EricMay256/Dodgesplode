@@ -134,6 +134,7 @@ public class GameManager : MonoBehaviour
       case GameState.Active:
         Time.timeScale = 1f;
         PlayerInputManager.Instance.SetGameplayControlsActive(true);
+        Player.Instance.DoubleCheckMovementMultiplier();
         if (RoomManager.Instance.RoomBounds.Contains(Player.Instance.Position) == false)
         {
           //Player.Instance.transform.position = RoomManager.Instance.RoomBounds.center;
