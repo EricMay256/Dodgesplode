@@ -10,7 +10,7 @@ public class StraightMover : Enemy
   /// Random offset from the MoveAngle for Aimed or Orthogonal enemies.
   /// </summary>
   [SerializeField] float _aimArc = 5f;
-  public override void SetUpEnemy(float speedModifier = 1f)
+  public override void SetUpEnemy(float speedModifier = 1f, float scale = 1f)
   {
     base.SetUpEnemy(speedModifier);//sets base _speedModifier, available through base SpeedModifier property
     MoveSpeed *= SpeedModifier;

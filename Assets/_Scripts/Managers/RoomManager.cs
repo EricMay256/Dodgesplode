@@ -128,10 +128,20 @@ public class RoomManager : MonoBehaviour
     //Play room music if available
     AudioManager.Instance.PlayMusic(_roomData.RoomMusic);
     //Inform the enemy manager about the new room's enemy spawn list
-    EnemyManager.Instance.UpdateSpawnList(_roomData.EnemySpawnList.EnemySpawns);
+    EnemyManager.Instance.UpdateSpawnList(_roomData.EnemySpawnList);
     //Update game state
     //if(GameManager.Instance.CurrentGameState == GameState.Transition)
     //  GameManager.Instance.EndTransition();
+  }
+
+  public Vector3Int GetCurRoomSize()
+  {
+    if (_currentRoomObject == null)
+    {
+      Debug.LogError("No active room set!");
+      return Vector3Int.zero;
+    }
+    return _roomData.RoomBounds.size;
   }
 
   public void CenterPlayerInActiveRoom()

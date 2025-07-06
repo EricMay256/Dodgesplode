@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69bd7958e7793ff4a849a702fc8a03af, type: 3}
+  m_Name: GeneralList 1
+  m_EditorClassIdentifier: 
+  TimerEnemySpawns:
+  - EnemyData: {fileID: 11400000, guid: 504f3f2ba548cf44a92a816677eeb8d1, type: 2}
+    level: 1
+  - EnemyData: {fileID: 11400000, guid: 1e65523fe5547664fbc85d2676d1ea02, type: 2}
+    level: 1
+  - EnemyData: {fileID: 11400000, guid: a7794ff05d96a7749a414980f2c5544c, type: 2}
+    level: 1
+  - EnemyData: {fileID: 11400000, guid: 020588c3f795f5948830e45fd5e179d5, type: 2}
+    level: 1
+  TriggerEnemySpawns: []
+  PersistentEnemySpawns: []

@@ -23,6 +23,21 @@ public static class EnumUtilities
     }
   }
 }
+
+public enum EnemySpawnType
+{
+  SpawnOnTrigger = 0,
+  SpawnOnTimer = 1,
+  Persistent = 2,
+}
+public enum EnemyRoomSizeScaling
+{
+  None = 0,
+  Horizontal = 1,
+  Vertical = 2,
+  Magnitude = 3,
+  FullPerimeter = 4
+}
 public enum Direction
 {
   Right = 0,

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5633121474147378203}
   - component: {fileID: 7786347022968833625}
   m_Layer: 5
-  m_Name: PlayAgainBtn
+  m_Name: ResetBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -120,7 +120,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5633121474147378203}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8571378039903669359}
+        m_TargetAssemblyTypeName: GameOverController, Assembly-CSharp
+        m_MethodName: ResetGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3130385446326081041
 GameObject:
   m_ObjectHideFlags: 0
@@ -458,7 +470,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Play Again
+  m_text: 'Reset
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -785,7 +799,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5517917466353882680}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8571378039903669359}
+        m_TargetAssemblyTypeName: GameOverController, Assembly-CSharp
+        m_MethodName: MainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7348514411947518681
 GameObject:
   m_ObjectHideFlags: 0
@@ -798,6 +824,7 @@ GameObject:
   - component: {fileID: 5538601548082185507}
   - component: {fileID: 6813293990693876604}
   - component: {fileID: 7341967475279728134}
+  - component: {fileID: 8571378039903669359}
   m_Layer: 5
   m_Name: GameOverCanvas
   m_TagString: Untagged
@@ -891,3 +918,15 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &8571378039903669359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7348514411947518681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30bcde223b5ef5b4e8b0e0959d29c056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

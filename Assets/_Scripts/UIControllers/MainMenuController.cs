@@ -1,9 +1,14 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class PauseDocScript : MonoBehaviour
+public class MainMenuController : MonoBehaviour
 {
+  public void StartGame()
+  {
+    SceneManager.LoadScene("Gameplay");
+  }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+  void Start()
     {
         
     }

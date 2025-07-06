@@ -136,7 +136,7 @@ public class Room : MonoBehaviour
     {
       child.gameObject.SetActive(false);
     }
-    Debug.Log("Deactivated room: " + gameObject.name);
+    //Debug.Log("Deactivated room: " + gameObject.name);
   }
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Start()

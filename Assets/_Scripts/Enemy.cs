@@ -17,12 +17,12 @@ public class Enemy : MonoBehaviour
     public bool UsePooling => _usePooling;
     protected List<Direction> _spawnableEdges = new List<Direction>();
 
-    public virtual void SetUpEnemy(float speedModifier = 1f) {
-        transform.localScale = new Vector3(Scale, Scale, 1f);
+    public virtual void SetUpEnemy(float speedModifier = 1f, float scale = 1f) {
+      transform.localScale = new Vector3(Scale * scale, Scale * scale, 1f);
         _speedModifier = speedModifier;
     }
 
-    public virtual void ChangeSpawnableEdges(IEnumerable<Direction> edges)
+    public void ChangeSpawnableEdges(IEnumerable<Direction> edges)
     {
         _spawnableEdges.Clear();
         foreach (Direction edge in edges)
@@ -37,7 +37,6 @@ public class Enemy : MonoBehaviour
 
     protected virtual void PlaceOnSpawningBounds()
     {
-      Bounds spawnBounds = GameManager.Instance.SpawnBounds;
       _spawnedEdge = _spawnableEdges[Random.Range(0, _spawnableEdges.Count)];
       transform.position = RoomManager.Instance.GetSpawnLocation(_spawnedEdge);
     }

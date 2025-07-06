@@ -9,15 +9,22 @@ public class EnemySpawnData : ScriptableObject
   [SerializeField]
   public Enemy EnemyPrefab;
   [SerializeField]
-  public IEnumerable<Direction> SpawnableEdges = EnemyManager.SpawnableEdges;
+  public List<Direction> SpawnableEdges = new List<Direction>(EnumUtilities.AllDirections);
+  public EnemyRoomSizeScaling enemyScaling = EnemyRoomSizeScaling.FullPerimeter;
+  public EnemySpawnType spawnType = EnemySpawnType.SpawnOnTimer;
 }
 [System.Serializable]
 public class EnemyLevelStats
 {
+  /// <summary>
+  /// Time in seconds between spawns of this enemy type.
+  /// If the enemy is persistent or triggered, this value is ignored.
+  /// </summary>
   public float SpawnTime = 1f;
   public int SpawnsPerWave = 1;
   public float SpeedModifier1 = 1f;//Speed modifier for unit
   public float SpeedModifier2 = 1f;//Speed modifier for projectiles or other effects
+  public float Scale = 1f; // Scale of the enemy, if null, uses the default scale of the prefab
   public int RemovedEdges = 0;
 }
 [System.Serializable]
@@ -28,14 +35,14 @@ public class EnemySpawnEntry
   [System.NonSerialized]
   public EnemyLevelStats CurrentLevelStats;
   [System.NonSerialized]
-  public List<Direction> SpawnableEdges = new List<Direction>(EnemyManager.SpawnableEdges);
+  public List<Direction> SpawnableEdges;
 
   public EnemySpawnEntry(EnemySpawnData enemyData, int curLevel)
   {
     EnemyData = enemyData;
     level = curLevel;
     CurrentLevelStats = enemyData.EnemyLevels[curLevel];
-    SpawnableEdges = new List<Direction>(EnemyManager.SpawnableEdges);
+    SpawnableEdges = new List<Direction>(enemyData.SpawnableEdges);
     for (int i = 0; i < CurrentLevelStats.RemovedEdges; i++)
     {
       if (SpawnableEdges.Count > 0)
@@ -50,7 +57,7 @@ public class EnemySpawnEntry
     if (level < EnemyData.EnemyLevels.Count)
     {
       CurrentLevelStats = EnemyData.EnemyLevels[level];
-      SpawnableEdges = new List<Direction>(EnemyManager.SpawnableEdges);
+      SpawnableEdges = new List<Direction>(EnemyData.SpawnableEdges);
       for (int i = 0; i < CurrentLevelStats.RemovedEdges; i++)
       {
         if (SpawnableEdges.Count > 0)
