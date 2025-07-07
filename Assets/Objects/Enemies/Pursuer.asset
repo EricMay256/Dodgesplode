@@ -12,8 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcd99aecbb1254b4d8d7a2f7f004555f, type: 3}
   m_Name: Pursuer
   m_EditorClassIdentifier: 
-  EnemyLevels: []
-  EnemyPrefab: {fileID: 0}
+  EnemyLevels:
+  - SpawnTime: 2
+    SpawnsPerWave: 1
+    SpeedModifier1: 1
+    SpeedModifier2: 0
+    Scale: 1
+    RemovedEdges: 0
+    AngleChangeRateMulti: 5
+    ChaseDuration: -1
+    LifeSpan: 20
+  EnemyPrefab: {fileID: -8891889449217446169, guid: a8ba81cc2a957024989dfcda2a80f5ce, type: 3}
   SpawnableEdges: 00000000010000000200000003000000
   EnemyScaling: 4
   SpawnType: 1

@@ -21,5 +21,7 @@ MonoBehaviour:
     level: 0
   - EnemyData: {fileID: 11400000, guid: 020588c3f795f5948830e45fd5e179d5, type: 2}
     level: 0
+  - EnemyData: {fileID: 11400000, guid: 9ced2ddb3336b35468e0f829794b5b14, type: 2}
+    level: 0
   TriggerEnemySpawns: []
   PersistentEnemySpawns: []
