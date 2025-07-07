@@ -135,10 +135,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         PlayerInputManager.Instance.SetGameplayControlsActive(true);
         Player.Instance.DoubleCheckMovementMultiplier();
-        if (RoomManager.Instance.RoomBounds.Contains(Player.Instance.Position) == false)
-        {
-          //Player.Instance.transform.position = RoomManager.Instance.RoomBounds.center;
-        }
+        Cursor.lockState = CursorLockMode.Locked;
         break;
       case GameState.Transition:
         Time.timeScale = 1f;
@@ -147,14 +144,18 @@ public class GameManager : MonoBehaviour
       case GameState.Paused:
         Time.timeScale = 0f;
         PlayerInputManager.Instance.SetGameplayControlsActive(false);
+        Cursor.lockState = CursorLockMode.None;
         break;
       case GameState.GameOver:
         Time.timeScale = 0f;
         PlayerInputManager.Instance.SetGameplayControlsActive(false);
+        Cursor.lockState = CursorLockMode.None;
         break;
       case GameState.GameWon:
+        Cursor.lockState = CursorLockMode.None;
         break;
       case GameState.Options:
+        Cursor.lockState = CursorLockMode.None;
         break;
     }
     OnGameStateChanged?.Invoke(newState);
