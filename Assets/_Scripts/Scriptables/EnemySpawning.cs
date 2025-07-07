@@ -10,8 +10,11 @@ public class EnemySpawnData : ScriptableObject
   public Enemy EnemyPrefab;
   [SerializeField]
   public List<Direction> SpawnableEdges = new List<Direction>(EnumUtilities.AllDirections);
-  public EnemyRoomSizeScaling enemyScaling = EnemyRoomSizeScaling.FullPerimeter;
-  public EnemySpawnType spawnType = EnemySpawnType.SpawnOnTimer;
+  public EnemyRoomSizeScaling EnemyScaling = EnemyRoomSizeScaling.FullPerimeter;
+  public EnemySpawnType SpawnType = EnemySpawnType.SpawnOnTimer;
+  public float AngleChangeRate = 5f;
+  public float ChaseDuration = -1f; // -1 means infinite chase duration
+  public float LifeSpan = -1f; // Time after which the enemy will be destroyed if not destroyed earlier. -1 means infinite lifespan
 }
 [System.Serializable]
 public class EnemyLevelStats
@@ -26,6 +29,11 @@ public class EnemyLevelStats
   public float SpeedModifier2 = 1f;//Speed modifier for projectiles or other effects
   public float Scale = 1f; // Scale of the enemy, if null, uses the default scale of the prefab
   public int RemovedEdges = 0;
+  public float AngleChangeRateMulti = 1f;
+  public float ChaseDuration = -1f; // -1 means infinite chase duration
+  public float LifeSpan = -1f; // Time after which the enemy will be destroyed if not destroyed earlier. -1 means infinite lifespan
+
+  public EnemyLevelStats() {SpawnTime = 1f; SpawnsPerWave = 1; SpeedModifier1 = 1f; SpeedModifier2 = 1f; Scale = 1f; RemovedEdges = 0; AngleChangeRateMulti = 5f; ChaseDuration = -1f; LifeSpan = -1f;}
 }
 [System.Serializable]
 public class EnemySpawnEntry

@@ -10,6 +10,8 @@ TagManager:
   - BottomEdge
   - Door
   - Enemy
+  - EnemyAttack
+  - PlayerAttack
   layers:
   - Default
   - TransparentFX

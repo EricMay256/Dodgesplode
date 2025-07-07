@@ -12,7 +12,7 @@ public class StraightMover : Enemy
   [SerializeField] float _aimArc = 5f;
   public override void SetUpEnemy(float speedModifier = 1f, float scale = 1f)
   {
-    base.SetUpEnemy(speedModifier);//sets base _speedModifier, available through base SpeedModifier property
+    base.SetUpEnemy(speedModifier, scale);//sets base _speedModifier, available through base SpeedModifier property
     MoveSpeed *= SpeedModifier;
 
     PlaceOnSpawningBounds();
@@ -84,23 +84,8 @@ public class StraightMover : Enemy
     transform.rotation = Quaternion.Euler(0f, 0f, MoveAngle);
   }
 
-  void Awake()
+  void DestroyPastBounds()
   {
-    _sr = GetComponent<SpriteRenderer>();
-    if (_sr == null)
-    {
-      Debug.LogError("No SpriteRenderer found on this GameObject.");
-    }
-  }
-
-  void Start()
-  {
-  }
-
-  // Update is called once per frame
-  void Update()
-  {
-    transform.Translate(Vector3.right * MoveSpeed * Time.deltaTime * Time.timeScale, Space.Self);
     if (Vector3.Angle(Vector3.right, transform.right) > 90f)
     {
       //Entity is moving to the left
@@ -133,5 +118,25 @@ public class StraightMover : Enemy
         DestroyEnemy();
       }
     }
+  }
+
+  void Awake()
+  {
+    _sr = GetComponent<SpriteRenderer>();
+    if (_sr == null)
+    {
+      Debug.LogError("No SpriteRenderer found on this GameObject.");
+    }
+  }
+
+  void Start()
+  {
+  }
+
+  // Update is called once per frame
+  void Update()
+  {
+    transform.Translate(Vector3.right * MoveSpeed * Time.deltaTime, Space.Self);
+    DestroyPastBounds();
   }
 }

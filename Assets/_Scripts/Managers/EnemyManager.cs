@@ -52,7 +52,7 @@ public class EnemyManager : MonoBehaviour
         _spawnTimers[i] += _enemySpawnList.TimerEnemySpawns[i].CurrentLevelStats.SpawnTime;
 
         float numSpawns = _enemySpawnList.TimerEnemySpawns[i].CurrentLevelStats.SpawnsPerWave;
-        switch (_enemySpawnList.TimerEnemySpawns[i].EnemyData.enemyScaling)
+        switch (_enemySpawnList.TimerEnemySpawns[i].EnemyData.EnemyScaling)
         {
           case EnemyRoomSizeScaling.None:
             break;
@@ -95,12 +95,21 @@ public class EnemyManager : MonoBehaviour
 
   void SpawnEnemyOnTimer(int index)
   {
-      Enemy enemy = Instantiate(_enemySpawnList.TimerEnemySpawns[index].EnemyData.EnemyPrefab, transform.position, Quaternion.identity);
-      enemy.ChangeSpawnableEdges(_enemySpawnList.TimerEnemySpawns[index].SpawnableEdges);
+    Enemy enemy = Instantiate(_enemySpawnList.TimerEnemySpawns[index].EnemyData.EnemyPrefab, transform.position, Quaternion.identity);
+    enemy.transform.SetParent(_timerEnemyParent.transform.GetChild(index));
+    
+    enemy.ChangeSpawnableEdges(_enemySpawnList.TimerEnemySpawns[index].SpawnableEdges);
+
+    TrackingMover trackingMover = enemy.GetComponent<TrackingMover>();
+    if (trackingMover != null)
+    {
+      trackingMover.AngleChangeRate *= _enemySpawnList.TimerEnemySpawns[index].CurrentLevelStats.AngleChangeRateMulti;
+      trackingMover.ChaseDuration = _enemySpawnList.TimerEnemySpawns[index].CurrentLevelStats.ChaseDuration;
+      trackingMover.LifeSpan = _enemySpawnList.TimerEnemySpawns[index].CurrentLevelStats.LifeSpan;
+    }
+
     enemy.SetUpEnemy(_enemySpawnList.TimerEnemySpawns[index].CurrentLevelStats.SpeedModifier1 * _speedMultiplier,
     _enemySpawnList.TimerEnemySpawns[index].CurrentLevelStats.Scale);
-
-      enemy.transform.SetParent(_timerEnemyParent.transform.GetChild(index));
   }
 
   // public void UpdateSpawnList(List<EnemySpawning> enemies)

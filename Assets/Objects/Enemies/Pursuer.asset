@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcd99aecbb1254b4d8d7a2f7f004555f, type: 3}
+  m_Name: Pursuer
+  m_EditorClassIdentifier: 
+  EnemyLevels: []
+  EnemyPrefab: {fileID: 0}
+  SpawnableEdges: 00000000010000000200000003000000
+  EnemyScaling: 4
+  SpawnType: 1
+  AngleChangeRate: 5
+  ChaseDuration: -1
+  LifeSpan: -1
