@@ -25,6 +25,8 @@ public class EnemyLevelStats
   /// </summary>
   public float SpawnTime = 1f;
   public int SpawnsPerWave = 1;
+  public float MaxHealth = 1f;
+  public float Damage = 10f;
   public float SpeedModifier1 = 1f;//Speed modifier for unit
   public float SpeedModifier2 = 1f;//Speed modifier for projectiles or other effects
   public float Scale = 1f; // Scale of the enemy, if null, uses the default scale of the prefab

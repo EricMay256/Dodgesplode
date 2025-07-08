@@ -3,21 +3,25 @@ using UnityEngine;
 public class TrackingMover : Enemy
 {
   [Range(0f, 360f)]
-  public float MoveAngle = 0f;
-  public float MoveSpeed = 4f;
+  private float MoveAngle = 0f;
+  private float MoveSpeed = 4f;
   /// <summary>
   /// Degrees per second to change angle towards target.
   /// </summary>
-  public float AngleChangeRate = 20f;
-  public float ChaseDuration = -1f; // -1 means infinite chase duration
-  public float LifeSpan = -1f; // Time after which the enemy will be destroyed if not destroyed earlier. -1 means infinite lifespan
+  private float AngleChangeRate = 20f;
+  private float ChaseDuration = -1f; // -1 means infinite chase duration
+  private float LifeSpan = -1f; // Time after which the enemy will be destroyed if not destroyed earlier. -1 means infinite lifespan
   private float _timeAlive = 0f; // Timer to track chase duration
 
-  public override void SetUpEnemy(float speedModifier = 1f, float scale = 1f)
-  {
-    base.SetUpEnemy(speedModifier, scale); // sets base _speedModifier, available through base SpeedModifier property
-    MoveSpeed *= SpeedModifier;
+  public override void SetUpEnemy(EnemyLevelStats levelStats)
 
+  {
+    base.SetUpEnemy(levelStats); // sets base _speedModifier, available through base SpeedModifier property
+    MoveSpeed *= SpeedModifier;
+    
+    ChaseDuration = levelStats.ChaseDuration;
+    LifeSpan = levelStats.LifeSpan;
+    AngleChangeRate *= levelStats.AngleChangeRateMulti;
     PlaceOnSpawningBounds();
     // Set the rotation based on the spawned edge
     switch (_spawnedEdge)

@@ -13,10 +13,12 @@ public class EnemyManager : MonoBehaviour
   GameObject _timerEnemyParent, _triggerEnemyParent, _emptyPrefab;
 
   [SerializeField]
-  private float _speedMultiplier = 1f;
+  public float SpeedMultiplier  { get; private set; } = 1f;
 
   [SerializeField]
   EnemySpawnList _enemySpawnList = null;
+  [SerializeField]
+  EnemySpawnList _triggeredEnemySpawnList = null;
   [SerializeField]
   private List<float> _spawnTimers = new List<float>();
 
@@ -82,6 +84,11 @@ public class EnemyManager : MonoBehaviour
     }
   }
 
+  public void SetSpeedMultiplier(float newSpeedMultiplier)
+  {
+    SpeedMultiplier = newSpeedMultiplier;
+  }
+
   public void ClearAllEnemies()
   {
     foreach (Transform child in _timerEnemyParent.transform)
@@ -100,16 +107,7 @@ public class EnemyManager : MonoBehaviour
     
     enemy.ChangeSpawnableEdges(_enemySpawnList.TimerEnemySpawns[index].SpawnableEdges);
 
-    TrackingMover trackingMover = enemy.GetComponent<TrackingMover>();
-    if (trackingMover != null)
-    {
-      trackingMover.AngleChangeRate *= _enemySpawnList.TimerEnemySpawns[index].CurrentLevelStats.AngleChangeRateMulti;
-      trackingMover.ChaseDuration = _enemySpawnList.TimerEnemySpawns[index].CurrentLevelStats.ChaseDuration;
-      trackingMover.LifeSpan = _enemySpawnList.TimerEnemySpawns[index].CurrentLevelStats.LifeSpan;
-    }
-
-    enemy.SetUpEnemy(_enemySpawnList.TimerEnemySpawns[index].CurrentLevelStats.SpeedModifier1 * _speedMultiplier,
-    _enemySpawnList.TimerEnemySpawns[index].CurrentLevelStats.Scale);
+    enemy.SetUpEnemy(_enemySpawnList.TimerEnemySpawns[index].CurrentLevelStats);
   }
 
   // public void UpdateSpawnList(List<EnemySpawning> enemies)

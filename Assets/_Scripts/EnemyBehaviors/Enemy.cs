@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour
 {
   protected SpriteRenderer _sr;
   protected Direction _spawnedEdge;
+  float _maxHealth = 1f, _health = 1f;
+  public float Damage { get; private set; } = 10f;
   public float Scale = 1f;
   float _speedModifier = 1f;
   public float SpeedModifier => _speedModifier;
@@ -17,10 +19,13 @@ public class Enemy : MonoBehaviour
   public bool UsePooling => _usePooling;
   protected List<Direction> _spawnableEdges = new List<Direction>();
 
-  public virtual void SetUpEnemy(float speedModifier = 1f, float scale = 1f)
+  public virtual void SetUpEnemy(EnemyLevelStats levelStats)
   {
-    transform.localScale = new Vector3(Scale * scale, Scale * scale, 1f);
-    _speedModifier = speedModifier;
+    transform.localScale = new Vector3(Scale * levelStats.Scale, Scale * levelStats.Scale, 1f);
+    _speedModifier = levelStats.SpeedModifier1 * EnemyManager.Instance.SpeedMultiplier;
+    Damage = levelStats.Damage;
+    _maxHealth = levelStats.MaxHealth;
+    _health = _maxHealth;
   }
 
   public void ChangeSpawnableEdges(IEnumerable<Direction> edges)

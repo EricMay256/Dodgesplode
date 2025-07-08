@@ -183,18 +183,7 @@ public class Player : MonoBehaviour
     }
     if(collision.CompareTag("Enemy"))
     {
-      TakeDamage();
-      // Enemy enemy = collision.GetComponent<Enemy>();
-      // if (enemy != null)
-      // {
-      //   TakeDamage(enemy.Damage);
-      //   Debug.Log("Player collided with enemy: " + collision.gameObject.name);
-      // }
-      // else
-      // {
-      //   Debug.LogError("Enemy component not found on the collided object!");
-      // }
+      TakeDamage(collision.GetComponent<Enemy>().Damage);
     }
-    //Debug.Log("Player collided with " + collision.gameObject.name);
   }
 }

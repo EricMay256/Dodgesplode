@@ -3,16 +3,16 @@ using UnityEngine;
 public class StraightMover : Enemy
 {
   [Range(0f, 360f)]
-  public float MoveAngle = 0f;
-  public float MoveSpeed = 4f;
+  private float MoveAngle = 0f;
+  private float MoveSpeed = 4f;
   [SerializeField] AimType _aimType = AimType.Random;
   /// <summary>
   /// Random offset from the MoveAngle for Aimed or Orthogonal enemies.
   /// </summary>
   [SerializeField] float _aimArc = 5f;
-  public override void SetUpEnemy(float speedModifier = 1f, float scale = 1f)
+  public override void SetUpEnemy(EnemyLevelStats levelStats)
   {
-    base.SetUpEnemy(speedModifier, scale);//sets base _speedModifier, available through base SpeedModifier property
+    base.SetUpEnemy(levelStats);//sets base _speedModifier, available through base SpeedModifier property
     MoveSpeed *= SpeedModifier;
 
     PlaceOnSpawningBounds();
