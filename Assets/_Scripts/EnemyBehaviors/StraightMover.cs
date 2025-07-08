@@ -14,8 +14,34 @@ public class StraightMover : Enemy
   {
     base.SetUpEnemy(levelStats);//sets base _speedModifier, available through base SpeedModifier property
     MoveSpeed *= SpeedModifier;
+  }
 
-    PlaceOnSpawningBounds();
+
+  public override void PlaceOnSpawningBounds()
+  {
+    base.PlaceOnSpawningBounds();
+    UpdateAngleAndColor();
+  }
+
+  public override void PlaceOnSpawningBounds(Direction edge)
+  {
+    base.PlaceOnSpawningBounds(edge);
+    UpdateAngleAndColor();
+  }
+  public override void PlaceClosestToPlayer()
+  {
+    base.PlaceClosestToPlayer();
+    UpdateAngleAndColor();
+  }
+  public override void PlaceClosestToPlayer(Direction edge)
+  {
+    base.PlaceClosestToPlayer(edge);
+    UpdateAngleAndColor();
+  }
+
+  void UpdateAngleAndColor()
+  {
+
     if (_aimType == AimType.Aimed)//Aimed logic doesn't depend on the spawned edge
     {
       MoveAngle = Vector3.SignedAngle(Vector3.right,

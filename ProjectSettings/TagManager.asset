@@ -11,6 +11,7 @@ TagManager:
   - Door
   - Enemy
   - EnemyAttack
+  - EnemyTrigger
   - PlayerAttack
   layers:
   - Default

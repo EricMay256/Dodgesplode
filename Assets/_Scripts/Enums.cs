@@ -24,6 +24,11 @@ public static class EnumUtilities
   }
 }
 
+public enum EnemySpawningPattern
+{
+  Random = 0,
+  All = 1
+}
 public enum EnemySpawnType
 {
   SpawnOnTrigger = 0,

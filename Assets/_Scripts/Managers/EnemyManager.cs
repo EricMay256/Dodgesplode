@@ -104,10 +104,11 @@ public class EnemyManager : MonoBehaviour
   {
     Enemy enemy = Instantiate(_enemySpawnList.TimerEnemySpawns[index].EnemyData.EnemyPrefab, transform.position, Quaternion.identity);
     enemy.transform.SetParent(_timerEnemyParent.transform.GetChild(index));
-    
+
     enemy.ChangeSpawnableEdges(_enemySpawnList.TimerEnemySpawns[index].SpawnableEdges);
 
     enemy.SetUpEnemy(_enemySpawnList.TimerEnemySpawns[index].CurrentLevelStats);
+    enemy.PlaceOnSpawningBounds();
   }
 
   // public void UpdateSpawnList(List<EnemySpawning> enemies)

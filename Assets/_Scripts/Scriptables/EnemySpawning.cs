@@ -12,9 +12,6 @@ public class EnemySpawnData : ScriptableObject
   public List<Direction> SpawnableEdges = new List<Direction>(EnumUtilities.AllDirections);
   public EnemyRoomSizeScaling EnemyScaling = EnemyRoomSizeScaling.FullPerimeter;
   public EnemySpawnType SpawnType = EnemySpawnType.SpawnOnTimer;
-  public float AngleChangeRate = 5f;
-  public float ChaseDuration = -1f; // -1 means infinite chase duration
-  public float LifeSpan = -1f; // Time after which the enemy will be destroyed if not destroyed earlier. -1 means infinite lifespan
 }
 [System.Serializable]
 public class EnemyLevelStats

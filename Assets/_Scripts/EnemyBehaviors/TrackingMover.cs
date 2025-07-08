@@ -22,7 +22,31 @@ public class TrackingMover : Enemy
     ChaseDuration = levelStats.ChaseDuration;
     LifeSpan = levelStats.LifeSpan;
     AngleChangeRate *= levelStats.AngleChangeRateMulti;
-    PlaceOnSpawningBounds();
+  }
+
+  public override void PlaceOnSpawningBounds(Direction edge)
+  {
+    base.PlaceOnSpawningBounds(edge);
+    UpdateAngle();
+  }
+  public override void PlaceOnSpawningBounds()
+  {
+    base.PlaceOnSpawningBounds();
+    UpdateAngle();
+  }
+  public override void PlaceClosestToPlayer()
+  {
+    base.PlaceClosestToPlayer();
+    UpdateAngle();
+  }
+  public override void PlaceClosestToPlayer(Direction edge)
+  {
+    base.PlaceClosestToPlayer(edge);
+    UpdateAngle();
+  }
+
+  void UpdateAngle()
+  {
     // Set the rotation based on the spawned edge
     switch (_spawnedEdge)
     {

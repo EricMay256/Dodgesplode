@@ -72,7 +72,7 @@ public class Player : MonoBehaviour
 
   public void DoubleCheckMovementMultiplier()
   {
-    if(PlayerInputManager.Instance.CrouchHeld)
+    if (PlayerInputManager.Instance.CrouchHeld)
     {
       _moveScale = 0.25f;
     }
@@ -90,7 +90,7 @@ public class Player : MonoBehaviour
   {
     _rb.MovePosition(new Vector3(_rb.position.x, _rb.position.y, transform.position.z)
      + new Vector3(_moveDelta.x, _moveDelta.y, 0)
-     * Time.fixedDeltaTime * _moveScale * moveSpeed) ;
+     * Time.fixedDeltaTime * _moveScale * moveSpeed);
 
   }
 
@@ -181,9 +181,22 @@ public class Player : MonoBehaviour
         Debug.LogError("Door component not found on the collided object!");
       }
     }
-    if(collision.CompareTag("Enemy"))
+    if (collision.CompareTag("Enemy"))
     {
       TakeDamage(collision.GetComponent<Enemy>().Damage);
+    }
+    if (collision.CompareTag("EnemyTrigger"))
+    {
+      collision.GetComponent<TriggerArea>().StartTriggered();
+      Debug.Log("EnemyTrigger detected");
+    }
+  }
+
+  void OnTriggerExit2D(Collider2D collision)
+  {
+    if (collision.CompareTag("EnemyTrigger"))
+    {
+      collision.GetComponent<TriggerArea>().StopTriggered();
     }
   }
 }

@@ -10,24 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dcd99aecbb1254b4d8d7a2f7f004555f, type: 3}
-  m_Name: TriggeredPursuer
+  m_Name: TriggerTest
   m_EditorClassIdentifier: 
   EnemyLevels:
-  - SpawnTime: 0
-    SpawnsPerWave: 1
+  - SpawnTime: 0.5
+    SpawnsPerWave: 2
     MaxHealth: 1
     Damage: 10
-    SpeedModifier1: 2
+    SpeedModifier1: 1
     SpeedModifier2: 0
     Scale: 1
     RemovedEdges: 0
-    AngleChangeRateMulti: 6
-    ChaseDuration: -1
-    LifeSpan: -1
-  EnemyPrefab: {fileID: -8891889449217446169, guid: a8ba81cc2a957024989dfcda2a80f5ce, type: 3}
+    AngleChangeRateMulti: 0
+    ChaseDuration: 0
+    LifeSpan: 0
+  EnemyPrefab: {fileID: 610873806193701007, guid: 1877bf1544869984dbcc5e83cfae0374, type: 3}
   SpawnableEdges: 00000000010000000200000003000000
-  EnemyScaling: 0
-  SpawnType: 0
-  AngleChangeRate: 5
-  ChaseDuration: -1
-  LifeSpan: -1
+  EnemyScaling: 4
+  SpawnType: 1

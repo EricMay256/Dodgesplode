@@ -49,10 +49,24 @@ public class Enemy : MonoBehaviour
     }
   }
 
-  protected virtual void PlaceOnSpawningBounds()
+  public virtual void PlaceOnSpawningBounds()
   {
-    _spawnedEdge = _spawnableEdges[Random.Range(0, _spawnableEdges.Count)];
+    PlaceOnSpawningBounds(_spawnableEdges[Random.Range(0, _spawnableEdges.Count)]);
+  }
+  public virtual void PlaceOnSpawningBounds(Direction edge)
+  {
+    _spawnedEdge = edge;
     transform.position = RoomManager.Instance.GetSpawnLocation(_spawnedEdge);
+  }
+  public virtual void PlaceClosestToPlayer()
+  {
+    PlaceClosestToPlayer(_spawnableEdges[Random.Range(0, _spawnableEdges.Count)]);
+    
+  }
+  public virtual void PlaceClosestToPlayer(Direction edge)
+  {
+    _spawnedEdge = edge;
+    transform.position = RoomManager.Instance.MinimumDistanceToPlayerPoint(_spawnedEdge);
   }
 }
 

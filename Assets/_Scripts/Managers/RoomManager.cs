@@ -55,6 +55,57 @@ public class RoomManager : MonoBehaviour
     }
   }
 
+  Bounds GetClosestBoundsToPlayer(List<Bounds> options, Direction edge)
+  {
+    if (edge == Direction.Right || edge == Direction.Left)
+    {
+      foreach (Bounds b in options)
+      {
+        if (b.min.y <= Player.Instance.transform.position.y &&
+          b.max.y >= Player.Instance.transform.position.y)
+        {
+          return b;
+        }
+      }
+    }
+    else if (edge == Direction.Top || edge == Direction.Bottom)
+    {
+      foreach (Bounds b in options)
+      {
+        if (b.min.x <= Player.Instance.transform.position.x &&
+          b.max.x >= Player.Instance.transform.position.x)
+        {
+          return b;
+        }
+      }
+    }
+      Debug.LogError("No suitable edge found. Exiting.");
+      return new Bounds();
+  }
+  public Vector3 MinimumDistanceToPlayerPoint(Direction edge)
+  {
+    Bounds chosenEdge;
+    switch (edge)//Select a random edge to spawn from
+    {
+      //Place transform on a random point on the selected edge
+      case Direction.Right:
+        chosenEdge = GetClosestBoundsToPlayer(_rightBounds, Direction.Right);
+        return new Vector3(chosenEdge.min.x + 1, Player.Instance.transform.position.y, 0f);
+      case Direction.Top:
+        chosenEdge = GetClosestBoundsToPlayer(_topBounds, Direction.Top);
+        return new Vector3(Player.Instance.transform.position.x, chosenEdge.min.y + 1, 0f);
+      case Direction.Left:
+        chosenEdge = GetClosestBoundsToPlayer(_leftBounds, Direction.Left);
+        return new Vector3(chosenEdge.max.x - 1, Player.Instance.transform.position.y, 0f);
+      case Direction.Bottom:
+        chosenEdge = GetClosestBoundsToPlayer(_bottomBounds, Direction.Bottom);
+        return new Vector3(Player.Instance.transform.position.x, chosenEdge.max.y - 1, 0f);
+      default:
+        Debug.LogError("Invalid edge specified for spawn location!");
+        return Vector3.zero;
+    }
+  }
+
   /// <summary>
   /// Loads a new room based on the provided Room.
   /// </summary>
@@ -67,14 +118,14 @@ public class RoomManager : MonoBehaviour
       Debug.LogError("Room prefab is null!");
       return;
     }
-    if(_roomData != null)
+    if (_roomData != null)
     {
       //Deactivate current room's colliders
       //_roomData.transform.GetChild(0).gameObject.SetActive(false);
     }
     //Update game state
-      if (GameManager.Instance.CurrentGameState == GameState.Active)
-        GameManager.Instance.StartTransition();
+    if (GameManager.Instance.CurrentGameState == GameState.Active)
+      GameManager.Instance.StartTransition();
 
     //Destroy current room prefab on delay and load new room
     if (_currentRoomObject != null)
@@ -93,7 +144,7 @@ public class RoomManager : MonoBehaviour
     }
     _virtCam.Target.TrackingTarget = Player.Instance.transform;
     _virtCam.Prioritize();
-    
+
 
     //Update bounds used for spawning enemies based on room edges
     _leftBounds.Clear();
