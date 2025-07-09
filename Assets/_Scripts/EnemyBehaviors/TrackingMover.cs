@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class TrackingMover : Enemy
 {
+  #region Declarations
   [Range(0f, 360f)]
   private float MoveAngle = 0f;
   private float MoveSpeed = 4f;
@@ -10,13 +11,13 @@ public class TrackingMover : Enemy
   /// </summary>
   private float AngleChangeRate = 20f;
   private float ChaseDuration = -1f; // -1 means infinite chase duration
-
+  #endregion
+  #region Public Methods
   public override void SetUpEnemy(EnemyLevelStats levelStats)
-
   {
     base.SetUpEnemy(levelStats); // sets base _speedModifier, available through base SpeedModifier property
     MoveSpeed *= SpeedModifier;
-    
+
     ChaseDuration = levelStats.ChaseDuration;
     AngleChangeRate *= levelStats.AngleChangeRateMulti;
   }
@@ -41,7 +42,8 @@ public class TrackingMover : Enemy
     base.PlaceClosestToPlayer(edge);
     UpdateAngle();
   }
-
+  #endregion
+  #region Helper Methods
   void UpdateAngle()
   {
     // Set the rotation based on the spawned edge
@@ -62,13 +64,8 @@ public class TrackingMover : Enemy
     }
     transform.rotation = Quaternion.Euler(0f, 0f, MoveAngle);
   }
-
-  // Start is called once before the first execution of Update after the MonoBehaviour is created
-  void Start()
-  {
-
-  }
-
+  #endregion
+  #region Monobehaviours
   void Awake()
   {
     _sr = GetComponent<SpriteRenderer>();
@@ -95,4 +92,5 @@ public class TrackingMover : Enemy
     // Move towards the target
     transform.Translate(Vector3.right * MoveSpeed * Time.deltaTime, Space.Self);
   }
+  #endregion
 }

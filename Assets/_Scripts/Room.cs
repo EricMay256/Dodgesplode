@@ -3,31 +3,32 @@ using UnityEngine;
 
 public class Room : MonoBehaviour
 {
+  #region Declarations
   public AudioClip RoomMusic;
   public EnemySpawnList TimerEnemySpawnList, PersistentEnemySpawnList;
-  
+
   [SerializeField]
   BoundsInt _roomBounds;
   public BoundsInt RoomBounds => _roomBounds;
   public static readonly Vector2 GridToWorldScale = new Vector2(20f, 10f);
 
   [SerializeField]
-  List<DoorAvailability> _topBottomDoorAvailability = new List<DoorAvailability>() ;
+  List<DoorAvailability> _topBottomDoorAvailability = new List<DoorAvailability>();
   public List<DoorAvailability> TopBottomDoorAvailability => _topBottomDoorAvailability;
   [SerializeField]
   List<DoorAvailability> _leftRightDoorAvailability = new List<DoorAvailability>();
   public List<DoorAvailability> LeftRightDoorAvailability => _leftRightDoorAvailability;
 
   bool _persistentEnemiesSpawned = false;
-  
-  void TrySpawnPersistentEnemies()
+  #endregion
+  #region Public Methods
+  public void TrySpawnPersistentEnemies()
   {
     if (_persistentEnemiesSpawned)
       return;
     _persistentEnemiesSpawned = true;
-    //Spawn persistent enemies
+    //TODO: Spawn persistent enemies
   }
-
   public void SetRoomPos(Vector2Int gridPosition)
   {
     SetRoomPos(new Vector3Int(gridPosition.x, gridPosition.y, 0));
@@ -47,7 +48,7 @@ public class Room : MonoBehaviour
   }
   public void SetRoomOffset(Vector2Int offset)
   {
-   SetRoomOffset(new Vector3Int(offset.x, offset.y, 0));
+    SetRoomOffset(new Vector3Int(offset.x, offset.y, 0));
   }
   public void SetRoomOffset(Vector3Int offset)
   {
@@ -106,6 +107,8 @@ public class Room : MonoBehaviour
 
     return doors;
   }
+  #endregion
+  #region Context Menu
   [ContextMenu("Fix Door List Length")]
   public void FixDoorListLength()
   {
@@ -149,16 +152,5 @@ public class Room : MonoBehaviour
     }
     //Debug.Log("Deactivated room: " + gameObject.name);
   }
-  // Start is called once before the first execution of Update after the MonoBehaviour is created
-  void Start()
-  {
-
-  }
-
-  // Update is called once per frame
-  void Update()
-  {
-
-  }
-
+  #endregion
 }

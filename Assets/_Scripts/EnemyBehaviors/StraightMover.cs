@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class StraightMover : Enemy
 {
+  #region Declarations
   [Range(0f, 360f)]
   private float MoveAngle = 0f;
   private float MoveSpeed = 4f;
@@ -10,12 +11,13 @@ public class StraightMover : Enemy
   /// Random offset from the MoveAngle for Aimed or Orthogonal enemies.
   /// </summary>
   [SerializeField] float _aimArc = 5f;
+  #endregion
+  #region Public Methods
   public override void SetUpEnemy(EnemyLevelStats levelStats)
   {
     base.SetUpEnemy(levelStats);//sets base _speedModifier, available through base SpeedModifier property
     MoveSpeed *= SpeedModifier;
   }
-
 
   public override void PlaceOnSpawningBounds()
   {
@@ -38,10 +40,10 @@ public class StraightMover : Enemy
     base.PlaceClosestToPlayer(edge);
     UpdateAngleAndColor();
   }
-
+  #endregion
+  #region Helper Methods
   void UpdateAngleAndColor()
   {
-
     if (_aimType == AimType.Aimed)//Aimed logic doesn't depend on the spawned edge
     {
       MoveAngle = Vector3.SignedAngle(Vector3.right,
@@ -145,7 +147,8 @@ public class StraightMover : Enemy
       }
     }
   }
-
+  #endregion
+  #region Monobehaviours
   void Awake()
   {
     _sr = GetComponent<SpriteRenderer>();
@@ -155,10 +158,6 @@ public class StraightMover : Enemy
     }
   }
 
-  void Start()
-  {
-  }
-
   // Update is called once per frame
   protected override void Update()
   {
@@ -166,4 +165,5 @@ public class StraightMover : Enemy
     transform.Translate(Vector3.right * MoveSpeed * Time.deltaTime, Space.Self);
     DestroyPastBounds();
   }
+  #endregion
 }

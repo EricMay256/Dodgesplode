@@ -5,6 +5,7 @@ using TMPro.EditorUtilities;
 
 public class Player : MonoBehaviour
 {
+  #region Declarations
   public static Player Instance;
   [SerializeField]
   private PlayerData _pd;
@@ -21,6 +22,8 @@ public class Player : MonoBehaviour
   [field: SerializeField] public float moveSpeed = 10f;//Universal and constant speed multiplier for all forms of input
   private float _moveScale = 1f;//Universal and variable speed multiplier for all forms of input
                                 // Start is called once before the first execution of Update after the MonoBehaviour is created
+  #endregion
+  #region Monobehaviours
   void Awake()
   {
     if (Instance == null)
@@ -41,18 +44,11 @@ public class Player : MonoBehaviour
     ResetPlayer();
   }
 
-  public IEnumerator InvulnFlashing()
+  void FixedUpdate()
   {
-    int flashes = 0;
-    _sr.color = Color.red;
-    flashes++;
-    while (_invulnTimer < _pd.InvulnPeriod)
-    {
-      yield return new WaitForSeconds(0.2f);
-      _sr.color = _sr.color == Color.red ? Color.white : Color.red;
-      flashes++;
-    }
-    _sr.color = Color.white;
+    _rb.MovePosition(new Vector3(_rb.position.x, _rb.position.y, transform.position.z)
+     + new Vector3(_moveDelta.x, _moveDelta.y, 0)
+     * Time.fixedDeltaTime * _moveScale * moveSpeed);
   }
 
   // Update is called once per frame
@@ -62,135 +58,12 @@ public class Player : MonoBehaviour
       _invulnTimer += Time.deltaTime;
     ApplyHealthRegen(Time.deltaTime);
     //Apply scaling to input motion based on crouch/sprint
-    if (PlayerInputManager.Instance.CrouchPressed)
-    {
-      //Apply processor scaling movement down
-      _moveScale = 0.25f;
-      //PlayerInputManager.Instance.SetLookScale(_moveScale);
-    }
-    else if (PlayerInputManager.Instance.CrouchReleased)
-    {
-      _moveScale = 1f;
-      //PlayerInputManager.Instance.SetLookScale(_moveScale);
-    }
-    else if (PlayerInputManager.Instance.SprintPressed)
-    {
-      _moveScale = 2f;
-      //PlayerInputManager.Instance.SetLookScale(_moveScale);
-    }
-    else if (PlayerInputManager.Instance.SprintReleased)
-    {
-      _moveScale = 1f;
-      //PlayerInputManager.Instance.SetLookScale(_moveScale);
-    }
+    CheckMovementMultiplier();
     //Movement via mouse delta or left joystick applied to player position 
     _moveDelta = _movementInputType == MovementInputType.Move ?
     PlayerInputManager.Instance.Movement :
     PlayerInputManager.Instance.LookDelta;
     //Todo: Consider modifying how timescale is applied to player movement
-  }
-
-  public void DoubleCheckMovementMultiplier()
-  {
-    if (PlayerInputManager.Instance.CrouchHeld)
-    {
-      _moveScale = 0.25f;
-    }
-    else if (PlayerInputManager.Instance.SprintHeld)
-    {
-      _moveScale = 2f;
-    }
-    else
-    {
-      _moveScale = 1f;
-    }
-  }
-
-  void FixedUpdate()
-  {
-    _rb.MovePosition(new Vector3(_rb.position.x, _rb.position.y, transform.position.z)
-     + new Vector3(_moveDelta.x, _moveDelta.y, 0)
-     * Time.fixedDeltaTime * _moveScale * moveSpeed);
-
-  }
-
-  //Apply health regen over time
-  void ApplyHealthRegen(float time)
-  {
-    if (GameManager.Instance.CurrentGameState == GameState.Active && _pd.CurHealth < _pd.MaxHealth)
-    {
-      _pd.CurHealth += _pd.HealthRegenPer5Sec * Time.deltaTime / 5f;
-      _pd.CurHealth = Mathf.Min(_pd.CurHealth, _pd.MaxHealth);
-      _pd.HealthPct = _pd.CurHealth / _pd.MaxHealth;
-    }
-  }
-
-  IEnumerator DoorMovementCoroutine(Vector2 targetPosition, Room previousRoom, float duration = 2f)
-  {
-    Vector2 startPosition = _rb.position;
-    Debug.Log("Starting door transition from " + startPosition + " to " + targetPosition);
-    float elapsedTime = 0f;
-    _rb.bodyType = RigidbodyType2D.Kinematic; // Re-enable physics after transition
-
-    while (elapsedTime < duration)
-    {
-      _rb.position = Vector2.Lerp(startPosition, targetPosition, elapsedTime / duration);
-      elapsedTime += Time.unscaledDeltaTime;
-      yield return null;
-    }
-    _rb.position = targetPosition;
-    previousRoom.DeactivateRoom();
-    _rb.bodyType = RigidbodyType2D.Dynamic; // Re-enable physics after transition
-    GameManager.Instance.EndTransition();
-  }
-
-  public void DoorMotion(Direction doorDirection, Room previousRoom)
-  {
-    Vector3 targetPosition = transform.position;
-    switch (doorDirection)
-    {
-      case Direction.Top:
-        targetPosition += Vector3.up * _doorMoveAmount;
-        break;
-      case Direction.Right:
-        targetPosition += Vector3.right * _doorMoveAmount;
-        break;
-      case Direction.Bottom:
-        targetPosition += Vector3.down * _doorMoveAmount;
-        break;
-      case Direction.Left:
-        targetPosition += Vector3.left * _doorMoveAmount;
-        break;
-      default:
-        Debug.LogError("Invalid door direction specified!");
-        break;
-    }
-    StartCoroutine(DoorMovementCoroutine(targetPosition, previousRoom));
-  }
-
-  public void TakeDamage(float damage = 10f)
-  {
-    if (_invulnTimer < _pd.InvulnPeriod)
-      return;
-    _pd.CurHealth -= damage;
-    _pd.HealthPct = Mathf.Max(_pd.CurHealth
-      / _pd.MaxHealth, 0f);
-    _invulnTimer = 0f;
-    if (_pd.CurHealth <= 0f)
-    {
-      GameManager.Instance.GameOver();
-    }
-    else
-    {
-      StartCoroutine("InvulnFlashing");
-    }
-  }
-
-  public void ResetPlayer()
-  {
-    _pd.ResetData();
-    //Todo? : Reload starting room?
-    transform.position = RoomManager.Instance.RoomBounds.center;
   }
 
   void OnTriggerEnter2D(Collider2D collision)
@@ -227,4 +100,120 @@ public class Player : MonoBehaviour
       collision.GetComponent<TriggerArea>().StopTriggered();
     }
   }
+  #endregion
+  
+  #region Coroutines
+  IEnumerator InvulnFlashing()
+  {
+    int flashes = 0;
+    _sr.color = Color.red;
+    flashes++;
+    while (_invulnTimer < _pd.InvulnPeriod)
+    {
+      yield return new WaitForSeconds(0.2f);
+      _sr.color = _sr.color == Color.red ? Color.white : Color.red;
+      flashes++;
+    }
+    _sr.color = Color.white;
+  }
+
+  IEnumerator DoorMovementCoroutine(Vector2 targetPosition, Room previousRoom, float duration = 2f)
+  {
+    Vector2 startPosition = _rb.position;
+    Debug.Log("Starting door transition from " + startPosition + " to " + targetPosition);
+    float elapsedTime = 0f;
+    _rb.bodyType = RigidbodyType2D.Kinematic; // Re-enable physics after transition
+
+    while (elapsedTime < duration)
+    {
+      _rb.position = Vector2.Lerp(startPosition, targetPosition, elapsedTime / duration);
+      elapsedTime += Time.unscaledDeltaTime;
+      yield return null;
+    }
+    _rb.position = targetPosition;
+    previousRoom.DeactivateRoom();
+    _rb.bodyType = RigidbodyType2D.Dynamic; // Re-enable physics after transition
+    GameManager.Instance.EndTransition();
+  }
+  #endregion
+
+  #region Helper Methods
+  //Apply health regen over time
+  void ApplyHealthRegen(float time)
+  {
+    if (GameManager.Instance.CurrentGameState == GameState.Active && _pd.CurHealth < _pd.MaxHealth)
+    {
+      _pd.CurHealth += _pd.HealthRegenPer5Sec * Time.deltaTime / 5f;
+      _pd.CurHealth = Mathf.Min(_pd.CurHealth, _pd.MaxHealth);
+      _pd.HealthPct = _pd.CurHealth / _pd.MaxHealth;
+    }
+  }
+  
+  void TakeDamage(float damage = 10f)
+  {
+    if (_invulnTimer < _pd.InvulnPeriod)
+      return;
+    _pd.CurHealth -= damage;
+    _pd.HealthPct = Mathf.Max(_pd.CurHealth
+      / _pd.MaxHealth, 0f);
+    _invulnTimer = 0f;
+    if (_pd.CurHealth <= 0f)
+    {
+      GameManager.Instance.GameOver();
+    }
+    else
+    {
+      StartCoroutine("InvulnFlashing");
+    }
+  }
+  #endregion
+  #region Public Methods
+  public void CheckMovementMultiplier()
+  {
+    if (PlayerInputManager.Instance.CrouchHeld)
+    {
+      _moveScale = 0.25f;
+    }
+    else if (PlayerInputManager.Instance.SprintHeld)
+    {
+      _moveScale = 2f;
+    }
+    else
+    {
+      _moveScale = 1f;
+    }
+  }
+
+
+  public void DoorMotion(Direction doorDirection, Room previousRoom)
+  {
+    Vector3 targetPosition = transform.position;
+    switch (doorDirection)
+    {
+      case Direction.Top:
+        targetPosition += Vector3.up * _doorMoveAmount;
+        break;
+      case Direction.Right:
+        targetPosition += Vector3.right * _doorMoveAmount;
+        break;
+      case Direction.Bottom:
+        targetPosition += Vector3.down * _doorMoveAmount;
+        break;
+      case Direction.Left:
+        targetPosition += Vector3.left * _doorMoveAmount;
+        break;
+      default:
+        Debug.LogError("Invalid door direction specified!");
+        break;
+    }
+    StartCoroutine(DoorMovementCoroutine(targetPosition, previousRoom));
+  }
+
+  public void ResetPlayer()
+  {
+    _pd.ResetData();
+    //Todo? : Reload starting room?
+    transform.position = RoomManager.Instance.RoomBounds.center;
+  }
+  #endregion
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RoomManager : MonoBehaviour
 {
+  #region Declarations
   public static RoomManager Instance;
   public Room Room => _roomData;
 
@@ -19,8 +20,38 @@ public class RoomManager : MonoBehaviour
   private List<Bounds> _rightBounds = new List<Bounds>();
   private List<Bounds> _topBounds = new List<Bounds>();
   private List<Bounds> _bottomBounds = new List<Bounds>();
-
-
+  #endregion
+  #region Helper Functions
+  
+  Bounds GetClosestBoundsToPlayer(List<Bounds> options, Direction edge)
+  {
+    if (edge == Direction.Right || edge == Direction.Left)
+    {
+      foreach (Bounds b in options)
+      {
+        if (b.min.y <= Player.Instance.transform.position.y &&
+          b.max.y >= Player.Instance.transform.position.y)
+        {
+          return b;
+        }
+      }
+    }
+    else if (edge == Direction.Top || edge == Direction.Bottom)
+    {
+      foreach (Bounds b in options)
+      {
+        if (b.min.x <= Player.Instance.transform.position.x &&
+          b.max.x >= Player.Instance.transform.position.x)
+        {
+          return b;
+        }
+      }
+    }
+    Debug.LogError("No suitable edge found. Exiting.");
+    return new Bounds();
+  }
+  #endregion
+  #region Public Methods
   /// <summary>
   /// Returns a random spawn location on the specified edge of the room.
   /// </summary>
@@ -56,33 +87,6 @@ public class RoomManager : MonoBehaviour
     }
   }
 
-  Bounds GetClosestBoundsToPlayer(List<Bounds> options, Direction edge)
-  {
-    if (edge == Direction.Right || edge == Direction.Left)
-    {
-      foreach (Bounds b in options)
-      {
-        if (b.min.y <= Player.Instance.transform.position.y &&
-          b.max.y >= Player.Instance.transform.position.y)
-        {
-          return b;
-        }
-      }
-    }
-    else if (edge == Direction.Top || edge == Direction.Bottom)
-    {
-      foreach (Bounds b in options)
-      {
-        if (b.min.x <= Player.Instance.transform.position.x &&
-          b.max.x >= Player.Instance.transform.position.x)
-        {
-          return b;
-        }
-      }
-    }
-      Debug.LogError("No suitable edge found. Exiting.");
-      return new Bounds();
-  }
   public Vector3 MinimumDistanceToPlayerPoint(Direction edge)
   {
     Bounds chosenEdge;
@@ -207,11 +211,8 @@ public class RoomManager : MonoBehaviour
     Player.Instance.transform.position = _roomBounds.center;
     _virtCam.transform.position = _roomBounds.center;
   }
-
-  void Start()
-  {
-  }
-
+  #endregion
+  #region Monobehaviours
   void Awake()
   {
     if (Instance == null)
@@ -224,10 +225,5 @@ public class RoomManager : MonoBehaviour
       Destroy(gameObject);
     }
   }
-
-  // Update is called once per frame
-  void Update()
-  {
-
-  }
+  #endregion
 }

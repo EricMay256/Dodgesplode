@@ -4,6 +4,7 @@ using UnityEngine.Events;
 
 public class TriggerArea : MonoBehaviour
 {
+  #region Declarations
   Collider2D _collider;
   [SerializeField]
   bool _instantTrigger = true;
@@ -21,10 +22,11 @@ public class TriggerArea : MonoBehaviour
   EnemySpawningPattern _spawningPattern = EnemySpawningPattern.All;
   [SerializeField]
   UnityEvent<Direction> _whenTriggered;
-
+  #endregion
+  #region Public Methods
   public void StartTriggered()
   {
-    if(_instantTrigger)
+    if (_instantTrigger)
     {
       Triggered();
     }
@@ -72,12 +74,8 @@ public class TriggerArea : MonoBehaviour
     enemy.SetUpEnemy(_enemySpawnData.EnemyLevels[enemyLevel]);
     enemy.PlaceClosestToPlayer(edge);
   }
-  // Start is called once before the first execution of Update after the MonoBehaviour is created
-  void Start()
-  {
-
-  }
-
+  #endregion
+  #region MonoBehaviours
   // Update is called once per frame
   void Update()
   {
@@ -93,5 +91,5 @@ public class TriggerArea : MonoBehaviour
   }
   //Spawn enemy
   //Spawn enemy targeting player
-
+  #endregion
 }

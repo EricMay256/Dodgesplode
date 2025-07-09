@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+#region EnumUtilities
 public static class EnumUtilities
 {
   public static readonly List<Direction> AllDirections = new List<Direction>
@@ -23,7 +24,8 @@ public static class EnumUtilities
     }
   }
 }
-
+#endregion
+#region Enums
 public enum EnemySpawningPattern
 {
   Random = 0,
@@ -82,16 +84,12 @@ public enum DoorAvailability
 }
 public enum AimType
 {
-    Orthogonal = 0,
-    Random = 1,
-    Aimed = 2
+  Orthogonal = 0,
+  Random = 1,
+  Aimed = 2
 }
-public enum EnemyType
-{
-  Straight = 0,
-  Curved = 1,
-  Homing = 2
-}
+#endregion
+#region DoorInfo
 [System.Serializable]
 public struct DoorInfo
 {
@@ -102,6 +100,10 @@ public struct DoorInfo
     GridLocation = gridLocation;
     Orientation = orientation;
   }
+  /// <summary>
+  /// The grid location that going through this door should lead to
+  /// </summary>
+  /// <returns></returns>
   public Vector2Int GetPointedPosition()
   {
     switch (Orientation)
@@ -118,6 +120,10 @@ public struct DoorInfo
         return GridLocation; // Fallback, should not happen
     }
   }
+  /// <summary>
+  /// Get the door info that would line up opposite this door
+  /// </summary>
+  /// <returns></returns>
   public DoorInfo GetMatchingDoor()
   {
     switch (Orientation)
@@ -135,3 +141,4 @@ public struct DoorInfo
     }
   }
 }
+#endregion

@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour
 {
+  #region Declarations
   protected SpriteRenderer _sr;
   protected Direction _spawnedEdge;
   float _maxHealth = 1f, _health = 1f;
@@ -20,7 +21,8 @@ public class Enemy : MonoBehaviour
   protected List<Direction> _spawnableEdges = new List<Direction>();
   private float _lifeSpan = -1f; // Time after which the enemy will be destroyed if not destroyed earlier. -1 means infinite lifespan
   protected float _timeAlive { get; private set; } = 0f; // Timer to track chase duration
-
+  #endregion
+  #region Public Methods
   public virtual void SetUpEnemy(EnemyLevelStats levelStats)
   {
     transform.localScale = new Vector3(Scale * levelStats.Scale, Scale * levelStats.Scale, 1f);
@@ -71,16 +73,18 @@ public class Enemy : MonoBehaviour
     _spawnedEdge = edge;
     transform.position = RoomManager.Instance.MinimumDistanceToPlayerPoint(_spawnedEdge);
   }
-
+  #endregion
+  #region Monobehaviours
   protected virtual void Update()
   {
     _timeAlive += Time.deltaTime;
-    if( _lifeSpan > 0f && _timeAlive >= _lifeSpan)
+    if (_lifeSpan > 0f && _timeAlive >= _lifeSpan)
     {
       DestroyEnemy();
       return;
     }
   }
+  #endregion
 }
 
 

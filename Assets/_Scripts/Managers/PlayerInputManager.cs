@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputManager : MonoBehaviour
 {
+  #region Declarations
   public static PlayerInputManager Instance;
   public Vector2 Movement;
   public Vector2 LookDelta;
@@ -33,6 +34,8 @@ public class PlayerInputManager : MonoBehaviour
                              // Start is called once before the first execution of Update after the MonoBehaviour is created
   [SerializeField]
   private bool _logMovement = false;
+  #endregion
+  #region Monobehaviours
   void Awake()
   {
     if (Instance == null)
@@ -99,21 +102,8 @@ public class PlayerInputManager : MonoBehaviour
       Debug.Log($"Movement: {Movement}, LookDelta: {LookDelta}");
     }
   }
-
-  //Not Currently Used
-  public void SetLookScale(float scale)
-  {
-    _lookAction.ApplyParameterOverride("ScaleVector2:x", scale * _movementScalar, 0);
-    _lookAction.ApplyParameterOverride("ScaleVector2:y", scale * _movementScalar, 0);
-    for (int i = 1; i < _lookAction.bindings.Count; i++)
-    {
-      _lookAction.ApplyParameterOverride("ScaleVector2:x", scale, i);
-      _lookAction.ApplyParameterOverride("ScaleVector2:y", scale, i);
-    }
-    _movementAction.ApplyParameterOverride("ScaleVector2:x", scale * _movementScalar);
-    _movementAction.ApplyParameterOverride("ScaleVector2:y", scale * _movementScalar);
-  }
-
+  #endregion
+  #region Public Methods
   public void SetGameplayControlsActive(bool active)
   {
     if (active)
@@ -127,5 +117,18 @@ public class PlayerInputManager : MonoBehaviour
       Cursor.visible = true;
     }
   }
-
+  //Not Currently Used
+  // public void SetLookScale(float scale)
+  // {
+  //   _lookAction.ApplyParameterOverride("ScaleVector2:x", scale * _movementScalar, 0);
+  //   _lookAction.ApplyParameterOverride("ScaleVector2:y", scale * _movementScalar, 0);
+  //   for (int i = 1; i < _lookAction.bindings.Count; i++)
+  //   {
+  //     _lookAction.ApplyParameterOverride("ScaleVector2:x", scale, i);
+  //     _lookAction.ApplyParameterOverride("ScaleVector2:y", scale, i);
+  //   }
+  //   _movementAction.ApplyParameterOverride("ScaleVector2:x", scale * _movementScalar);
+  //   _movementAction.ApplyParameterOverride("ScaleVector2:y", scale * _movementScalar);
+  // }
+  #endregion
 }

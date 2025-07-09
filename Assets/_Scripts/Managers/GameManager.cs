@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+  #region Declarations
   public static GameManager Instance;
   //todo: currently starts active, will eventually have staging areas
   public GameState CurrentGameState { get; private set; } = GameState.Active;
@@ -18,7 +19,53 @@ public class GameManager : MonoBehaviour
 
   public delegate void GameStateChange(GameState newState);
   public static event GameStateChange OnGameStateChanged;
-
+  #endregion
+  #region Helper Methods
+  private void SetGameState(GameState newState)
+  {
+    CurrentGameState = newState;
+    switch (newState)
+    {
+      case GameState.GameplayLobby:
+        break;
+      case GameState.GameSetup:
+        _timer.ResetTimer();
+        EnemyManager.Instance.ClearAllEnemies();
+        Player.Instance.ResetPlayer();
+        LevelManager.Instance.GenerateLevel();
+        break;
+      case GameState.Active:
+        Time.timeScale = 1f;
+        PlayerInputManager.Instance.SetGameplayControlsActive(true);
+        Player.Instance.CheckMovementMultiplier();
+        Cursor.lockState = CursorLockMode.Locked;
+        break;
+      case GameState.Transition:
+        Time.timeScale = 1f;
+        PlayerInputManager.Instance.SetGameplayControlsActive(false);
+        break;
+      case GameState.Paused:
+        Time.timeScale = 0f;
+        PlayerInputManager.Instance.SetGameplayControlsActive(false);
+        Cursor.lockState = CursorLockMode.None;
+        break;
+      case GameState.GameOver:
+        Time.timeScale = 0f;
+        PlayerInputManager.Instance.SetGameplayControlsActive(false);
+        Cursor.lockState = CursorLockMode.None;
+        break;
+      case GameState.GameWon:
+        Cursor.lockState = CursorLockMode.None;
+        break;
+      case GameState.Options:
+        Cursor.lockState = CursorLockMode.None;
+        break;
+    }
+    OnGameStateChanged?.Invoke(newState);
+    Debug.Log($"Game state changed to: {newState}");
+  }
+  #endregion
+  #region Public Methods
   public void StartTransition()
   {
     SetGameState(GameState.Transition);
@@ -57,6 +104,13 @@ public class GameManager : MonoBehaviour
     //Todo: consider other screens like options, etc.
   }
 
+  public void ResetGame()
+  {
+    SetGameState(GameState.GameSetup);
+    SetGameState(GameState.Active);
+  }
+  #endregion
+  #region Monobehaviours
   void Awake()
   {
     // Ensure only one instance of GameManager exists
@@ -111,54 +165,5 @@ public class GameManager : MonoBehaviour
       _previousCamSize = _mainCam.orthographicSize;
     }
   }
-
-  public void ResetGame()
-  {
-    SetGameState(GameState.GameSetup);
-    SetGameState(GameState.Active);
-  }
-
-  private void SetGameState(GameState newState)
-  {
-    CurrentGameState = newState;
-    switch (newState)
-    {
-      case GameState.GameplayLobby:
-        break;
-      case GameState.GameSetup:
-        _timer.ResetTimer();
-        EnemyManager.Instance.ClearAllEnemies();
-        Player.Instance.ResetPlayer();
-        LevelManager.Instance.GenerateLevel();
-        break;
-      case GameState.Active:
-        Time.timeScale = 1f;
-        PlayerInputManager.Instance.SetGameplayControlsActive(true);
-        Player.Instance.DoubleCheckMovementMultiplier();
-        Cursor.lockState = CursorLockMode.Locked;
-        break;
-      case GameState.Transition:
-        Time.timeScale = 1f;
-        PlayerInputManager.Instance.SetGameplayControlsActive(false);
-        break;
-      case GameState.Paused:
-        Time.timeScale = 0f;
-        PlayerInputManager.Instance.SetGameplayControlsActive(false);
-        Cursor.lockState = CursorLockMode.None;
-        break;
-      case GameState.GameOver:
-        Time.timeScale = 0f;
-        PlayerInputManager.Instance.SetGameplayControlsActive(false);
-        Cursor.lockState = CursorLockMode.None;
-        break;
-      case GameState.GameWon:
-        Cursor.lockState = CursorLockMode.None;
-        break;
-      case GameState.Options:
-        Cursor.lockState = CursorLockMode.None;
-        break;
-    }
-    OnGameStateChanged?.Invoke(newState);
-    Debug.Log($"Game state changed to: {newState}");
-  }
+  #endregion
 }

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+  #region Declarations
   public static LevelManager Instance;
   [SerializeField]
   List<GameObject> _roomPrefabs;
@@ -18,6 +19,8 @@ public class LevelManager : MonoBehaviour
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   [SerializeField]
   int _maxRoomDimension = 3;
+  #endregion
+  #region Helper Functions
   bool IsLocationOccupied(Vector2Int location)
   {
     foreach (var room in _roomDataList)
@@ -28,60 +31,6 @@ public class LevelManager : MonoBehaviour
       }
     }
     return false;
-  }
-  public Room GetRoomFromGridLocation(Vector2Int gridLocation)
-  {
-    foreach (var room in _roomDataList)
-    {
-      if (room.ContainsLocation(gridLocation))
-      {
-        return room;
-      }
-    }
-    return null;
-  }
-  void Awake()
-  {
-    if (Instance == null)
-    {
-      Instance = this;
-      //DontDestroyOnLoad(gameObject);
-    }
-    else
-    {
-      Destroy(gameObject);
-    }
-    //Initialize lists in room dictionary
-    for (int i = 1; i <= _maxRoomDimension; i++)
-    {
-      for (int j = 1; j <= _maxRoomDimension; j++)
-      {
-        Vector3Int key = new Vector3Int(i, j, 1);
-        if (!_roomPrefabDictionary.ContainsKey(key))
-        {
-          _roomPrefabDictionary.Add(key, new List<GameObject>());
-        }
-      }
-    }
-    //Populate the room dictionary with prefabs
-    foreach (GameObject roomPrefab in _roomPrefabs)
-    {
-      Room roomData = roomPrefab.GetComponent<Room>();
-      if (roomData == null) continue;
-      _roomPrefabDictionary[roomData.RoomBounds.size].Add(roomPrefab);
-    }
-    _roomPrefabs.Clear();
-    for(int i = 1; i <= _maxRoomDimension; i++)
-    {
-      for (int j = 1; j <= _maxRoomDimension; j++)
-      {
-        //Debug.Log($"Room size {i}x{j} has {_roomPrefabDictionary[new Vector3Int(i, j, 1)].Count} prefabs.");
-      }
-    }
-  }
-
-  void Start()
-  {
   }
 
   BoundsInt TryExpandRoom(BoundsInt roomBounds, List<Direction> directions)
@@ -145,7 +94,60 @@ public class LevelManager : MonoBehaviour
     }
     return roomBounds;
   }
-
+  #endregion
+  #region Public Methods
+  public Room GetRoomFromGridLocation(Vector2Int gridLocation)
+  {
+    foreach (var room in _roomDataList)
+    {
+      if (room.ContainsLocation(gridLocation))
+      {
+        return room;
+      }
+    }
+    return null;
+  }
+  void Awake()
+  {
+    if (Instance == null)
+    {
+      Instance = this;
+      //DontDestroyOnLoad(gameObject);
+    }
+    else
+    {
+      Destroy(gameObject);
+    }
+    //Initialize lists in room dictionary
+    for (int i = 1; i <= _maxRoomDimension; i++)
+    {
+      for (int j = 1; j <= _maxRoomDimension; j++)
+      {
+        Vector3Int key = new Vector3Int(i, j, 1);
+        if (!_roomPrefabDictionary.ContainsKey(key))
+        {
+          _roomPrefabDictionary.Add(key, new List<GameObject>());
+        }
+      }
+    }
+    //Populate the room dictionary with prefabs
+    foreach (GameObject roomPrefab in _roomPrefabs)
+    {
+      Room roomData = roomPrefab.GetComponent<Room>();
+      if (roomData == null) continue;
+      _roomPrefabDictionary[roomData.RoomBounds.size].Add(roomPrefab);
+    }
+    _roomPrefabs.Clear();
+    for(int i = 1; i <= _maxRoomDimension; i++)
+    {
+      for (int j = 1; j <= _maxRoomDimension; j++)
+      {
+        //Debug.Log($"Room size {i}x{j} has {_roomPrefabDictionary[new Vector3Int(i, j, 1)].Count} prefabs.");
+      }
+    }
+  }
+  
+  #region Generate Level
   public void GenerateLevel(int roomCount = 10, float roomConnectionChance = 0.5f)
   {
     // Clear Existing rooms
@@ -261,7 +263,7 @@ public class LevelManager : MonoBehaviour
           {
             selectedDoor = newDoors[i];
 
-            
+
             curRoom = GetRoomFromGridLocation(selectedDoor.GridLocation);
             curRoomTransform = curRoom.transform;
             curRoomObject = curRoom.gameObject;
@@ -272,7 +274,7 @@ public class LevelManager : MonoBehaviour
               outboundDoor = Instantiate(_doorHorizontalPrefab, curRoomTransform.GetChild(1)).GetComponent<Door>();
             outboundDoor.SetDoorInfo(selectedDoor);
 
-            
+
             newRoom = GetRoomFromGridLocation(outboundDoor.DoorInfo.GetPointedPosition());
             newRoomTransform = newRoom.transform;
             newRoomObject = newRoom.gameObject;
@@ -325,7 +327,7 @@ public class LevelManager : MonoBehaviour
 
     }
 
-    foreach(var room in _roomDataList)
+    foreach (var room in _roomDataList)
     {
       room.DeactivateRoom();
     }
@@ -335,7 +337,10 @@ public class LevelManager : MonoBehaviour
     /// Last X rooms will be pickup rooms, which will not add their doors to the potential addition list
     //// Pickup rooms should have a pickup and a portal back to the origin
   }
+  #endregion //Generate Level
+  #endregion //Public Methods
 
+  #region Context Menu
   [ContextMenu("Activate All Rooms")]
   public void ActivateAllRooms()
   {
@@ -354,11 +359,5 @@ public class LevelManager : MonoBehaviour
     }
     RoomManager.Instance.RoomData.ActivateRoom();
   }
-
-  // Update is called once per frame
-  void Update()
-  {
-
-  }
-
+  #endregion
 }

@@ -3,24 +3,8 @@ using UnityEngine.UIElements;
 
 public class UIManager : MonoBehaviour
 {
-  //UIElements implementation
-  /*[SerializeField]
-  UIDocument _gamePlayDocument, _pauseDocument, _gameOverDocument;
-  VisualElement _gameplayRoot, _pauseRoot, _gameOverRoot;
-  */
   [SerializeField]
   Canvas _gamePlayCanvas, _pauseCanvas, _gameOverCanvas;
-  void Awake()
-  {
-
-
-  }
-
-  // Start is called once before the first execution of Update after the MonoBehaviour is created
-  void Start()
-  {
-    
-  }
 
   void OnEnable()
   {
@@ -55,11 +39,4 @@ public class UIManager : MonoBehaviour
         break;
     }
   }
-
-  // Update is called once per frame
-  void Update()
-  {
-
-  }
-    
 }

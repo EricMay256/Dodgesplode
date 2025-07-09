@@ -2,14 +2,17 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
+  #region Declarations
   [SerializeField]
   DoorInfo _doorInfo;
   public DoorInfo DoorInfo => _doorInfo;
   GameObject _containingRoomObj, _connectedRoom;
-  public GameObject ContainingRoom => _containingRoomObj;
-  public GameObject ConnectedRoom => _connectedRoom;
+  //public GameObject ContainingRoomObj => _containingRoomObj;
+  //public GameObject ConnectedRoom => _connectedRoom;
   Room _containingRoom;
+  #endregion
 
+  #region Public Methods
   public void SetDoorInfo(DoorInfo doorInfo)
   {
     //Set parent to containing room's door container
@@ -28,19 +31,19 @@ public class Door : MonoBehaviour
         _doorInfo.GridLocation.x * Room.GridToWorldScale.x,
         _doorInfo.GridLocation.y * Room.GridToWorldScale.y,
         0);
-      switch(_doorInfo.Orientation)
+      switch (_doorInfo.Orientation)
       {
         case Direction.Top:
-          transform.position += Vector3.up * (Room.GridToWorldScale.y/2 - 0.75f);
+          transform.position += Vector3.up * (Room.GridToWorldScale.y / 2 - 0.75f);
           break;
         case Direction.Right:
-          transform.position += Vector3.right * (Room.GridToWorldScale.x/2 - 0.75f);
+          transform.position += Vector3.right * (Room.GridToWorldScale.x / 2 - 0.75f);
           break;
         case Direction.Bottom:
-          transform.position += Vector3.down * (Room.GridToWorldScale.y/2 - 0.75f);
+          transform.position += Vector3.down * (Room.GridToWorldScale.y / 2 - 0.75f);
           break;
         case Direction.Left:
-          transform.position += Vector3.left * (Room.GridToWorldScale.x/2 - 0.75f);
+          transform.position += Vector3.left * (Room.GridToWorldScale.x / 2 - 0.75f);
           break;
         default:
           Debug.LogError("Invalid door orientation specified!");
@@ -51,6 +54,11 @@ public class Door : MonoBehaviour
     {
       Debug.LogError("Containing room is not set for the door!");
     }
+  }
+
+  public void SetDoorInfo(Vector2Int gridLocation, Direction edge)
+  {
+    SetDoorInfo(new DoorInfo(gridLocation, edge));
   }
 
   public void TravelThroughDoor()
@@ -71,26 +79,9 @@ public class Door : MonoBehaviour
     RoomManager.Instance.SetActiveRoom(_connectedRoom);
   }
 
-  public void SetDoorInfo(Vector2Int gridLocation, Direction edge)
-  {
-    SetDoorInfo(new DoorInfo(gridLocation, edge));
-
-  }
-
   public void ConnectDoor(GameObject connectedRoom)
   {
     _connectedRoom = connectedRoom;
   }
-
-  // Start is called once before the first execution of Update after the MonoBehaviour is created
-  void Start()
-  {
-
-  }
-
-  // Update is called once per frame
-  void Update()
-  {
-
-  }
+  #endregion
 }

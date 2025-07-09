@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+#region EnemySpawnData
 [CreateAssetMenu(fileName = "EnemySpawning", menuName = "Scriptable Objects/EnemySpawning")]
 public class EnemySpawnData : ScriptableObject
 {
@@ -13,6 +13,8 @@ public class EnemySpawnData : ScriptableObject
   public EnemyRoomSizeScaling EnemyScaling = EnemyRoomSizeScaling.FullPerimeter;
   public EnemySpawnType SpawnType = EnemySpawnType.SpawnOnTimer;
 }
+#endregion
+#region EnemyLevelStats
 [System.Serializable]
 public class EnemyLevelStats
 {
@@ -32,8 +34,10 @@ public class EnemyLevelStats
   public float ChaseDuration = -1f; // -1 means infinite chase duration
   public float LifeSpan = -1f; // Time after which the enemy will be destroyed if not destroyed earlier. -1 means infinite lifespan
 
-  public EnemyLevelStats() {SpawnTime = 1f; SpawnsPerWave = 1; SpeedModifier1 = 1f; SpeedModifier2 = 1f; Scale = 1f; RemovedEdges = 0; AngleChangeRateMulti = 5f; ChaseDuration = -1f; LifeSpan = -1f;}
+  public EnemyLevelStats() { SpawnTime = 1f; SpawnsPerWave = 1; SpeedModifier1 = 1f; SpeedModifier2 = 1f; Scale = 1f; RemovedEdges = 0; AngleChangeRateMulti = 5f; ChaseDuration = -1f; LifeSpan = -1f; }
 }
+#endregion
+#region EnemySpawnEntry
 [System.Serializable]
 public class EnemySpawnEntry
 {
@@ -58,7 +62,7 @@ public class EnemySpawnEntry
       }
     }
   }
-  
+
   public void GetCurLevelStats()
   {
     if (level < EnemyData.EnemyLevels.Count)
@@ -74,7 +78,7 @@ public class EnemySpawnEntry
       }
     }
   }
-  
+
   public void SetLevel(int newLevel)
   {
     if (newLevel < EnemyData.EnemyLevels.Count)
@@ -84,4 +88,5 @@ public class EnemySpawnEntry
     }
   }
 }
+#endregion
 

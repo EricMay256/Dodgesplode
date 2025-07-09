@@ -4,18 +4,25 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-  public static IEnumerable<Direction> SpawnableEdges { get { return new Direction [] 
-  {Direction.Right, Direction.Top, Direction.Left, Direction.Bottom} ; } }
+  #region Declarations
+  public static IEnumerable<Direction> SpawnableEdges
+  {
+    get
+    {
+      return new Direction[]
+  {Direction.Right, Direction.Top, Direction.Left, Direction.Bottom};
+    }
+  }
 
   public static EnemyManager Instance;
-  
+
   [SerializeField]
   Transform _timerEnemyParent, _triggerEnemyParent, _emptyPrefab;
   public Transform TimerEnemyParent => _timerEnemyParent;
   public Transform TriggerEnemyParent => _triggerEnemyParent;
 
   [SerializeField]
-  public float SpeedMultiplier  { get; private set; } = 1f;
+  public float SpeedMultiplier { get; private set; } = 1f;
 
   [SerializeField]
   EnemySpawnList _timerEnemySpawnList = null;
@@ -23,12 +30,68 @@ public class EnemyManager : MonoBehaviour
   List<EnemySpawnData> _triggeredEnemySpawnList = null;
   [SerializeField]
   private List<float> _spawnTimers = new List<float>();
+  #endregion
+  #region Helper Methods
+  void SpawnEnemyOnTimer(int index)
+  {
+    Enemy enemy = Instantiate(_timerEnemySpawnList.EnemySpawns[index].EnemyData.EnemyPrefab, transform.position, Quaternion.identity);
+    enemy.transform.SetParent(_timerEnemyParent.GetChild(index));
 
+    enemy.ChangeSpawnableEdges(_timerEnemySpawnList.EnemySpawns[index].SpawnableEdges);
+
+    enemy.SetUpEnemy(_timerEnemySpawnList.EnemySpawns[index].CurrentLevelStats);
+    enemy.PlaceOnSpawningBounds();
+  }
+  #endregion
+  #region Public Methods
   public Enemy InstantiateTriggeredEnemy(EnemySpawnData e)
   {
     return Instantiate(e.EnemyPrefab.gameObject, _triggerEnemyParent.GetChild(_triggeredEnemySpawnList.IndexOf(e))).GetComponent<Enemy>();
   }
 
+  public void SetSpeedMultiplier(float newSpeedMultiplier)
+  {
+    SpeedMultiplier = newSpeedMultiplier;
+  }
+
+  public void ClearAllEnemies()
+  {
+    foreach (Transform child in _timerEnemyParent.transform)
+    {
+      foreach (Enemy enemy in child.GetComponentsInChildren<Enemy>())
+      {
+        enemy.DestroyEnemy();
+      }
+    }
+    foreach (Transform child in _triggerEnemyParent.transform)
+    {
+      foreach (Enemy enemy in child.GetComponentsInChildren<Enemy>())
+      {
+        enemy.DestroyEnemy();
+      }
+    }
+  }
+
+  public void UpdateSpawnList(EnemySpawnList timerEnemies)
+  {
+    ClearAllEnemies();
+    _timerEnemySpawnList.EnemySpawns.Clear();
+    _spawnTimers.Clear();
+    foreach (Transform child in _timerEnemyParent)
+    {
+      Destroy(child.gameObject);
+    }
+    foreach (EnemySpawnEntry enemy in timerEnemies.EnemySpawns)
+    {
+      enemy.GetCurLevelStats();
+      _timerEnemySpawnList.EnemySpawns.Add(enemy);
+      _spawnTimers.Add(enemy.CurrentLevelStats.SpawnTime);
+      var v = Instantiate(_emptyPrefab, _timerEnemyParent);
+      v.name = enemy.EnemyData.EnemyPrefab.name;
+    }
+  }
+  #endregion
+  #region Monobehaviours
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Awake()
   {
@@ -49,14 +112,10 @@ public class EnemyManager : MonoBehaviour
     }
   }
 
-  void Start()
-  {
-    
-  }
   // Update is called once per frame
   void Update()
   {
-    if(GameManager.Instance.CurrentGameState != GameState.Active)
+    if (GameManager.Instance.CurrentGameState != GameState.Active)
       return;
     for (int i = 0; i < _spawnTimers.Count; i++)
     {
@@ -95,70 +154,5 @@ public class EnemyManager : MonoBehaviour
       }
     }
   }
-
-  public void SetSpeedMultiplier(float newSpeedMultiplier)
-  {
-    SpeedMultiplier = newSpeedMultiplier;
-  }
-
-  public void ClearAllEnemies()
-  {
-    foreach (Transform child in _timerEnemyParent.transform)
-    {
-      foreach (Enemy enemy in child.GetComponentsInChildren<Enemy>())
-      {
-        enemy.DestroyEnemy();
-      }
-    }
-    foreach (Transform child in _triggerEnemyParent.transform)
-    {
-      foreach (Enemy enemy in child.GetComponentsInChildren<Enemy>())
-      {
-        enemy.DestroyEnemy();
-      }
-    }
-    
-  }
-
-  void SpawnEnemyOnTimer(int index)
-  {
-    Enemy enemy = Instantiate(_timerEnemySpawnList.EnemySpawns[index].EnemyData.EnemyPrefab, transform.position, Quaternion.identity);
-    enemy.transform.SetParent(_timerEnemyParent.GetChild(index));
-
-    enemy.ChangeSpawnableEdges(_timerEnemySpawnList.EnemySpawns[index].SpawnableEdges);
-
-    enemy.SetUpEnemy(_timerEnemySpawnList.EnemySpawns[index].CurrentLevelStats);
-    enemy.PlaceOnSpawningBounds();
-  }
-
-  // public void UpdateSpawnList(List<EnemySpawning> enemies)
-  // {
-  //     _enemySpawnList.EnemySpawns.Clear();
-  //     _spawnTimers.Clear();
-  //     ClearAllEnemies();
-  //     foreach(EnemySpawning enemy in enemies)
-  //     {
-  //         _enemySpawnList.EnemySpawns.Add(new EnemySpawnData(enemy));
-  //         _spawnTimers.Add(enemy.SpawnTime);
-  //         Instantiate(_emptyPrefab, _enemyParent.transform);
-  //     }
-  // }
-  public void UpdateSpawnList(EnemySpawnList timerEnemies)
-  {
-    ClearAllEnemies();
-    _timerEnemySpawnList.EnemySpawns.Clear();
-    _spawnTimers.Clear();
-    foreach (Transform child in _timerEnemyParent)
-    {
-      Destroy(child.gameObject);
-    }
-    foreach (EnemySpawnEntry enemy in timerEnemies.EnemySpawns)
-    {
-      enemy.GetCurLevelStats();
-      _timerEnemySpawnList.EnemySpawns.Add(enemy);
-      _spawnTimers.Add(enemy.CurrentLevelStats.SpawnTime);
-      var v = Instantiate(_emptyPrefab, _timerEnemyParent);
-      v.name = enemy.EnemyData.EnemyPrefab.name;
-    }
-  }
+  #endregion
 }
