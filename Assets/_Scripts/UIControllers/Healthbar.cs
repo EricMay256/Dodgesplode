@@ -18,15 +18,15 @@ public class Healthbar : MonoBehaviour
     }
     void Start()
     {
-        _previousHealthPercent = _playerData.healthPct;
+        _previousHealthPercent = _playerData.HealthPct;
         _healthbarSlider.value = _previousHealthPercent;
     }
     // Update is called once per frame
     void Update()
     {
-        if(_playerData.healthPct != _previousHealthPercent)
+        if(_playerData.HealthPct != _previousHealthPercent)
         {
-            _previousHealthPercent = _playerData.healthPct;
+            _previousHealthPercent = _playerData.HealthPct;
             _healthbarSlider.value = _previousHealthPercent;
             //Update the health bar UI here
             //For example, set the fill amount of a UI Image component to the health percent

@@ -20,6 +20,7 @@ public class RoomManager : MonoBehaviour
   private List<Bounds> _topBounds = new List<Bounds>();
   private List<Bounds> _bottomBounds = new List<Bounds>();
 
+
   /// <summary>
   /// Returns a random spawn location on the specified edge of the room.
   /// </summary>
@@ -179,7 +180,8 @@ public class RoomManager : MonoBehaviour
     //Play room music if available
     AudioManager.Instance.PlayMusic(_roomData.RoomMusic);
     //Inform the enemy manager about the new room's enemy spawn list
-    EnemyManager.Instance.UpdateSpawnList(_roomData.EnemySpawnList);
+    EnemyManager.Instance.ClearAllEnemies();
+    EnemyManager.Instance.UpdateSpawnList(_roomData.TimerEnemySpawnList);
     //Update game state
     //if(GameManager.Instance.CurrentGameState == GameState.Transition)
     //  GameManager.Instance.EndTransition();

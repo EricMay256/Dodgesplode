@@ -28,6 +28,3 @@ MonoBehaviour:
   SpawnableEdges: 00000000010000000200000003000000
   EnemyScaling: 0
   SpawnType: 0
-  AngleChangeRate: 5
-  ChaseDuration: -1
-  LifeSpan: -1

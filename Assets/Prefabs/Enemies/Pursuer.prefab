@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -8891889449217446169}
   m_Layer: 0
   m_Name: Pursuer
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -139,8 +139,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Scale: 0.5
   _usePooling: 0
-  MoveAngle: 0
-  MoveSpeed: 4
-  AngleChangeRate: 20
-  ChaseDuration: -1
-  LifeSpan: -1

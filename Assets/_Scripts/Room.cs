@@ -4,7 +4,7 @@ using UnityEngine;
 public class Room : MonoBehaviour
 {
   public AudioClip RoomMusic;
-  public EnemySpawnList EnemySpawnList;
+  public EnemySpawnList TimerEnemySpawnList, PersistentEnemySpawnList;
   
   [SerializeField]
   BoundsInt _roomBounds;
@@ -17,6 +17,16 @@ public class Room : MonoBehaviour
   [SerializeField]
   List<DoorAvailability> _leftRightDoorAvailability = new List<DoorAvailability>();
   public List<DoorAvailability> LeftRightDoorAvailability => _leftRightDoorAvailability;
+
+  bool _persistentEnemiesSpawned = false;
+  
+  void TrySpawnPersistentEnemies()
+  {
+    if (_persistentEnemiesSpawned)
+      return;
+    _persistentEnemiesSpawned = true;
+    //Spawn persistent enemies
+  }
 
   public void SetRoomPos(Vector2Int gridPosition)
   {
@@ -128,6 +138,7 @@ public class Room : MonoBehaviour
     {
       child.gameObject.SetActive(true);
     }
+    TrySpawnPersistentEnemies();
   }
   [ContextMenu("Deactivate Room")]
   public void DeactivateRoom()

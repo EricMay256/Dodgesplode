@@ -10,8 +10,6 @@ public class TrackingMover : Enemy
   /// </summary>
   private float AngleChangeRate = 20f;
   private float ChaseDuration = -1f; // -1 means infinite chase duration
-  private float LifeSpan = -1f; // Time after which the enemy will be destroyed if not destroyed earlier. -1 means infinite lifespan
-  private float _timeAlive = 0f; // Timer to track chase duration
 
   public override void SetUpEnemy(EnemyLevelStats levelStats)
 
@@ -20,7 +18,6 @@ public class TrackingMover : Enemy
     MoveSpeed *= SpeedModifier;
     
     ChaseDuration = levelStats.ChaseDuration;
-    LifeSpan = levelStats.LifeSpan;
     AngleChangeRate *= levelStats.AngleChangeRateMulti;
   }
 
@@ -78,9 +75,9 @@ public class TrackingMover : Enemy
   }
 
   // Update is called once per frame
-  void Update()
+  protected override void Update()
   {
-    _timeAlive += Time.deltaTime;
+    base.Update();
     if (_timeAlive < ChaseDuration || ChaseDuration < 0f)
     {
       Vector3 targetPosition = Player.Instance.Position;
@@ -88,18 +85,12 @@ public class TrackingMover : Enemy
 
       // Calculate the angle to the target
       float targetAngle = Vector3.SignedAngle(Vector3.right, directionToTarget, Vector3.forward);
-      
+
       // Smoothly change the angle towards the target
       MoveAngle = Mathf.MoveTowardsAngle(MoveAngle, targetAngle, AngleChangeRate * Time.deltaTime);
-      
+
       // Set the rotation
       transform.rotation = Quaternion.Euler(0f, 0f, MoveAngle);
-
-    }
-    if( LifeSpan > 0f && _timeAlive >= LifeSpan)
-    {
-      DestroyEnemy();
-      return;
     }
     // Move towards the target
     transform.Translate(Vector3.right * MoveSpeed * Time.deltaTime, Space.Self);

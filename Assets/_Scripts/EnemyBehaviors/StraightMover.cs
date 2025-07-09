@@ -160,8 +160,9 @@ public class StraightMover : Enemy
   }
 
   // Update is called once per frame
-  void Update()
+  protected override void Update()
   {
+    base.Update();
     transform.Translate(Vector3.right * MoveSpeed * Time.deltaTime, Space.Self);
     DestroyPastBounds();
   }

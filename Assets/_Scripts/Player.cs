@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
+using TMPro.EditorUtilities;
 
 public class Player : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class Player : MonoBehaviour
   public Vector3 Position => _rb.position;
   Vector3 _moveDelta;
   float _doorMoveAmount = 3f;
+  float _invulnTimer = 0f;
+  SpriteRenderer _sr;
 
   [SerializeField]
   MovementInputType _movementInputType = MovementInputType.Look;
@@ -30,16 +33,33 @@ public class Player : MonoBehaviour
     }
 
     _rb = GetComponent<Rigidbody2D>();
-    _pd.curHealth = _pd.maxHealth;
+    _pd.CurHealth = _pd.MaxHealth;
+    _sr = GetComponent<SpriteRenderer>();
   }
   void Start()
   {
     ResetPlayer();
   }
 
+  public IEnumerator InvulnFlashing()
+  {
+    int flashes = 0;
+    _sr.color = Color.red;
+    flashes++;
+    while (_invulnTimer < _pd.InvulnPeriod)
+    {
+      yield return new WaitForSeconds(0.2f);
+      _sr.color = _sr.color == Color.red ? Color.white : Color.red;
+      flashes++;
+    }
+    _sr.color = Color.white;
+  }
+
   // Update is called once per frame
   void Update()
   {
+    if (_invulnTimer < _pd.InvulnPeriod)
+      _invulnTimer += Time.deltaTime;
     ApplyHealthRegen(Time.deltaTime);
     //Apply scaling to input motion based on crouch/sprint
     if (PlayerInputManager.Instance.CrouchPressed)
@@ -97,11 +117,11 @@ public class Player : MonoBehaviour
   //Apply health regen over time
   void ApplyHealthRegen(float time)
   {
-    if (GameManager.Instance.CurrentGameState == GameState.Active && _pd.curHealth < _pd.maxHealth)
+    if (GameManager.Instance.CurrentGameState == GameState.Active && _pd.CurHealth < _pd.MaxHealth)
     {
-      _pd.curHealth += _pd.healthRegenPer5Sec * Time.deltaTime / 5f;
-      _pd.curHealth = Mathf.Min(_pd.curHealth, _pd.maxHealth);
-      _pd.healthPct = _pd.curHealth / _pd.maxHealth;
+      _pd.CurHealth += _pd.HealthRegenPer5Sec * Time.deltaTime / 5f;
+      _pd.CurHealth = Mathf.Min(_pd.CurHealth, _pd.MaxHealth);
+      _pd.HealthPct = _pd.CurHealth / _pd.MaxHealth;
     }
   }
 
@@ -150,12 +170,19 @@ public class Player : MonoBehaviour
 
   public void TakeDamage(float damage = 10f)
   {
-    _pd.curHealth -= damage;
-    _pd.healthPct = Mathf.Max(_pd.curHealth
-      / _pd.maxHealth, 0f);
-    if (_pd.curHealth <= 0f)
+    if (_invulnTimer < _pd.InvulnPeriod)
+      return;
+    _pd.CurHealth -= damage;
+    _pd.HealthPct = Mathf.Max(_pd.CurHealth
+      / _pd.MaxHealth, 0f);
+    _invulnTimer = 0f;
+    if (_pd.CurHealth <= 0f)
     {
       GameManager.Instance.GameOver();
+    }
+    else
+    {
+      StartCoroutine("InvulnFlashing");
     }
   }
 
@@ -183,7 +210,8 @@ public class Player : MonoBehaviour
     }
     if (collision.CompareTag("Enemy"))
     {
-      TakeDamage(collision.GetComponent<Enemy>().Damage);
+      var enemy = collision.GetComponent<Enemy>();
+      TakeDamage(enemy.Damage);
     }
     if (collision.CompareTag("EnemyTrigger"))
     {

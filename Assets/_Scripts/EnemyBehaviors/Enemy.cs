@@ -18,6 +18,8 @@ public class Enemy : MonoBehaviour
   bool _usePooling = false;
   public bool UsePooling => _usePooling;
   protected List<Direction> _spawnableEdges = new List<Direction>();
+  private float _lifeSpan = -1f; // Time after which the enemy will be destroyed if not destroyed earlier. -1 means infinite lifespan
+  protected float _timeAlive { get; private set; } = 0f; // Timer to track chase duration
 
   public virtual void SetUpEnemy(EnemyLevelStats levelStats)
   {
@@ -26,6 +28,7 @@ public class Enemy : MonoBehaviour
     Damage = levelStats.Damage;
     _maxHealth = levelStats.MaxHealth;
     _health = _maxHealth;
+    _lifeSpan = levelStats.LifeSpan;
   }
 
   public void ChangeSpawnableEdges(IEnumerable<Direction> edges)
@@ -61,12 +64,22 @@ public class Enemy : MonoBehaviour
   public virtual void PlaceClosestToPlayer()
   {
     PlaceClosestToPlayer(_spawnableEdges[Random.Range(0, _spawnableEdges.Count)]);
-    
+
   }
   public virtual void PlaceClosestToPlayer(Direction edge)
   {
     _spawnedEdge = edge;
     transform.position = RoomManager.Instance.MinimumDistanceToPlayerPoint(_spawnedEdge);
+  }
+
+  protected virtual void Update()
+  {
+    _timeAlive += Time.deltaTime;
+    if( _lifeSpan > 0f && _timeAlive >= _lifeSpan)
+    {
+      DestroyEnemy();
+      return;
+    }
   }
 }
 

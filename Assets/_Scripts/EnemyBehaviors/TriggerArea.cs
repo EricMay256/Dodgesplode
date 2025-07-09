@@ -57,7 +57,7 @@ public class TriggerArea : MonoBehaviour
   public void SpawnOnEdge(Direction edge)
   {
     // Create a new enemy instance
-    Enemy enemy = Instantiate(_enemySpawnData.EnemyPrefab, transform.position, Quaternion.identity);
+    Enemy enemy = EnemyManager.Instance.InstantiateTriggeredEnemy(_enemySpawnData); //EnemyManager
 
     // Set up the enemy with the provided spawn data and level stats
     enemy.SetUpEnemy(_enemySpawnData.EnemyLevels[enemyLevel]);
@@ -66,7 +66,7 @@ public class TriggerArea : MonoBehaviour
   public void SpawnFacingPlayer(Direction edge)
   {
     // Create a new enemy instance
-    Enemy enemy = Instantiate(_enemySpawnData.EnemyPrefab, transform.position, Quaternion.identity);
+    Enemy enemy = EnemyManager.Instance.InstantiateTriggeredEnemy(_enemySpawnData);
 
     // Set up the enemy with the provided spawn data and level stats
     enemy.SetUpEnemy(_enemySpawnData.EnemyLevels[enemyLevel]);

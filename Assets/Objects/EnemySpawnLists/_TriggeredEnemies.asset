@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69bd7958e7793ff4a849a702fc8a03af, type: 3}
   m_Name: _TriggeredEnemies
   m_EditorClassIdentifier: 
-  TimerEnemySpawns:
-  - EnemyData: {fileID: 0}
+  EnemySpawns:
+  - EnemyData: {fileID: 11400000, guid: 9ced2ddb3336b35468e0f829794b5b14, type: 2}
     level: 0
-  PersistentEnemySpawns: []

@@ -127,7 +127,7 @@ public class GameManager : MonoBehaviour
         break;
       case GameState.GameSetup:
         _timer.ResetTimer();
-        EnemyManager.Instance.ResetEnemies();
+        EnemyManager.Instance.ClearAllEnemies();
         Player.Instance.ResetPlayer();
         LevelManager.Instance.GenerateLevel();
         break;

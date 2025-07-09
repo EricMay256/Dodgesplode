@@ -12,12 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69bd7958e7793ff4a849a702fc8a03af, type: 3}
   m_Name: HallwayHorizontal
   m_EditorClassIdentifier: 
-  TimerEnemySpawns:
-  - EnemyData: {fileID: 11400000, guid: 3cfc80b0052f1a444bc3ea5e61d463bc, type: 2}
-    level: 1
-  - EnemyData: {fileID: 11400000, guid: ee6ae90386ea4f145b07c264909d3032, type: 2}
-    level: 0
+  EnemySpawns:
   - EnemyData: {fileID: 11400000, guid: 438215ceeda614f4f98ce698268cf04d, type: 2}
     level: 0
-  TriggerEnemySpawns: []
-  PersistentEnemySpawns: []
+  - EnemyData: {fileID: 11400000, guid: ee6ae90386ea4f145b07c264909d3032, type: 2}
+    level: 0
+  - EnemyData: {fileID: 11400000, guid: 3cfc80b0052f1a444bc3ea5e61d463bc, type: 2}
+    level: 1
