@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a207bd22fe36b5a4ebfe20f5ae08aa6b, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  healthPct: 1
-  maxHealth: 100
-  curHealth: 100
+  HealthPct: 1
+  MaxHealth: 100
+  CurHealth: 100
+  HealthRegenPer5Sec: 5
+  InvulnPeriod: 0.8
