@@ -52,7 +52,6 @@ public enum Direction
   Left = 2,
   Bottom = 3
 }
-
 public enum GameState
 {
     GameplayLobby = 0,
