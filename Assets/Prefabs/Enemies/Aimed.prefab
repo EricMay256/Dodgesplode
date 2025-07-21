@@ -101,11 +101,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0b97b676919f604eb10fbdb697cc206, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <AimType>k__BackingField: 2
   Scale: 0.5
   _usePooling: 0
-  MoveAngle: 76
-  MoveSpeed: 4
-  _aimType: 2
   _aimArc: 5
 --- !u!60 &-2282500021460975188
 PolygonCollider2D:

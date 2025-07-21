@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
   #region Declarations
   protected SpriteRenderer _sr;
   protected Direction _spawnedEdge;
+  [field:SerializeField] public AimType AimType { get; protected set; } = AimType.Random;
   float _maxHealth = 1f, _health = 1f;
   public float Damage { get; private set; } = 10f;
   public float Scale = 1f;

@@ -593,7 +593,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RoomMusic: {fileID: 8300000, guid: 984034cde717d9e43ae2ac459f8161d8, type: 3}
-  TimerEnemySpawnList: {fileID: 11400000, guid: 7ebf2f5a8b0b2d4468805f84b95235ca, type: 2}
+  TimerEnemySpawnList: {fileID: 11400000, guid: 0e9ac842a0db2f44080c994641fa5b76, type: 2}
   PersistentEnemySpawnList: {fileID: 0}
   _roomBounds:
     m_Position: {x: 0, y: 0, z: 0}

@@ -6,7 +6,9 @@ public class SpawningBehavior : MonoBehaviour
   [SerializeField]
   EnemySpawningType _spawningType = EnemySpawningType.Child;
   [SerializeField]
-  int _spawnCount = 3, _spawnRadius; // -1 indicates infinite spawning
+  int _spawnCount = 3;
+  [SerializeField]
+  float _spawnRadius; // -1 indicates infinite spawning
   [SerializeField]
   float _spawnInterval = 2.0f; // Time in seconds between spawns
   float _spawnTimer = 0.0f;
@@ -63,7 +65,8 @@ public class SpawningBehavior : MonoBehaviour
         Debug.LogWarning("Triggered spawning type requires world space positioning!");
         return;
       }
-      var obj = Instantiate(_spawnedEnemyData.EnemyPrefab, position, Quaternion.Euler(0, 0, angle));
+      var obj = Instantiate(_spawnedEnemyData.EnemyPrefab, position + transform.position, Quaternion.Euler(0, 0, transform.rotation.z + angle));
+      obj.transform.localScale *= transform.localScale.x;
       if (_spawningType == EnemySpawningType.ReplenishingTriggeredRadius)
       {
         obj.OnEnemyDestroyed += IncrementSpawnCount;
@@ -92,19 +95,22 @@ public class SpawningBehavior : MonoBehaviour
     Vector3 spawnPosition;
     float spawnAngle = 0f;
 
+    //todo: implement specific aiming logic
     switch (_spawningType)
     {
       case EnemySpawningType.Child:
       case EnemySpawningType.ReplenishingChild:
-      case EnemySpawningType.ReplenishingTriggeredRadius:
-      case EnemySpawningType.TriggeredRadius:
         spawnPosition = GetRadiusSpawnPosition();
         spawnAngle = GetAngleFromVector(spawnPosition);
         SpawnEnemy(spawnPosition, spawnAngle, false);
         break;
-      case EnemySpawningType.TriggeredEdges:
-        SpawnEnemy(_spawnedEnemyData.GetSpawnableEdge(), false);
+      case EnemySpawningType.ReplenishingTriggeredRadius:
+      case EnemySpawningType.TriggeredRadius:
+        spawnPosition = GetRadiusSpawnPosition();
+        spawnAngle = GetAngleFromVector(spawnPosition);
+        SpawnEnemy(spawnPosition, spawnAngle, true);
         break;
+      case EnemySpawningType.TriggeredEdges:
       case EnemySpawningType.TriggeredClosestPointToSelf:
       case EnemySpawningType.TriggeredClosestPointToPlayer:
         SpawnEnemy(_spawnedEnemyData.GetSpawnableEdge(), true);
@@ -145,7 +151,7 @@ public class SpawningBehavior : MonoBehaviour
   void Update()
   {
     _spawnTimer += Time.deltaTime;
-    if (_spawningType == EnemySpawningType.ReplenishingChild || _spawningType == EnemySpawningType.ReplenishingTriggeredRadius)
+    if ((_spawningType == EnemySpawningType.ReplenishingChild || _spawningType == EnemySpawningType.ReplenishingTriggeredRadius) && _spawnCount <= 0)
     {
       _spawnTimer = 0;
     }

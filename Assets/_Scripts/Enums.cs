@@ -97,7 +97,11 @@ public enum AimType
 {
   Orthogonal = 0,
   Random = 1,
-  Aimed = 2
+  Aimed = 2,
+  Tracking = 3,
+  Stationary = 4,
+  Orbiting = 5,
+  Wandering = 6
 }
 #endregion
 #region DoorInfo

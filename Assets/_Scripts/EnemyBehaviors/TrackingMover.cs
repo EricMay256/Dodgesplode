@@ -69,6 +69,7 @@ public class TrackingMover : Enemy
   void Awake()
   {
     _sr = GetComponent<SpriteRenderer>();
+    AimType = AimType.Tracking;
   }
 
   // Update is called once per frame

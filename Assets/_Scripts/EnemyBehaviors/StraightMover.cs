@@ -6,7 +6,6 @@ public class StraightMover : Enemy
   [Range(0f, 360f)]
   private float MoveAngle = 0f;
   private float MoveSpeed = 4f;
-  [SerializeField] AimType _aimType = AimType.Random;
   /// <summary>
   /// Random offset from the MoveAngle for Aimed or Orthogonal enemies.
   /// </summary>
@@ -44,7 +43,7 @@ public class StraightMover : Enemy
   #region Helper Methods
   void UpdateAngleAndColor()
   {
-    if (_aimType == AimType.Aimed)//Aimed logic doesn't depend on the spawned edge
+    if (AimType == AimType.Aimed)//Aimed logic doesn't depend on the spawned edge
     {
       MoveAngle = Vector3.SignedAngle(Vector3.right,
       Player.Instance.Position - transform.position, Vector3.forward) + Random.Range(-_aimArc, _aimArc);
@@ -54,7 +53,7 @@ public class StraightMover : Enemy
     {
       case Direction.Right:
         _sr.color = Color.red;
-        switch (_aimType)
+        switch (AimType)
         {
           case AimType.Orthogonal:
             MoveAngle = 180f + Random.Range(-_aimArc, _aimArc);
@@ -68,7 +67,7 @@ public class StraightMover : Enemy
         break;
       case Direction.Top:
         _sr.color = Color.green;
-        switch (_aimType)
+        switch (AimType)
         {
           case AimType.Orthogonal:
             MoveAngle = 270f + Random.Range(-_aimArc, _aimArc);
@@ -82,7 +81,7 @@ public class StraightMover : Enemy
         break;
       case Direction.Left:
         _sr.color = Color.blue;
-        switch (_aimType)
+        switch (AimType)
         {
           case AimType.Orthogonal:
             MoveAngle = 0f + Random.Range(-_aimArc, _aimArc);
@@ -96,7 +95,7 @@ public class StraightMover : Enemy
         break;
       case Direction.Bottom:
         _sr.color = Color.yellow;
-        switch (_aimType)
+        switch (AimType)
         {
           case AimType.Orthogonal:
             MoveAngle = 90f + Random.Range(-_aimArc, _aimArc);

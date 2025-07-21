@@ -30,8 +30,6 @@ public class PlayerInputManager : MonoBehaviour
   private InputAction _movementAction, _lookAction;
   private PlayerInput _playerInput;
   private InputProcessor _moveProcessor, _lookProcessor;
-  float _movementScalar = 5f;//Scalar for normalized movement input
-                             // Start is called once before the first execution of Update after the MonoBehaviour is created
   [SerializeField]
   private bool _logMovement = false;
   #endregion
@@ -47,8 +45,6 @@ public class PlayerInputManager : MonoBehaviour
       Destroy(gameObject);
     }
     _playerInput = GetComponent<PlayerInput>();
-    //Warning: Locking the cursor breaks all UI interactions!
-    //Cursor.lockState = CursorLockMode.Locked;
   }
 
   void Start()
@@ -62,7 +58,6 @@ public class PlayerInputManager : MonoBehaviour
     _sprintAction = _playerInput.actions["Sprint"];
     _pauseActionPlayer = _playerInput.actions["Player/Pause"];
     _pauseActionUI = _playerInput.actions["UI/Pause"];
-    //SetLookScale(1);
   }
 
   // Update is called once per frame

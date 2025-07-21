@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7908397631484779636
+--- !u!1 &5351012277774755319
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,39 +8,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8065773966548411198}
-  - component: {fileID: 2933991991264710645}
-  - component: {fileID: 5935290162233435082}
-  - component: {fileID: -8891889449217446169}
+  - component: {fileID: 1102020010815035716}
+  - component: {fileID: 3347900796626633005}
+  - component: {fileID: 610873806193701007}
+  - component: {fileID: -72734624516051506}
+  - component: {fileID: -8012940581729610328}
   m_Layer: 0
-  m_Name: Pursuer
+  m_Name: SpawnTest
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8065773966548411198
+--- !u!4 &1102020010815035716
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7908397631484779636}
+  m_GameObject: {fileID: 5351012277774755319}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &2933991991264710645
+--- !u!212 &3347900796626633005
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7908397631484779636}
+  m_GameObject: {fileID: 5351012277774755319}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -78,8 +79,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: 1995fdf84b1d79c42b916c21a0c1bfe4, type: 3}
-  m_Color: {r: 0.4953642, g: 0, b: 1, a: 1}
+  m_Sprite: {fileID: 7482667652216324306, guid: 8b92398f0f4af3a4597f5ba5ec516c6a, type: 3}
+  m_Color: {r: 1, g: 0.70765555, b: 0.18396229, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -89,13 +90,29 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &5935290162233435082
-CircleCollider2D:
+--- !u!114 &610873806193701007
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7908397631484779636}
+  m_GameObject: {fileID: 5351012277774755319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b97b676919f604eb10fbdb697cc206, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Scale: 0.5
+  _usePooling: 0
+  _aimType: 1
+  _aimArc: 0
+--- !u!61 &-72734624516051506
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5351012277774755319}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -124,19 +141,31 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
---- !u!114 &-8891889449217446169
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!114 &-8012940581729610328
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7908397631484779636}
+  m_GameObject: {fileID: 5351012277774755319}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcd1eb2b0d1ddeb4a80f87a515b100f2, type: 3}
+  m_Script: {fileID: 11500000, guid: a0c29897db954ef46bdb2250ff1f65b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <AimType>k__BackingField: 3
-  Scale: 0.5
-  _usePooling: 0
+  _spawningType: 13
+  _spawnCount: 3
+  _spawnRadius: 1
+  _spawnInterval: 2
+  _spawnedEnemyData: {fileID: 11400000, guid: 5350cb32dfd31c642b7d5741d8f7ebfd, type: 2}
