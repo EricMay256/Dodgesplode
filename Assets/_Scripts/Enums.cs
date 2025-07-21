@@ -26,6 +26,18 @@ public static class EnumUtilities
 }
 #endregion
 #region Enums
+public enum EnemySpawningType
+{
+  //Child values
+  Child = 0,
+  ReplenishingChild = 1,
+  //Triggered values
+  TriggeredEdges = 10,
+  TriggeredClosestPointToSelf = 11,
+  TriggeredClosestPointToPlayer = 12,
+  TriggeredRadius = 13,
+  ReplenishingTriggeredRadius = 14
+}
 public enum EnemySpawningPattern
 {
   Random = 0,

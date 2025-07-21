@@ -12,6 +12,15 @@ public class EnemySpawnData : ScriptableObject
   public List<Direction> SpawnableEdges = new List<Direction>(EnumUtilities.AllDirections);
   public EnemyRoomSizeScaling EnemyScaling = EnemyRoomSizeScaling.FullPerimeter;
   public EnemySpawnType SpawnType = EnemySpawnType.SpawnOnTimer;
+  public Direction GetSpawnableEdge()
+  {
+    if (SpawnableEdges.Count == 0)
+    {
+      Debug.LogWarning("No spawnable edges available, returning Right as default.");
+      return Direction.Right;
+    }
+    return SpawnableEdges[Random.Range(0, SpawnableEdges.Count)];
+  }
 }
 #endregion
 #region EnemyLevelStats
@@ -34,7 +43,7 @@ public class EnemyLevelStats
   public float ChaseDuration = -1f; // -1 means infinite chase duration
   public float LifeSpan = -1f; // Time after which the enemy will be destroyed if not destroyed earlier. -1 means infinite lifespan
 
-  public EnemyLevelStats() { SpawnTime = 1f; SpawnsPerWave = 1; SpeedModifier1 = 1f; SpeedModifier2 = 1f; Scale = 1f; RemovedEdges = 0; AngleChangeRateMulti = 5f; ChaseDuration = -1f; LifeSpan = -1f; }
+  public EnemyLevelStats() { SpawnTime = 1f; SpawnsPerWave = 1; MaxHealth = 1f; Damage = 10f; SpeedModifier1 = 1f; SpeedModifier2 = 1f; Scale = 1f; RemovedEdges = 0; AngleChangeRateMulti = 5f; ChaseDuration = -1f; LifeSpan = -1f; }
 }
 #endregion
 #region EnemySpawnEntry
