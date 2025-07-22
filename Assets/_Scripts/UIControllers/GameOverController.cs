@@ -1,13 +1,16 @@
 using UnityEngine;
 
-public class GameOverController : MonoBehaviour
+namespace BearFalls
 {
-  public void MainMenu()
+  public class GameOverController : MonoBehaviour
   {
-    UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
-  }
-  public void ResetGame()
-  {
-    GameManager.Instance.ResetGame();
+    public void MainMenu()
+    {
+      UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+    }
+    public void ResetGame()
+    {
+      GameManager.Instance.ResetGame();
+    }
   }
 }

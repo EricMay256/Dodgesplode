@@ -2,41 +2,43 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Timer : MonoBehaviour
+namespace BearFalls
 {
-  #region Declarations
-  float _timeElapsed = 0f;
-  public float TimeElapsed => _timeElapsed;
-  // UIDocument _uiDocument;
-  TMP_Text _timerLabel;
-  #endregion
-  #region Public Methods
-  public void ResetTimer()
+  public class Timer : MonoBehaviour
   {
-    _timeElapsed = 0f;
-    _timerLabel.text = "0";
-  }
-  #endregion
+    #region Declarations
+    float _timeElapsed = 0f;
+    public float TimeElapsed => _timeElapsed;
+    TMP_Text _timerLabel;
+    #endregion
+    #region Public Methods
+    public void ResetTimer()
+    {
+      _timeElapsed = 0f;
+      _timerLabel.text = "0";
+    }
+    #endregion
 
-  #region MonoBehaviours
-  private void OnEnable()
-  {
-    ResetTimer();
-  }
+    #region MonoBehaviours
+    private void OnEnable()
+    {
+      ResetTimer();
+    }
 
-  void Awake()
-  {
-    _timerLabel = GetComponent<TMP_Text>();
-  }
+    void Awake()
+    {
+      _timerLabel = GetComponent<TMP_Text>();
+    }
 
-  // Update is called once per frame
-  void Update()
-  {
-    if (GameManager.Instance.CurrentGameState != GameState.Active)
-      return;
-    _timeElapsed += Time.deltaTime;
-    _timerLabel.text = _timeElapsed.ToString("0");
+    // Update is called once per frame
+    void Update()
+    {
+      if (GameManager.Instance.CurrentGameState != GameState.Active)
+        return;
+      _timeElapsed += Time.deltaTime;
+      _timerLabel.text = _timeElapsed.ToString("0");
 
+    }
+    #endregion
   }
-  #endregion
 }

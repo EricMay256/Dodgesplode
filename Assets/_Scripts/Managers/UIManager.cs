@@ -1,42 +1,45 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class UIManager : MonoBehaviour
+namespace BearFalls
 {
-  [SerializeField]
-  Canvas _gamePlayCanvas, _pauseCanvas, _gameOverCanvas;
-
-  void OnEnable()
+  public class UIManager : MonoBehaviour
   {
-    GameManager.OnGameStateChanged += HandleGameStateChange;    
-  }
+    [SerializeField]
+    Canvas _gamePlayCanvas, _pauseCanvas, _gameOverCanvas;
 
-  void OnDisable()
-  {
-    GameManager.OnGameStateChanged -= HandleGameStateChange;
-  }
-
-  public void HandleGameStateChange(GameState newState)
-  {
-    switch (newState)
+    void OnEnable()
     {
-      case GameState.Active:
-        _gamePlayCanvas.gameObject.SetActive(true);
-        _pauseCanvas.gameObject.SetActive(false);
-        _gameOverCanvas.gameObject.SetActive(false);
-        break;
-      case GameState.Paused:
-        _gamePlayCanvas.gameObject.SetActive(true);
-        _pauseCanvas.gameObject.SetActive(true);
-        _gameOverCanvas.gameObject.SetActive(false);
-        break;
-      case GameState.GameOver:
-        _gamePlayCanvas.gameObject.SetActive(false);
-        _pauseCanvas.gameObject.SetActive(false);
-        _gameOverCanvas.gameObject.SetActive(true);
-        break;
-      default:
-        break;
+      GameManager.OnGameStateChanged += HandleGameStateChange;
+    }
+
+    void OnDisable()
+    {
+      GameManager.OnGameStateChanged -= HandleGameStateChange;
+    }
+
+    public void HandleGameStateChange(GameState newState)
+    {
+      switch (newState)
+      {
+        case GameState.Active:
+          _gamePlayCanvas.gameObject.SetActive(true);
+          _pauseCanvas.gameObject.SetActive(false);
+          _gameOverCanvas.gameObject.SetActive(false);
+          break;
+        case GameState.Paused:
+          _gamePlayCanvas.gameObject.SetActive(true);
+          _pauseCanvas.gameObject.SetActive(true);
+          _gameOverCanvas.gameObject.SetActive(false);
+          break;
+        case GameState.GameOver:
+          _gamePlayCanvas.gameObject.SetActive(false);
+          _pauseCanvas.gameObject.SetActive(false);
+          _gameOverCanvas.gameObject.SetActive(true);
+          break;
+        default:
+          break;
+      }
     }
   }
 }

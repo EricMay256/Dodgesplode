@@ -1,83 +1,71 @@
 using System.Collections.Generic;
 using UnityEngine;
-#region EnemySpawnData
-[CreateAssetMenu(fileName = "EnemySpawning", menuName = "Scriptable Objects/EnemySpawning")]
-public class EnemySpawnData : ScriptableObject
-{
-  [SerializeField]
-  public List<EnemyLevelStats> EnemyLevels = new List<EnemyLevelStats>();
-  [SerializeField]
-  public Enemy EnemyPrefab;
-  [SerializeField]
-  public List<Direction> SpawnableEdges = new List<Direction>(EnumUtilities.AllDirections);
-  public EnemyRoomSizeScaling EnemyScaling = EnemyRoomSizeScaling.FullPerimeter;
-  public EnemySpawnType SpawnType = EnemySpawnType.SpawnOnTimer;
-  public Direction GetSpawnableEdge()
-  {
-    if (SpawnableEdges.Count == 0)
-    {
-      Debug.LogWarning("No spawnable edges available, returning Right as default.");
-      return Direction.Right;
-    }
-    return SpawnableEdges[Random.Range(0, SpawnableEdges.Count)];
-  }
-}
-#endregion
-#region EnemyLevelStats
-[System.Serializable]
-public class EnemyLevelStats
-{
-  /// <summary>
-  /// Time in seconds between spawns of this enemy type.
-  /// If the enemy is persistent or triggered, this value is ignored.
-  /// </summary>
-  public float SpawnTime = 1f;
-  public int SpawnsPerWave = 1;
-  public float MaxHealth = 1f;
-  public float Damage = 10f;
-  public float SpeedModifier1 = 1f;//Speed modifier for unit
-  public float SpeedModifier2 = 1f;//Speed modifier for projectiles or other effects
-  public float Scale = 1f; // Scale of the enemy, if null, uses the default scale of the prefab
-  public int RemovedEdges = 0;
-  public float AngleChangeRateMulti = 1f;
-  public float ChaseDuration = -1f; // -1 means infinite chase duration
-  public float LifeSpan = -1f; // Time after which the enemy will be destroyed if not destroyed earlier. -1 means infinite lifespan
 
-  public EnemyLevelStats() { SpawnTime = 1f; SpawnsPerWave = 1; MaxHealth = 1f; Damage = 10f; SpeedModifier1 = 1f; SpeedModifier2 = 1f; Scale = 1f; RemovedEdges = 0; AngleChangeRateMulti = 5f; ChaseDuration = -1f; LifeSpan = -1f; }
-}
-#endregion
-#region EnemySpawnEntry
-[System.Serializable]
-public class EnemySpawnEntry
+namespace BearFalls
 {
-  public EnemySpawnData EnemyData;
-  public int level;
-  [System.NonSerialized]
-  public EnemyLevelStats CurrentLevelStats;
-  [System.NonSerialized]
-  public List<Direction> SpawnableEdges;
-
-  public EnemySpawnEntry(EnemySpawnData enemyData, int curLevel)
+  #region EnemySpawnData
+  [CreateAssetMenu(fileName = "EnemySpawning", menuName = "Scriptable Objects/EnemySpawning")]
+  public class EnemySpawnData : ScriptableObject
   {
-    EnemyData = enemyData;
-    level = curLevel;
-    CurrentLevelStats = enemyData.EnemyLevels[curLevel];
-    SpawnableEdges = new List<Direction>(enemyData.SpawnableEdges);
-    for (int i = 0; i < CurrentLevelStats.RemovedEdges; i++)
+    [SerializeField]
+    public List<EnemyLevelStats> EnemyLevels = new List<EnemyLevelStats>();
+    [SerializeField]
+    public Enemy EnemyPrefab;
+    [SerializeField]
+    public List<Direction> SpawnableEdges = new List<Direction>(EnumUtilities.AllDirections);
+    public EnemyRoomSizeScaling EnemyScaling = EnemyRoomSizeScaling.FullPerimeter;
+    public EnemySpawnType SpawnType = EnemySpawnType.SpawnOnTimer;
+    public Direction GetSpawnableEdge()
     {
-      if (SpawnableEdges.Count > 0)
+      if (SpawnableEdges.Count == 0)
       {
-        SpawnableEdges.RemoveAt(Random.Range(0, SpawnableEdges.Count));
+        Debug.LogWarning("No spawnable edges available, returning Right as default.");
+        return Direction.Right;
       }
+      return SpawnableEdges[Random.Range(0, SpawnableEdges.Count)];
     }
   }
-
-  public void GetCurLevelStats()
+  #endregion
+  #region EnemyLevelStats
+  [System.Serializable]
+  public class EnemyLevelStats
   {
-    if (level < EnemyData.EnemyLevels.Count)
+    /// <summary>
+    /// Time in seconds between spawns of this enemy type.
+    /// If the enemy is persistent or triggered, this value is ignored.
+    /// </summary>
+    public float SpawnTime = 1f;
+    public int SpawnsPerWave = 1;
+    public float MaxHealth = 1f;
+    public float Damage = 10f;
+    public float SpeedModifier1 = 1f;//Speed modifier for unit
+    public float SpeedModifier2 = 1f;//Speed modifier for projectiles or other effects
+    public float Scale = 1f; // Scale of the enemy, if null, uses the default scale of the prefab
+    public int RemovedEdges = 0;
+    public float AngleChangeRateMulti = 1f;
+    public float ChaseDuration = -1f; // -1 means infinite chase duration
+    public float LifeSpan = -1f; // Time after which the enemy will be destroyed if not destroyed earlier. -1 means infinite lifespan
+
+    public EnemyLevelStats() { SpawnTime = 1f; SpawnsPerWave = 1; MaxHealth = 1f; Damage = 10f; SpeedModifier1 = 1f; SpeedModifier2 = 1f; Scale = 1f; RemovedEdges = 0; AngleChangeRateMulti = 5f; ChaseDuration = -1f; LifeSpan = -1f; }
+  }
+  #endregion
+  #region EnemySpawnEntry
+  [System.Serializable]
+  public class EnemySpawnEntry
+  {
+    public EnemySpawnData EnemyData;
+    public int level;
+    [System.NonSerialized]
+    public EnemyLevelStats CurrentLevelStats;
+    [System.NonSerialized]
+    public List<Direction> SpawnableEdges;
+
+    public EnemySpawnEntry(EnemySpawnData enemyData, int curLevel)
     {
-      CurrentLevelStats = EnemyData.EnemyLevels[level];
-      SpawnableEdges = new List<Direction>(EnemyData.SpawnableEdges);
+      EnemyData = enemyData;
+      level = curLevel;
+      CurrentLevelStats = enemyData.EnemyLevels[curLevel];
+      SpawnableEdges = new List<Direction>(enemyData.SpawnableEdges);
       for (int i = 0; i < CurrentLevelStats.RemovedEdges; i++)
       {
         if (SpawnableEdges.Count > 0)
@@ -86,16 +74,31 @@ public class EnemySpawnEntry
         }
       }
     }
-  }
 
-  public void SetLevel(int newLevel)
-  {
-    if (newLevel < EnemyData.EnemyLevels.Count)
+    public void GetCurLevelStats()
     {
-      level = newLevel;
-      GetCurLevelStats();
+      if (level < EnemyData.EnemyLevels.Count)
+      {
+        CurrentLevelStats = EnemyData.EnemyLevels[level];
+        SpawnableEdges = new List<Direction>(EnemyData.SpawnableEdges);
+        for (int i = 0; i < CurrentLevelStats.RemovedEdges; i++)
+        {
+          if (SpawnableEdges.Count > 0)
+          {
+            SpawnableEdges.RemoveAt(Random.Range(0, SpawnableEdges.Count));
+          }
+        }
+      }
+    }
+
+    public void SetLevel(int newLevel)
+    {
+      if (newLevel < EnemyData.EnemyLevels.Count)
+      {
+        level = newLevel;
+        GetCurLevelStats();
+      }
     }
   }
+  #endregion
 }
-#endregion
-

@@ -1,14 +1,17 @@
 using UnityEngine;
 
-public class PauseController : MonoBehaviour
+namespace BearFalls
 {
-  public void MainMenu()
+  public class PauseController : MonoBehaviour
   {
-    UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
-  }
+    public void MainMenu()
+    {
+      UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+    }
 
-  public void ResumeGame()
-  {
-    GameManager.Instance.PauseGame();
+    public void ResumeGame()
+    {
+      GameManager.Instance.PauseGame();
+    }
   }
 }

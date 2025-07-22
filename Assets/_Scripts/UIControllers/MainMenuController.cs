@@ -1,10 +1,13 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainMenuController : MonoBehaviour
+namespace BearFalls
 {
-  public void StartGame()
+  public class MainMenuController : MonoBehaviour
   {
-    SceneManager.LoadScene("Gameplay");
+    public void StartGame()
+    {
+      SceneManager.LoadScene("Gameplay");
+    }
   }
 }

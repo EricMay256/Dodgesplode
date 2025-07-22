@@ -1,87 +1,87 @@
 using UnityEngine;
 
-public class Door : MonoBehaviour
+namespace BearFalls
 {
-  #region Declarations
-  [SerializeField]
-  DoorInfo _doorInfo;
-  public DoorInfo DoorInfo => _doorInfo;
-  GameObject _containingRoomObj, _connectedRoom;
-  //public GameObject ContainingRoomObj => _containingRoomObj;
-  //public GameObject ConnectedRoom => _connectedRoom;
-  Room _containingRoom;
-  #endregion
-
-  #region Public Methods
-  public void SetDoorInfo(DoorInfo doorInfo)
+  public class Door : MonoBehaviour
   {
-    //Set parent to containing room's door container
+    #region Declarations
+    [SerializeField]
+    DoorInfo _doorInfo;
+    public DoorInfo DoorInfo => _doorInfo;
+    GameObject _containingRoomObj, _connectedRoom;
+    Room _containingRoom;
+    #endregion
 
-    //Calculate local grid position
-    //calculate world position and set transform position
-    _doorInfo = doorInfo;
-    _containingRoom = GetComponentInParent<Room>();
-    _containingRoomObj = _containingRoom.gameObject;
-
-    // Set the door's position based on the containing room's position
-    if (_containingRoomObj != null)
+    #region Public Methods
+    public void SetDoorInfo(DoorInfo doorInfo)
     {
-      Vector3 containingRoomPosition = _containingRoomObj.transform.position;
-      transform.position = new Vector3(
-        _doorInfo.GridLocation.x * Room.GridToWorldScale.x,
-        _doorInfo.GridLocation.y * Room.GridToWorldScale.y,
-        0);
-      switch (_doorInfo.Orientation)
+      //Set parent to containing room's door container
+
+      //Calculate local grid position
+      //calculate world position and set transform position
+      _doorInfo = doorInfo;
+      _containingRoom = GetComponentInParent<Room>();
+      _containingRoomObj = _containingRoom.gameObject;
+
+      // Set the door's position based on the containing room's position
+      if (_containingRoomObj != null)
       {
-        case Direction.Top:
-          transform.position += Vector3.up * (Room.GridToWorldScale.y / 2 - 0.75f);
-          break;
-        case Direction.Right:
-          transform.position += Vector3.right * (Room.GridToWorldScale.x / 2 - 0.75f);
-          break;
-        case Direction.Bottom:
-          transform.position += Vector3.down * (Room.GridToWorldScale.y / 2 - 0.75f);
-          break;
-        case Direction.Left:
-          transform.position += Vector3.left * (Room.GridToWorldScale.x / 2 - 0.75f);
-          break;
-        default:
-          Debug.LogError("Invalid door orientation specified!");
-          break;
+        transform.position = new Vector3(
+          _doorInfo.GridLocation.x * Room.GridToWorldScale.x,
+          _doorInfo.GridLocation.y * Room.GridToWorldScale.y,
+          0);
+        switch (_doorInfo.Orientation)
+        {
+          case Direction.Top:
+            transform.position += Vector3.up * (Room.GridToWorldScale.y / 2 - 0.75f);
+            break;
+          case Direction.Right:
+            transform.position += Vector3.right * (Room.GridToWorldScale.x / 2 - 0.75f);
+            break;
+          case Direction.Bottom:
+            transform.position += Vector3.down * (Room.GridToWorldScale.y / 2 - 0.75f);
+            break;
+          case Direction.Left:
+            transform.position += Vector3.left * (Room.GridToWorldScale.x / 2 - 0.75f);
+            break;
+          default:
+            Debug.LogError("Invalid door orientation specified!");
+            break;
+        }
+      }
+      else
+      {
+        Debug.LogError("Containing room is not set for the door!");
       }
     }
-    else
-    {
-      Debug.LogError("Containing room is not set for the door!");
-    }
-  }
 
-  public void SetDoorInfo(Vector2Int gridLocation, Direction edge)
-  {
-    SetDoorInfo(new DoorInfo(gridLocation, edge));
-  }
-
-  public void TravelThroughDoor()
-  {
-    if (_connectedRoom == null)
+    public void SetDoorInfo(Vector2Int gridLocation, Direction edge)
     {
-      Debug.LogError("Connected room is not set for the door!");
-      return;
+      SetDoorInfo(new DoorInfo(gridLocation, edge));
     }
-    if (_containingRoom == null)
-    {
-      Debug.LogError("Containing room is not set for the door!");
-      return;
-    }
-    // Handle the logic for traveling through the door
-    GameManager.Instance.StartTransition();
-    Player.Instance.DoorMotion(_doorInfo.Orientation, _containingRoom);
-    RoomManager.Instance.SetActiveRoom(_connectedRoom);
-  }
 
-  public void ConnectDoor(GameObject connectedRoom)
-  {
-    _connectedRoom = connectedRoom;
+    public void TravelThroughDoor()
+    {
+      if (_connectedRoom == null)
+      {
+        Debug.LogError("Connected room is not set for the door!");
+        return;
+      }
+      if (_containingRoom == null)
+      {
+        Debug.LogError("Containing room is not set for the door!");
+        return;
+      }
+      // Handle the logic for traveling through the door
+      GameManager.Instance.StartTransition();
+      Player.Instance.DoorMotion(_doorInfo.Orientation, _containingRoom);
+      RoomManager.Instance.SetActiveRoom(_connectedRoom);
+    }
+
+    public void ConnectDoor(GameObject connectedRoom)
+    {
+      _connectedRoom = connectedRoom;
+    }
+    #endregion
   }
-  #endregion
 }

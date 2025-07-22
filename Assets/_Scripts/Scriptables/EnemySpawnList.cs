@@ -1,16 +1,19 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "EnemySpawnList", menuName = "Scriptable Objects/EnemySpawnList")]
-public class EnemySpawnList : ScriptableObject
+namespace BearFalls
 {
-  public List<EnemySpawnEntry> EnemySpawns;
-  public EnemySpawnList()
+  [CreateAssetMenu(fileName = "EnemySpawnList", menuName = "Scriptable Objects/EnemySpawnList")]
+  public class EnemySpawnList : ScriptableObject
   {
-    EnemySpawns = new List<EnemySpawnEntry>();
-  }
-  public void Clear()
-  {
-    EnemySpawns.Clear();
+    public List<EnemySpawnEntry> EnemySpawns;
+    public EnemySpawnList()
+    {
+      EnemySpawns = new List<EnemySpawnEntry>();
+    }
+    public void Clear()
+    {
+      EnemySpawns.Clear();
+    }
   }
 }
