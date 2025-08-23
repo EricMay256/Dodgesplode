@@ -9,5 +9,10 @@ namespace BearFalls
     {
       SceneManager.LoadScene("Gameplay");
     }
+
+    public void ExitGame()
+    {
+      Application.Quit();
+    }
   }
 }
