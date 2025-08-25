@@ -85,13 +85,19 @@ namespace BearFalls
       }
       if (collision.CompareTag("Enemy"))
       {
-        var enemy = collision.GetComponent<Enemy>();
+        var enemy = collision.GetComponent<IDamaging>();
         TakeDamage(enemy.Damage);
       }
       if (collision.CompareTag("EnemyTrigger"))
       {
         collision.GetComponent<TriggerArea>().StartTriggered();
         Debug.Log("EnemyTrigger detected");
+      }
+      if(collision.CompareTag("EnemyAttack"))
+      {
+        var proj = collision.GetComponent<IDamaging>();
+        TakeDamage(proj.Damage);
+        Destroy(collision.gameObject);
       }
     }
 
@@ -153,6 +159,15 @@ namespace BearFalls
 
     void TakeDamage(float damage = 10f)
     {
+      if(damage < 0f)
+      {
+        Debug.LogError("Damage value must be positive!");
+        return;
+      }
+      if(damage == 0f)
+      {
+        return;
+      }
       if (_invulnTimer < _pd.InvulnPeriod)
         return;
       _pd.CurHealth -= damage;

@@ -19,9 +19,10 @@ namespace BearFalls
     public static EnemyManager Instance;
 
     [SerializeField]
-    Transform _timerEnemyParent, _triggerEnemyParent, _emptyPrefab;
+    Transform _timerEnemyParent, _triggerEnemyParent, _emptyPrefab, _projectileParent;
     public Transform TimerEnemyParent => _timerEnemyParent;
     public Transform TriggerEnemyParent => _triggerEnemyParent;
+    public Transform ProjectileParent => _projectileParent;
 
     [SerializeField]
     public float SpeedMultiplier { get; private set; } = 1f;

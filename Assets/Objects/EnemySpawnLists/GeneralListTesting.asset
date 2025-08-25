@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 69bd7958e7793ff4a849a702fc8a03af, type: 3}
-  m_Name: GeneralListTriggered
+  m_Name: GeneralListTesting
   m_EditorClassIdentifier: 
   EnemySpawns:
-  - EnemyData: {fileID: 11400000, guid: a79ae2ec31dab584c84391260f6a937e, type: 2}
+  - EnemyData: {fileID: 11400000, guid: 0b687e7b010545a408902cf75b1bbce4, type: 2}
     level: 0

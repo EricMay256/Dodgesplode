@@ -35,8 +35,7 @@ namespace BearFalls
       if (position == Vector3.zero)
         return Random.Range(0f, 360f);
       // Calculate the angle from the center of the spawn area to the position
-      Vector2 direction = position - transform.position;
-      return Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+      return Mathf.Atan2(position.y, position.x) * Mathf.Rad2Deg;
     }
 
     void SpawnEnemy(Vector3 position, float angle = 0.0f, bool useWorldSpace = false)

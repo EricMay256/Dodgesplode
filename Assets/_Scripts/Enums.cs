@@ -47,6 +47,12 @@ namespace BearFalls
     Random = 0,
     All = 1
   }
+  public enum FiringSequence
+  {
+    Simultaneous = 0,
+    Sequential = 1,
+    Random = 2
+  }
   public enum EnemySpawnType
   {
     SpawnOnTrigger = 0,
@@ -106,6 +112,12 @@ namespace BearFalls
     Stationary = 4,
     Orbiting = 5,
     Wandering = 6
+  }
+  #endregion
+  #region Interfaces
+  public interface IDamaging
+  {
+    public float Damage { get; }
   }
   #endregion
   #region DoorInfo

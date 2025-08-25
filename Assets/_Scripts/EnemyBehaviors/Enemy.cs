@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 namespace BearFalls
 {
-  public class Enemy : MonoBehaviour
+  public class Enemy : MonoBehaviour, IDamaging
   {
     #region Declarations
     protected SpriteRenderer _sr;
