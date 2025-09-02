@@ -9,8 +9,6 @@ public class ShootingBehavior : MonoBehaviour
     {
         Vector3.zero
     };
-    [SerializeField]
-    GameObject _projectilePrefab;
     [SerializeField] Projectile _projectile;
     [SerializeField] FiringSequence _firingSequence = FiringSequence.Simultaneous;
     private float _timeBetweenShots = 1f;
@@ -66,9 +64,9 @@ public class ShootingBehavior : MonoBehaviour
     }
     void FireBullet(float angleOffset, Vector3 offset)
     {
-        GameObject obj = Instantiate(_projectilePrefab, transform);
+        GameObject obj = Instantiate(ProjectileManager.Instance.ProjectilePrefab, transform);
         obj.transform.localPosition = offset;
-        obj.transform.SetParent(null);//Todo: replace with bullet parent from ProjectileManager
+        obj.transform.SetParent(ProjectileManager.Instance.ProjectileParent);//Todo: replace with bullet parent from ProjectileManager
         obj.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, Player.Instance.transform.position - obj.transform.position) + angleOffset);
         obj.transform.localScale = Vector3.one * _projectile.scale;
     }

@@ -196,6 +196,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8719412049232992745, guid: 4a0ed93ca8c38bc4ab9707fb99309c86, type: 3}
   m_PrefabInstance: {fileID: 1562802027505418953}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &738875413 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5126999760547048543, guid: 4a0ed93ca8c38bc4ab9707fb99309c86, type: 3}
+  m_PrefabInstance: {fileID: 1562802027505418953}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1024777597 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3665334558094893503, guid: 4a0ed93ca8c38bc4ab9707fb99309c86, type: 3}
@@ -541,6 +546,10 @@ PrefabInstance:
       propertyPath: _timer
       value: 
       objectReference: {fileID: 1078826893}
+    - target: {fileID: 7438808689152642257, guid: 8e8f34abf05d0f44db7687b06ab35560, type: 3}
+      propertyPath: _projectileParent
+      value: 
+      objectReference: {fileID: 738875413}
     - target: {fileID: 8061504564061479487, guid: 8e8f34abf05d0f44db7687b06ab35560, type: 3}
       propertyPath: _roomParentTransform
       value: 
