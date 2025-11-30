@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Dodgesplode.sln"
+    "dotnet.defaultSolution": "Dodgesplode.slnx"
 }
