@@ -24,7 +24,7 @@ namespace BearFalls
     public Transform TriggerEnemyParent => _triggerEnemyParent;
     public Transform ProjectileParent => _projectileParent;
 
-    [SerializeField]
+    [field:SerializeField]
     public float SpeedMultiplier { get; private set; } = 1f;
 
     [SerializeField]
