@@ -1,5 +1,7 @@
 using UnityEngine;
 
+namespace UBear.Combat
+{
 public interface IWeapon
 {
   void Attack()
@@ -10,4 +12,5 @@ public interface IWeapon
   {
     Debug.Log($"Attacking in direction: {direction} with default weapon behavior.");
   }
+}
 }

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UBear.InputSystem
+namespace UBear.Input
 {
     /// <summary>
     /// An abstract, generic base class for ScriptableObject-based events that carry a payload of type <typeparamref name="T"/>.

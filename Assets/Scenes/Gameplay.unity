@@ -217,6 +217,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76ea038754301f04da44598790f37ec6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1218126631 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2629397155931560294, guid: 8e8f34abf05d0f44db7687b06ab35560, type: 3}
+  m_PrefabInstance: {fileID: 3303463243196170979}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1218126633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1218126631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebdd365cee680a44ebb25908845db148, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UBear.Input::UBear.Input.CoreInputHandler
+  onMoveInput: {fileID: 11400000, guid: 1a234f5cc322dd24da47d2863a1b14c5, type: 2}
+  onLookInput: {fileID: 0}
+  onJumpPressed: {fileID: 0}
+  onJumpReleased: {fileID: 0}
+  onSprintStateChanged: {fileID: 11400000, guid: 01a20cd25039aa045902c58675ec7bce, type: 2}
+  onFocusStateChanged: {fileID: 11400000, guid: 472f2d41d9c406a42abb143cda949efe, type: 2}
+  onInteractActionPressed: {fileID: 0}
+  onInteractReleased: {fileID: 0}
+  onMenuPressed: {fileID: 11400000, guid: 6e6c57cecf856c24db1730f65e1149f3, type: 2}
 --- !u!1 &1447919703
 GameObject:
   m_ObjectHideFlags: 0
@@ -546,6 +572,10 @@ PrefabInstance:
       propertyPath: _timer
       value: 
       objectReference: {fileID: 1078826893}
+    - target: {fileID: 3440301161244968575, guid: 8e8f34abf05d0f44db7687b06ab35560, type: 3}
+      propertyPath: pauseEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 6e6c57cecf856c24db1730f65e1149f3, type: 2}
     - target: {fileID: 7438808689152642257, guid: 8e8f34abf05d0f44db7687b06ab35560, type: 3}
       propertyPath: _projectileParent
       value: 
@@ -574,10 +604,15 @@ PrefabInstance:
       propertyPath: _triggerEnemyParent
       value: 
       objectReference: {fileID: 1024777597}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6126140395319493031, guid: 8e8f34abf05d0f44db7687b06ab35560, type: 3}
+    - {fileID: 726721071275389407, guid: 8e8f34abf05d0f44db7687b06ab35560, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2629397155931560294, guid: 8e8f34abf05d0f44db7687b06ab35560, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1218126633}
   m_SourcePrefab: {fileID: 100100000, guid: 8e8f34abf05d0f44db7687b06ab35560, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

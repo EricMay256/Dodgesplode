@@ -17,11 +17,18 @@ MonoBehaviour:
   sections:
   - heading: UBear Framework
     text: 
+    linkText: github
+    url: https://github.com/EricMay256/UBearFramework
+  - heading: Issues after updating
+    text: Acquire the latest version from the Github Repository. If any issues are
+      encountered, it is recommended you ensure you have the latest UnityPackage
+      from the repo then delete the UBear folder from your project, and reinstall
+      from the package.
     linkText: 
     url: 
-  - heading: Issues after updating
-    text: If you encounter any issues after updating, please delete the UBear folder
-      and reinstall from the latest unitypackage.
-    linkText: Github Repo
-    url: https://github.com/EricMay256/UBearFramework
+  - heading: Temp Folder
+    text: The temp folder, if included, and its contents can be deleted with no consequence.
+      Functional code may be found within, but consider it untested and unstable.
+    linkText: 
+    url: 
   loadedLayout: 0

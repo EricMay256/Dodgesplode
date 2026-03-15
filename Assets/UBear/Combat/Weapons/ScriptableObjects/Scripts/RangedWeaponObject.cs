@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UBear.Inventory;
 
+namespace UBear.Combat
+{
 /// <summary>
 /// Determines how the firing points on a weapon,
 /// or the projectiles on a firing point, fire together
@@ -30,4 +32,5 @@ public class FiringPoint
   public List<ProjectileObject> Projectiles;
   public FireCoordinationPattern FirePattern;
   public int nextProjectileIndex = 0;
+}
 }

@@ -9,8 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8531302072625215424}
-  - component: {fileID: 2239890159754365049}
-  - component: {fileID: 4612821771242240001}
+  - component: {fileID: 5533196355093585915}
   m_Layer: 0
   m_Name: InputManager
   m_TagString: Untagged
@@ -33,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2239890159754365049
+--- !u!114 &5533196355093585915
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,38 +41,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 3566035090479603904}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 046e526388411294495b19b655e7f6bd, type: 3}
+  m_Script: {fileID: 11500000, guid: ebdd365cee680a44ebb25908845db148, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  Movement: {x: 0, y: 0}
-  LookDelta: {x: 0, y: 0}
---- !u!114 &4612821771242240001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3566035090479603904}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: df70fa95-8a34-4494-b137-73ab6b9c7d37
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
+  m_EditorClassIdentifier: UBear.Input::UBear.Input.CoreInputHandler
+  onMoveInput: {fileID: 11400000, guid: 1a234f5cc322dd24da47d2863a1b14c5, type: 2}
+  onLookInput: {fileID: 0}
+  onJumpPressed: {fileID: 0}
+  onJumpReleased: {fileID: 0}
+  onSprintStateChanged: {fileID: 11400000, guid: 01a20cd25039aa045902c58675ec7bce, type: 2}
+  onFocusStateChanged: {fileID: 11400000, guid: 472f2d41d9c406a42abb143cda949efe, type: 2}
+  onInteractActionPressed: {fileID: 0}
+  onInteractReleased: {fileID: 0}
+  onMenuPressed: {fileID: 11400000, guid: 6e6c57cecf856c24db1730f65e1149f3, type: 2}

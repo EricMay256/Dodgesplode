@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UBear.InputSystem
+namespace UBear.Input
 {
     /// <summary>
     /// A specialized <see cref="GameEvent{T}"/> that carries an <see cref="IntPair"/> payload.

@@ -1,5 +1,7 @@
 using UnityEngine;
 
+namespace UBear.Combat
+{
 public class RangedWeapon : MonoBehaviour, IWeapon
 {
   [SerializeField]
@@ -79,4 +81,5 @@ public class RangedWeapon : MonoBehaviour, IWeapon
     Attack(Vector3.right);
   }
   #endregion
+}
 }

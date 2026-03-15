@@ -2,30 +2,55 @@ using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro.EditorUtilities;
+using UBear.Input;
 
 namespace BearFalls
 {
   public class Player : MonoBehaviour
   {
     #region Declarations
+    //public
     public static Player Instance;
+    public Vector3 Position => _rb.position;
+    public float moveSpeed => _moveSpeed;//Universal and constant speed multiplier for all forms of input
+
+    //Private
     [SerializeField]
     private PlayerData _pd;
-    Rigidbody2D _rb;
-    public Vector3 Position => _rb.position;
-    Vector3 _moveDelta;
-    const float _doorMoveAmount = 3f;
-    float _invulnTimer = 0f;
-    SpriteRenderer _sr;
-
     [SerializeField]
-    MovementInputType _movementInputType = MovementInputType.Look;
-
-    [field: SerializeField] public float moveSpeed = 10f;//Universal and constant speed multiplier for all forms of input
+    private MovementInputType _movementInputType = MovementInputType.Move;
+    [SerializeField]
+    private float _moveSpeed = 10f;
+    [SerializeField]
+    private float _crouchSpeedMultiplier = 0.25f;
+    [SerializeField]
+    private float _sprintSpeedMultiplier = 2f;
+    private SpriteRenderer _sr;
+    private Rigidbody2D _rb;
+    private Vector3 _moveDelta;
+    private const float k_doorMoveAmount = 3f;
+    private float _invulnTimer = 0f;
     private float _moveScale = 1f;//Universal and variable speed multiplier for all forms of input
                                   // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private bool _isCrouching, _isSprinting;
+    [SerializeField]
+    Vector2Event _onMoveInput;
+    [SerializeField]
+    BoolEvent _onFocusInput, _onSprintInput;
     #endregion
     #region Monobehaviours
+    void OnEnable()
+    {
+      _onMoveInput.RegisterListener(HandleMoveInput);
+      _onFocusInput.RegisterListener(HandleFocusInput);
+      _onSprintInput.RegisterListener(HandleSprintInput);
+    }
+    void OnDisable()
+    {
+      _onMoveInput.UnregisterListener(HandleMoveInput);
+      _onFocusInput.UnregisterListener(HandleFocusInput);
+      _onSprintInput.UnregisterListener(HandleSprintInput);
+    }
     void Awake()
     {
       if (Instance == null)
@@ -61,11 +86,6 @@ namespace BearFalls
       ApplyHealthRegen(Time.deltaTime);
       //Apply scaling to input motion based on crouch/sprint
       CheckMovementMultiplier();
-      //Movement via mouse delta or left joystick applied to player position 
-      _moveDelta = _movementInputType == MovementInputType.Move ?
-      PlayerInputManager.Instance.Movement :
-      PlayerInputManager.Instance.LookDelta;
-      //Todo: Consider modifying how timescale is applied to player movement
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -184,40 +204,58 @@ namespace BearFalls
       }
     }
     #endregion
+    #region Event Handlers
+    public void HandleMoveInput(Vector2 input)
+    {
+      //Movement via mouse delta or left joystick applied to player position 
+      // _moveDelta = _movementInputType == MovementInputType.Move ?
+      // PlayerInputManager.Instance.Movement :
+      // PlayerInputManager.Instance.LookDelta;todo
+      //Todo: Consider modifying how timescale is applied to player movement
+      _moveDelta = input;
+    }
+    public void HandleFocusInput(bool isCrouching)
+    {
+      _isCrouching = isCrouching;
+    }
+    public void HandleSprintInput(bool isSprinting)
+    {
+      Debug.Log("Received sprint input: " + isSprinting);
+      _isSprinting = isSprinting;
+    }
+    #endregion
     #region Public Methods
     public void CheckMovementMultiplier()
     {
-      if (PlayerInputManager.Instance.CrouchHeld)
+      if (_isCrouching)
       {
-        _moveScale = 0.25f;
+        _moveScale = _crouchSpeedMultiplier;
       }
-      else if (PlayerInputManager.Instance.SprintHeld)
+      else if (_isSprinting)
       {
-        _moveScale = 2f;
+        _moveScale = _sprintSpeedMultiplier;
       }
       else
       {
         _moveScale = 1f;
       }
     }
-
-
     public void DoorMotion(Direction doorDirection, Room previousRoom)
     {
       Vector3 targetPosition = transform.position;
       switch (doorDirection)
       {
         case Direction.Top:
-          targetPosition += Vector3.up * _doorMoveAmount;
+          targetPosition += Vector3.up * k_doorMoveAmount;
           break;
         case Direction.Right:
-          targetPosition += Vector3.right * _doorMoveAmount;
+          targetPosition += Vector3.right * k_doorMoveAmount;
           break;
         case Direction.Bottom:
-          targetPosition += Vector3.down * _doorMoveAmount;
+          targetPosition += Vector3.down * k_doorMoveAmount;
           break;
         case Direction.Left:
-          targetPosition += Vector3.left * _doorMoveAmount;
+          targetPosition += Vector3.left * k_doorMoveAmount;
           break;
         default:
           Debug.LogError("Invalid door direction specified!");

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UBear.Input;
 using UnityEngine;
 
 namespace BearFalls
@@ -18,6 +19,8 @@ namespace BearFalls
     public Bounds SpawnBounds => _spawnBounds;
     float _previousCamSize;
     Vector3 _previousCamPos;
+    [SerializeField]
+    GameEvent pauseEvent;
 
     public delegate void GameStateChange(GameState newState);
     public static event GameStateChange OnGameStateChanged;
@@ -38,22 +41,22 @@ namespace BearFalls
           break;
         case GameState.Active:
           Time.timeScale = 1f;
-          PlayerInputManager.Instance.SetGameplayControlsActive(true);
+          //PlayerInputManager.Instance.SetGameplayControlsActive(true);
           Player.Instance.CheckMovementMultiplier();
           Cursor.lockState = CursorLockMode.Locked;
           break;
         case GameState.Transition:
           Time.timeScale = 1f;
-          PlayerInputManager.Instance.SetGameplayControlsActive(false);
+          //PlayerInputManager.Instance.SetGameplayControlsActive(false);
           break;
         case GameState.Paused:
           Time.timeScale = 0f;
-          PlayerInputManager.Instance.SetGameplayControlsActive(false);
+          //PlayerInputManager.Instance.SetGameplayControlsActive(false);
           Cursor.lockState = CursorLockMode.None;
           break;
         case GameState.GameOver:
           Time.timeScale = 0f;
-          PlayerInputManager.Instance.SetGameplayControlsActive(false);
+          //PlayerInputManager.Instance.SetGameplayControlsActive(false);
           Cursor.lockState = CursorLockMode.None;
           break;
         case GameState.GameWon:
@@ -112,7 +115,21 @@ namespace BearFalls
       SetGameState(GameState.Active);
     }
     #endregion
+    #region Event Handlers
+    public void HandlePauseInput()
+    {
+      PauseGame();
+    }
+    #endregion
     #region Monobehaviours
+    void OnEnable()
+    {
+      pauseEvent.RegisterListener(HandlePauseInput);
+    }
+    void OnDisable()
+    {
+      pauseEvent.UnregisterListener(HandlePauseInput);
+    }
     void Awake()
     {
       // Ensure only one instance of GameManager exists
@@ -151,11 +168,6 @@ namespace BearFalls
     // Update is called once per frame
     void Update()
     {
-      if (PlayerInputManager.Instance.PausePressed)
-      {
-        Debug.Log("Pause pressed");
-        PauseGame();
-      }
       if (_previousCamPos != _mainCam.transform.position)
       {
         _spawnBounds.center = _camBounds.center = _previousCamPos = _mainCam.transform.position;

@@ -2,7 +2,7 @@ using UBear.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace UBear.InputSystem
+namespace UBear.Input
 {
     /// <summary>
     /// Handles core player input using Unity's Input System and broadcasts actions via GameEvents.
@@ -23,6 +23,8 @@ namespace UBear.InputSystem
         [SerializeField] private GameEvent onJumpReleased;
         [Tooltip("Raised when the sprint state changes (pressed or released).")]
         [SerializeField] private BoolEvent onSprintStateChanged;
+        [Tooltip("Raised when the focus button is pressed.")]
+        [SerializeField] private BoolEvent onFocusStateChanged;
         [Tooltip("Raised when the primary action button is pressed.")]
         [SerializeField] private GameEvent onInteractActionPressed;
         [Tooltip("Raised when the primary action button is released.")]
@@ -77,6 +79,9 @@ namespace UBear.InputSystem
             m_InputActions.Player.Sprint.started += HandleSprintState;
             m_InputActions.Player.Sprint.canceled += HandleSprintState;
 
+            m_InputActions.Player.Focus.started += HandleFocusState;
+            m_InputActions.Player.Focus.canceled += HandleFocusState;
+
             m_InputActions.Player.Interact.started += HandleInteractPressed;
             m_InputActions.Player.Interact.canceled += HandleInteractReleased;
 
@@ -112,6 +117,7 @@ namespace UBear.InputSystem
         private void HandleJumpPressed(InputAction.CallbackContext context) => onJumpPressed?.Raise();
         private void HandleJumpReleased(InputAction.CallbackContext context) => onJumpReleased?.Raise();
         private void HandleSprintState(InputAction.CallbackContext context) => onSprintStateChanged?.Raise(context.ReadValueAsButton());
+        private void HandleFocusState(InputAction.CallbackContext context) => onFocusStateChanged?.Raise(context.ReadValueAsButton());
         private void HandleInteractPressed(InputAction.CallbackContext context) => onInteractActionPressed?.Raise();
         private void HandleInteractReleased(InputAction.CallbackContext context) => onInteractReleased?.Raise();
         private void HandleMenuPressed(InputAction.CallbackContext context) => onMenuPressed?.Raise();

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UBear.InputSystem
+namespace UBear.Input
 {
     /// <summary>
     /// A specialized GameEvent that carries a ulong payload, typically used for sending

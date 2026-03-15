@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UBear.InputSystem
+namespace UBear.Input
 {
     /// <summary>
     /// Payload containing notification data including the client ID and message.

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UBear.InputSystem
+namespace UBear.Input
 {
     [CreateAssetMenu(menuName = "UBear/Game Events/Player State Event")]
     public class PlayerStateEvent : GameEvent<PlayerStatePayload> { }

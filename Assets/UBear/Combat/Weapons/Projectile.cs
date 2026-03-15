@@ -1,5 +1,7 @@
 using UnityEngine;
 
+namespace UBear.Combat
+{
 [RequireComponent(typeof(Rigidbody2D))]
 public class Projectile : MonoBehaviour
 {
@@ -32,4 +34,5 @@ public class Projectile : MonoBehaviour
     {
       _rigidbody2D.MovePosition(transform.position + transform.right * _speed * Time.fixedDeltaTime);
     }
+}
 }

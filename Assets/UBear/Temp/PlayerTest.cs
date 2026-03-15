@@ -1,11 +1,12 @@
 using UnityEngine;
-using UBear.InputSystem;
 using Unity.VisualScripting;
+using UBear.Input;
 
 namespace UBear {
 public class PlayerTest : MonoBehaviour
 {
-  [SerializeField] private Vector2Event _onMoveInput;
+  //[SerializeField] private UBear.Input. _onMoveInput;
+  Vector2Event _onMoveInput;
   Vector2 _currentMoveInput;
   [SerializeField] float _moveSpeed = 5f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created

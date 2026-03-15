@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UBear.InputSystem
+namespace UBear.Input
 {
     /// <summary>
     /// A ScriptableObject that acts as a parameter-less global event channel. This asset allows for a decoupled

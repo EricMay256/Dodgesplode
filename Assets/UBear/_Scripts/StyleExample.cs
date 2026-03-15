@@ -1,4 +1,3 @@
-#pragma warning disable CS0067, CS0414
 // UNITY C# STYLE GUIDE:
 // | The '// |'-style comments denote documentation markup.
 // | This is an example Style Guide to use with your Unity project, inspired by Microsoft's.
@@ -424,4 +423,3 @@ namespace UnityCSharpStyleSheetExample
     }
 
 }
-#pragma warning restore CS0067, CS0414

@@ -1,5 +1,7 @@
 using UnityEngine;
 
+namespace UBear.Combat
+{
 public interface IDamaging
 {
   int GetDamage()
@@ -10,4 +12,5 @@ public interface IDamaging
   {
     // Optional method to be called when damage is applied, can be used for effects or cooldowns
   }
+}
 }

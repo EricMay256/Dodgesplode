@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UBear.InputSystem
+namespace UBear.Input
 {
     [System.Serializable]
     public struct RespawnStatusPayload
