@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db03b1f27330b50458c02d751d93b1a3, type: 3}
+  m_Name: ClothTrousers
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentItem
+  ItemName: Cloth Helmet
+  ItemObjectType: 1
+  Description: Pants intended to protect the wearer from nature, and passerby from
+    unwanted views.
+  ID: 9
+  Prefab: {fileID: 4553732346572292131, guid: cb20901f8383c1f4bb2815dec3b154be, type: 3}
+  ItemIcon: {fileID: 7482667652216324306, guid: 4e3bf56600212ed4398d651a3143f103, type: 3}
+  MaxStackSize: 1
+  UniqueStacks: 0
+  Tags: []
+  EquipmentCategoryType: 9
+  ArmorValue: 0
+  DamageBonus: 0
+  Weight: 0
+  RequiredLevel: 1
+  MaxDurability: 0
+  EquipmentDescription: 

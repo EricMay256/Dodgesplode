@@ -1,0 +1,17 @@
+{
+    "name": "UBear.Combat",
+    "rootNamespace": "UBear.Combat",
+    "references": [
+        "GUID:92bd7dc488d51e04497dffcb4b60ffd4",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

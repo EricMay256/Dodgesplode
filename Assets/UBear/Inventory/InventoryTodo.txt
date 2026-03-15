@@ -1,0 +1,25 @@
+Core Item Interactions
+1 Use/Consume Items – Add methods to consume consumable items with effects and cooldowns
+2 Equip/Unequip Items – Implement equip/unequip functionality with equipment slot management
+
+
+Item Discovery & Organization
+5 Item Search/Filtering – Find items by ID, tag, type, or criteria (GetItemsByTag, GetItemsByType, FindItem)
+6 Item Organization – Sorting (by name, type, rarity), categorization, and hidden item handling
+7 Quest Item Handling – Identify and manage quest items (IsQuestItem, AssociatedQuestID filtering)
+
+Advanced Features
+8 Equipping Items - Connecting an inventory to an equipment layout, calculating total stats, skill impacts
+9 Restriction Enforcement – Prevent trading/dropping of restricted items (IsUntradeable, IsUndropable)
+10 Modifier/Enhancement System – Add/remove modifiers and enchantments to items
+11 Custom Data Management – Inventory-level access to ItemInstance custom data
+12 Weight/Encumbrance System – Enforce weight-based capacity limits alongside slot limits
+
+Inventory Operations
+13 Batch Operations – Multi-item transfers and bulk updates
+14 Inventory-to-Inventory Transfer – Direct transfers between two InventoryObjects
+15 Container Expansion – Dynamic inventory resizing
+
+Architecture
+16 Event/Callback System – Notify listeners when items are added, removed, used, equipped, or broken
+

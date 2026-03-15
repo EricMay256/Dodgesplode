@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dce344ab83b17aa4da6724da3cc0df23, type: 3}
+  m_Name: Apple
+  m_EditorClassIdentifier: Assembly-CSharp::ConsumableItem
+  ItemName: Apple
+  ItemObjectType: 0
+  Description: A shiny red apple.
+  ID: 5
+  Prefab: {fileID: 5417279151383196183, guid: c7ae02e4a39a290418180cefcd26094e, type: 3}
+  ItemIcon: {fileID: 7482667652216324306, guid: 4e3bf56600212ed4398d651a3143f103, type: 3}
+  MaxStackSize: 10
+  UniqueStacks: 0

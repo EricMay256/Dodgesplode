@@ -1,0 +1,159 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba645a4d7c752794392c119dc5dc1c07, type: 3}
+  m_Name: EquippedItemsData
+  m_EditorClassIdentifier: UBear.Inventory::UBear.Inventory.EquippedItemsData
+  equipmentSlots:
+  - EquippedItem:
+      <Blueprint>k__BackingField: {fileID: 0}
+      <StackCount>k__BackingField: 0
+      <CurrentDurability>k__BackingField: 0
+      <RemainingCooldown>k__BackingField: 0
+      <IsEquipped>k__BackingField: 0
+      Modifiers: []
+    <SlotType>k__BackingField: 0
+    SlotName: MainHand
+  - EquippedItem:
+      <Blueprint>k__BackingField: {fileID: 0}
+      <StackCount>k__BackingField: 0
+      <CurrentDurability>k__BackingField: 0
+      <RemainingCooldown>k__BackingField: 0
+      <IsEquipped>k__BackingField: 0
+      Modifiers: []
+    <SlotType>k__BackingField: 1
+    SlotName: OffHand
+  - EquippedItem:
+      <Blueprint>k__BackingField: {fileID: 0}
+      <StackCount>k__BackingField: 0
+      <CurrentDurability>k__BackingField: 0
+      <RemainingCooldown>k__BackingField: 0
+      <IsEquipped>k__BackingField: 0
+      Modifiers: []
+    <SlotType>k__BackingField: 2
+    SlotName: Head
+  - EquippedItem:
+      <Blueprint>k__BackingField: {fileID: 0}
+      <StackCount>k__BackingField: 0
+      <CurrentDurability>k__BackingField: 0
+      <RemainingCooldown>k__BackingField: 0
+      <IsEquipped>k__BackingField: 0
+      Modifiers: []
+    <SlotType>k__BackingField: 3
+    SlotName: Shoulder
+  - EquippedItem:
+      <Blueprint>k__BackingField: {fileID: 0}
+      <StackCount>k__BackingField: 0
+      <CurrentDurability>k__BackingField: 0
+      <RemainingCooldown>k__BackingField: 0
+      <IsEquipped>k__BackingField: 0
+      Modifiers: []
+    <SlotType>k__BackingField: 4
+    SlotName: Chest
+  - EquippedItem:
+      <Blueprint>k__BackingField: {fileID: 0}
+      <StackCount>k__BackingField: 0
+      <CurrentDurability>k__BackingField: 0
+      <RemainingCooldown>k__BackingField: 0
+      <IsEquipped>k__BackingField: 0
+      Modifiers: []
+    <SlotType>k__BackingField: 5
+    SlotName: Back
+  - EquippedItem:
+      <Blueprint>k__BackingField: {fileID: 0}
+      <StackCount>k__BackingField: 0
+      <CurrentDurability>k__BackingField: 0
+      <RemainingCooldown>k__BackingField: 0
+      <IsEquipped>k__BackingField: 0
+      Modifiers: []
+    <SlotType>k__BackingField: 6
+    SlotName: Wrist
+  - EquippedItem:
+      <Blueprint>k__BackingField: {fileID: 0}
+      <StackCount>k__BackingField: 0
+      <CurrentDurability>k__BackingField: 0
+      <RemainingCooldown>k__BackingField: 0
+      <IsEquipped>k__BackingField: 0
+      Modifiers: []
+    <SlotType>k__BackingField: 7
+    SlotName: Hands
+  - EquippedItem:
+      <Blueprint>k__BackingField: {fileID: 11400000, guid: 7fb84a02a223c0d49bfa41b9002f233c, type: 2}
+      <StackCount>k__BackingField: 0
+      <CurrentDurability>k__BackingField: 0
+      <RemainingCooldown>k__BackingField: 0
+      <IsEquipped>k__BackingField: 0
+      Modifiers: []
+    <SlotType>k__BackingField: 8
+    SlotName: Waist
+  - EquippedItem:
+      <Blueprint>k__BackingField: {fileID: 0}
+      <StackCount>k__BackingField: 0
+      <CurrentDurability>k__BackingField: 0
+      <RemainingCooldown>k__BackingField: 0
+      <IsEquipped>k__BackingField: 0
+      Modifiers: []
+    <SlotType>k__BackingField: 9
+    SlotName: Legs
+  - EquippedItem:
+      <Blueprint>k__BackingField: {fileID: 0}
+      <StackCount>k__BackingField: 0
+      <CurrentDurability>k__BackingField: 0
+      <RemainingCooldown>k__BackingField: 0
+      <IsEquipped>k__BackingField: 0
+      Modifiers: []
+    <SlotType>k__BackingField: 10
+    SlotName: Feet
+  - EquippedItem:
+      <Blueprint>k__BackingField: {fileID: 0}
+      <StackCount>k__BackingField: 0
+      <CurrentDurability>k__BackingField: 0
+      <RemainingCooldown>k__BackingField: 0
+      <IsEquipped>k__BackingField: 0
+      Modifiers: []
+    <SlotType>k__BackingField: 11
+    SlotName: Neck
+  - EquippedItem:
+      <Blueprint>k__BackingField: {fileID: 0}
+      <StackCount>k__BackingField: 0
+      <CurrentDurability>k__BackingField: 0
+      <RemainingCooldown>k__BackingField: 0
+      <IsEquipped>k__BackingField: 0
+      Modifiers: []
+    <SlotType>k__BackingField: 12
+    SlotName: Earring Left
+  - EquippedItem:
+      <Blueprint>k__BackingField: {fileID: 0}
+      <StackCount>k__BackingField: 0
+      <CurrentDurability>k__BackingField: 0
+      <RemainingCooldown>k__BackingField: 0
+      <IsEquipped>k__BackingField: 0
+      Modifiers: []
+    <SlotType>k__BackingField: 12
+    SlotName: Earring Right
+  - EquippedItem:
+      <Blueprint>k__BackingField: {fileID: 0}
+      <StackCount>k__BackingField: 0
+      <CurrentDurability>k__BackingField: 0
+      <RemainingCooldown>k__BackingField: 0
+      <IsEquipped>k__BackingField: 0
+      Modifiers: []
+    <SlotType>k__BackingField: 13
+    SlotName: Ring Left
+  - EquippedItem:
+      <Blueprint>k__BackingField: {fileID: 0}
+      <StackCount>k__BackingField: 0
+      <CurrentDurability>k__BackingField: 0
+      <RemainingCooldown>k__BackingField: 0
+      <IsEquipped>k__BackingField: 0
+      Modifiers: []
+    <SlotType>k__BackingField: 13
+    SlotName: Ring Right
