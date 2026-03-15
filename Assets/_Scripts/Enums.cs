@@ -11,7 +11,7 @@ namespace BearFalls
   {
     Direction.Right, Direction.Top, Direction.Left, Direction.Bottom
   };
-    public static Direction GetOppositeDirection(Direction direction)
+    public static Direction GetOppositeDirection(this Direction direction)
     {
       switch (direction)
       {
